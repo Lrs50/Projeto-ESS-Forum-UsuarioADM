@@ -1,6 +1,6 @@
 Feature: Remoção usuario ADM
     As moderador do sistema
-    I Want to criar e remover contas de usuario administrador
+    I Want to remover contas de usuario administrador
     So that Eu possa controlar a remoção de novos usuarios administradores num site de compartilhamento de reviews
 
 Scenario: Remoção bem sucedida de um usuário administrador

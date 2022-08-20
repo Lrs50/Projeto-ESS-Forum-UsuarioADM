@@ -1,6 +1,6 @@
 Feature: Criação usuario ADM
     As moderador do sistema
-    I Want to criar e remover contas de usuario administrador
+    I Want to criar contas de usuario administrador
     So that Eu possa controlar a criação de novos usuarios administradores num site de compartilhamento de reviews
 
 Scenario: Criação bem sucedida de um usuário administrador
