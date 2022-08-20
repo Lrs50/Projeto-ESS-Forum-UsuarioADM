@@ -1,4 +1,4 @@
-Feature: "Remoção de artistas"
+Feature: Remoção de artistas
     As a usuario administrador
     I want to remover um artista no sistema
     So that um artista não possa mais ser visto no site
