@@ -27,6 +27,19 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
 import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzMessageModule } from 'ng-zorro-antd/message'
+import { NzTabsModule } from 'ng-zorro-antd/tabs'
+import { NzPaginationModule } from 'ng-zorro-antd/pagination'
+import { NzModalModule } from 'ng-zorro-antd/modal'
+import { NzProgressModule } from 'ng-zorro-antd/progress'
+import { NzImageModule } from 'ng-zorro-antd/image'
+import { NzTagModule } from 'ng-zorro-antd/tag'
+import { NzRadioModule } from 'ng-zorro-antd/radio'
+import { NzDrawerModule } from 'ng-zorro-antd/drawer'
+import { NzListModule } from 'ng-zorro-antd/list'
+import { MarkdownModule } from 'ngx-markdown'
+import { NzCommentModule } from 'ng-zorro-antd/comment'
+import { NzEmptyModule } from 'ng-zorro-antd/empty'
+import { NzSpinModule } from 'ng-zorro-antd/spin'
 import {
     UserOutline,
     LogoutOutline,
@@ -41,11 +54,28 @@ import {
     CheckOutline,
     PlusSquareOutline,
     DeleteOutline,
+    EyeOutline,
+    LikeOutline,
+    CommentOutline,
+    DislikeOutline,
+    LinkOutline,
 } from '@ant-design/icons-angular/icons'
 import { HomeComponent } from './components/home/home.component'
 import { LoginComponent } from './components/login/login.component'
 import { NewsManagementComponent } from './components/news-management/news-management.component'
 import { appReducer } from './app.store'
+import { NewsComponent } from './components/news/news.component'
+import { NewsShowerComponent } from './components/news-shower/news-shower.component'
+import { NewsShowerStatisticComponent } from './components/news-shower-statistic/news-shower-statistic.component'
+import { NewsPageComponent } from './components/news-page/news-page.component'
+import { NewsEditComponent } from './components/news-edit/news-edit.component'
+import { NewsCreateComponent } from './components/news-create/news-create.component'
+
+import { registerLocaleData } from '@angular/common'
+import en from '@angular/common/locales/en'
+registerLocaleData(en)
+
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n'
 
 const icons: IconDefinition[] = [
     UserOutline,
@@ -61,10 +91,26 @@ const icons: IconDefinition[] = [
     CheckOutline,
     PlusSquareOutline,
     DeleteOutline,
+    EyeOutline,
+    LikeOutline,
+    CommentOutline,
+    DislikeOutline,
+    LinkOutline,
 ]
 
 @NgModule({
-    declarations: [AppComponent, HomeComponent, LoginComponent, NewsManagementComponent],
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        LoginComponent,
+        NewsManagementComponent,
+        NewsComponent,
+        NewsShowerComponent,
+        NewsShowerStatisticComponent,
+        NewsPageComponent,
+        NewsEditComponent,
+        NewsCreateComponent,
+    ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -92,8 +138,21 @@ const icons: IconDefinition[] = [
         NzCollapseModule,
         NzSelectModule,
         NzMessageModule,
+        NzTabsModule,
+        NzPaginationModule,
+        NzModalModule,
+        NzProgressModule,
+        NzImageModule,
+        NzTagModule,
+        NzRadioModule,
+        NzDrawerModule,
+        NzListModule,
+        MarkdownModule.forRoot(),
+        NzCommentModule,
+        NzEmptyModule,
+        NzSpinModule,
     ],
-    providers: [],
+    providers: [{ provide: NZ_I18N, useValue: en_US }],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

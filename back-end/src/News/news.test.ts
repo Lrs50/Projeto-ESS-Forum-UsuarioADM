@@ -1,4 +1,4 @@
-import { News } from 'src/types'
+import { News } from '../../../common/types'
 import { validator } from './controller'
 import NewsDB from './news'
 
@@ -41,6 +41,33 @@ describe('News backend', () => {
         expect(spy).toBeCalled()
         expect(result).toBeTruthy()
         expect(database.db.length).toBe(1)
+    })
+
+    test('The database should be able to get a News', async () => {
+        const spy = jest.spyOn(database, 'getNews')
+
+        let result: News | undefined = await database.getNews('fake-id')
+
+        expect(spy).toBeCalled()
+        expect(result).not.toBeUndefined()
+    })
+
+    test('The database should not be able to get a News that doesnt exists', async () => {
+        const spy = jest.spyOn(database, 'getNews')
+
+        let result: News | undefined = await database.getNews('fake-id-not-present')
+
+        expect(spy).toBeCalled()
+        expect(result).toBeUndefined()
+    })
+
+    test('The database should support pagination', async () => {
+        const spy = jest.spyOn(database, 'getNewsPage')
+
+        let result: News[] = await database.getNewsPage(1, 5)
+
+        expect(spy).toBeCalled()
+        expect(result.length).toBe(1)
     })
 
     test('The database shouldnt be able to edit News that doenst exists', async () => {

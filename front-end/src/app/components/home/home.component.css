@@ -41,3 +41,40 @@
         display: none;
     }
 }
+
+.bg-blue {
+    background-color: #1890ff;
+}
+
+.bg-green {
+    background-color: #52c41a;
+}
+
+.bg-orange {
+    background-color: #fa8c16;
+}
+
+.text-nowrap {
+    white-space: nowrap;
+}
+
+.white-text {
+    color: #fff;
+}
+
+.lg-icon-size {
+    font-size: 1.5rem;
+}
+
+.md-text-size {
+    font-size: 1.1rem;
+}
+
+.statistic-box {
+    padding: 1rem;
+}
+
+.centred-items {
+    display: flex;
+    justify-items: center;
+}

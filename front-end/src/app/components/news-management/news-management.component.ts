@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core'
-import { ApiResponse, News } from 'src/types'
+import { ApiResponse, News } from '../../../../../common/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
-import { nanoid } from 'nanoid'
 import { NewsManagementService } from 'src/app/services/news-management.service'
+import { imageFallBack } from 'src/util'
+import { Store } from '@ngrx/store'
+import { AppState, decrementNews } from 'src/app/app.store'
 
 @Component({
     selector: 'app-news-management',
@@ -10,15 +12,64 @@ import { NewsManagementService } from 'src/app/services/news-management.service'
     styleUrls: ['./news-management.component.css'],
 })
 export class NewsManagementComponent implements OnInit {
+    imageFall: string = imageFallBack
     newsList: News[] = []
     newsListFiltered: News[] = []
+    tableLoading: boolean = false
+
+    pageSizeOptions: number[] = [10, 20, 30, 40]
+    pageSize: number = 10
+    pageIndex: number = 1
+    totalNews: number = 1
+
     filterText: string = ''
 
-    constructor(private message: NzMessageService, private newsManagementService: NewsManagementService) {
-        this.getAllNews()
+    constructor(private message: NzMessageService, private newsManagementService: NewsManagementService, private store: Store<{ app: AppState }>) {
+        this.getNewsPage()
     }
 
     ngOnInit(): void {}
+
+    getNewsSize() {
+        this.newsManagementService.getNewsSize().subscribe((res: ApiResponse) => {
+            if (res.status == 200) {
+                this.totalNews = res.result as number
+            } else {
+                this.totalNews = 1
+            }
+        })
+    }
+
+    updatePageIndex(event: number) {
+        this.pageIndex = event
+
+        this.getNewsPage()
+    }
+
+    updatePageSize(event: number) {
+        this.pageSize = event
+
+        this.getNewsPage()
+    }
+
+    getNewsPage() {
+        this.tableLoading = true
+
+        this.getNewsSize()
+
+        this.newsManagementService.getPage(this.pageIndex, this.pageSize).subscribe((res: ApiResponse) => {
+            if (res.status == 200 || res.status == 404) {
+                this.newsList = res.result as News[]
+
+                this.clearFilter()
+            } else {
+                this.newsList = []
+                this.newsListFiltered = []
+            }
+
+            this.tableLoading = false
+        })
+    }
 
     findIndexFromFilteredList(id: string): number {
         let i: number = 0
@@ -58,69 +109,6 @@ export class NewsManagementComponent implements OnInit {
         this.newsListFiltered = this.newsList
     }
 
-    onCreateNews(): void {
-        let currentDate = new Date()
-
-        let date = currentDate.toLocaleDateString()
-        let hour = currentDate.toLocaleTimeString()
-
-        let temp: News = {
-            id: nanoid(),
-            title: 'Change the title',
-            date: date + ' ' + hour.slice(0, -3),
-            markdownText: '',
-            edited: false,
-        }
-
-        this.newsManagementService.create(temp).subscribe((res: ApiResponse) => {
-            console.log(res)
-            if (res.status == 200) {
-                this.newsList.unshift(temp)
-
-                // Create to real db via API
-
-                this.clearFilter()
-                this.message.create('success', `New news created successfully!`)
-            } else {
-                this.message.create('error', `Failed to create the news!`)
-            }
-        })
-    }
-
-    onSaveNews(id: string, title: string, markdownText: string): void {
-        let find: number = this.findIndexFromFilteredList(id)
-
-        let currentDate = new Date()
-        let date = currentDate.toLocaleDateString()
-        let hour = currentDate.toLocaleTimeString()
-
-        let temp: News = {
-            id: id,
-            title: title,
-            date: date + ' ' + hour.slice(0, -3),
-            markdownText: markdownText,
-            edited: true,
-        }
-
-        this.newsManagementService.edit(temp).subscribe((res: ApiResponse) => {
-            console.log(res)
-            if (res.status == 200) {
-                this.newsList[find].title = title
-                this.newsList[find].date = date + ' ' + hour.slice(0, -3)
-                this.newsList[find].markdownText = markdownText
-                this.newsList[find].edited = true
-
-                this.clearFilter()
-
-                // Save to real db via API
-
-                this.message.create('success', `Saved!`)
-            } else {
-                this.message.create('error', `Failed to save the news!`)
-            }
-        })
-    }
-
     onDeleteNews(id: string): void {
         let find: number = this.findIndexFromFilteredList(id)
 
@@ -128,25 +116,11 @@ export class NewsManagementComponent implements OnInit {
             if (res.status == 200) {
                 this.newsList.splice(find, 1)
                 this.clearFilter()
+                this.totalNews -= 1
+                this.store.dispatch(decrementNews())
                 this.message.create('success', `News deleted successfully!`)
             } else {
                 this.message.create('error', `Failed to create the news!`)
-            }
-        })
-    }
-
-    getAllNews() {
-        this.newsManagementService.getAll().subscribe((res: ApiResponse) => {
-            if (res.status == 200) {
-                this.message.create('success', `News loaded!`)
-
-                this.newsList = res.result as News[]
-                this.newsListFiltered = res.result as News[]
-            } else {
-                this.message.create('error', `Failed to load news!`)
-
-                this.newsList = []
-                this.newsListFiltered = []
             }
         })
     }
