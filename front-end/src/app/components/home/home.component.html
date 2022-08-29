@@ -3,25 +3,59 @@
         <router-outlet></router-outlet>
     </section>
     <section class="right-sidebar">
-        <nz-space class="space-center" nzDirection="vertical">
-            <div *nzSpaceItem>
-                <nz-statistic [nzValue]="666" [nzTitle]="'News'" [nzPrefix]="prefixNewsStats"></nz-statistic>
-                <ng-template #prefixNewsStats><i nz-icon nzType="file-text"></i></ng-template>
+        <div nz-row [nzGutter]="[16, 16]" style="padding: 0.5rem">
+            <div nz-col nzXs="24" class="mb-md">
+                <div nz-row nzType="flex" nzAlign="middle" class="bg-blue statistic-box">
+                    <div nz-col nzSpan="18" class="p-md text-white">
+                        <div>
+                            <span nz-typography class="text-nowrap white-text md-text-size">
+                                <strong>{{ newsCount | async }}</strong>
+                            </span>
+                        </div>
+                        <div class="text-nowrap white-text md-text-size">News</div>
+                    </div>
+                    <div nz-col nzSpan="6">
+                        <span class="white-text lg-icon-size" nz-icon [nzType]="'file-text'"></span>
+                    </div>
+                </div>
             </div>
-            <div *nzSpaceItem>
-                <nz-statistic [nzValue]="666" [nzTitle]="'Users'" [nzPrefix]="prefixUsersStats"></nz-statistic>
-                <ng-template #prefixUsersStats><i nz-icon nzType="user"></i></ng-template>
+            <div nz-col nzXs="24" class="mb-md">
+                <div nz-row nzType="flex" nzAlign="middle" class="bg-green statistic-box">
+                    <div nz-col nzSpan="18" class="p-md text-white">
+                        <div>
+                            <span nz-typography class="text-nowrap white-text md-text-size"><strong>123,456</strong></span>
+                        </div>
+                        <div class="text-nowrap white-text md-text-size">Users</div>
+                    </div>
+                    <div nz-col nzSpan="6">
+                        <span class="white-text lg-icon-size" nz-icon [nzType]="'team'"></span>
+                    </div>
+                </div>
             </div>
-            <div *nzSpaceItem>
-                <nz-statistic [nzValue]="666" [nzTitle]="'Artists'" [nzPrefix]="prefixArtistsStats"></nz-statistic>
-                <ng-template #prefixArtistsStats><i nz-icon nzType="thunderbolt"></i></ng-template>
+            <div nz-col nzXs="24" class="mb-md">
+                <div nz-row nzType="flex" nzAlign="middle" class="bg-orange statistic-box">
+                    <div nz-col nzSpan="18" class="p-md text-white">
+                        <div>
+                            <span nz-typography class="text-nowrap white-text md-text-size"><strong>123,456</strong></span>
+                        </div>
+                        <div class="text-nowrap white-text md-text-size">Artists</div>
+                    </div>
+                    <div nz-col nzSpan="6">
+                        <span class="white-text lg-icon-size" nz-icon [nzType]="'thunderbolt'"></span>
+                    </div>
+                </div>
             </div>
-            <div *nzSpaceItem>
-                <div *ngIf="isAdmin | async">
-                    <nz-space class="space-center" nzDirection="vertical">
-                        <nz-divider *nzSpaceItem nzText="Admin Panel"></nz-divider>
+            <div *ngIf="isAdmin | async" nzXs="24" class="mb-md">
+                <div nz-row nzType="flex" nzAlign="middle">
+                    <div nz-col nzSpan="24">
+                        <nz-divider nzText="Admin Panel"></nz-divider>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="isAdmin | async" nz-col nzXs="24" class="mb-md">
+                <div nz-row nzType="flex" nzAlign="middle">
+                    <div nz-col nzSpan="24">
                         <button
-                            *nzSpaceItem
                             nzTooltipTitle="News Management"
                             nzTooltipPlacement="leftTop"
                             nz-button
@@ -33,33 +67,29 @@
                             <i nz-icon nzType="file-text"></i>
                             <span class="lg-text-hide">News Management</span>
                         </button>
-                        <button
-                            *nzSpaceItem
-                            nz-button
-                            nz-tooltip
-                            nzType="default"
-                            nzBlock
-                            nzTooltipTitle="Users Management"
-                            nzTooltipPlacement="leftTop"
-                        >
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="isAdmin | async" nz-col nzXs="24" class="mb-md">
+                <div nz-row nzType="flex" nzAlign="middle">
+                    <div nz-col nzSpan="24">
+                        <button nz-button nz-tooltip nzType="default" nzBlock nzTooltipTitle="Users Management" nzTooltipPlacement="leftTop">
                             <i nz-icon nzType="team"></i>
                             <span class="lg-text-hide">Users Management</span>
                         </button>
-                        <button
-                            *nzSpaceItem
-                            nz-button
-                            nz-tooltip
-                            nzType="default"
-                            nzBlock
-                            nzTooltipTitle="Artists Management"
-                            nzTooltipPlacement="leftTop"
-                        >
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="isAdmin | async" nz-col nzXs="24" class="mb-md">
+                <div nz-row nzType="flex" nzAlign="middle">
+                    <div nz-col nzSpan="24">
+                        <button nz-button nz-tooltip nzType="default" nzBlock nzTooltipTitle="Artists Management" nzTooltipPlacement="leftTop">
                             <i nz-icon nzType="thunderbolt"></i>
                             <span class="lg-text-hide">Artists Management</span>
                         </button>
-                    </nz-space>
+                    </div>
                 </div>
             </div>
-        </nz-space>
+        </div>
     </section>
 </div>

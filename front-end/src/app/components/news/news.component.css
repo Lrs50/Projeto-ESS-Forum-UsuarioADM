@@ -1,0 +1,30 @@
+.news-grid-container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: minmax(500px, 4.7fr) minmax(30px, 0.3fr);
+    grid-template-areas:
+        'main'
+        'footer';
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+section {
+    width: 100%;
+}
+
+section.news-content {
+    grid-area: main;
+    background: green;
+}
+
+section.news-footer {
+    grid-area: footer;
+    background: greenyellow;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.5rem;
+}

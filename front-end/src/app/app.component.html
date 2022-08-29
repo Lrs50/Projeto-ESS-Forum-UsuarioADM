@@ -2,8 +2,8 @@
     <section class="header-logo-name">Logo + Name</section>
     <section class="header-menu">
         <a nz-button nzType="text" [nzSize]="'large'" routerLink="home">
-            <i nz-icon nzType="home"></i>
-            <span>Home</span>
+            <i nz-icon nzType="file-text"></i>
+            <span>News</span>
         </a>
         <a nz-button nzType="text" [nzSize]="'large'">
             <i nz-icon nzType="team"></i>
@@ -16,32 +16,38 @@
     </section>
     <section class="header-button">
         <div *ngIf="logged | async; else elseBlock" style="width: 100%">
-            <nz-space class="user-drodown-container" nzAlign="center" nz-dropdown nzTrigger="click" [nzDropdownMenu]="userMenu">
+            <nz-space class="user-drodown-container" nzAlign="center" style="cursor: pointer" (click)="showProfileDrawer()">
                 <div *nzSpaceItem class="text-position">
                     <span nz-typography>
                         <strong>{{ (userInfo | async)?.name }}</strong>
                     </span>
                     <span nz-typography nzType="secondary">{{ (userInfo | async)?.type == 2 ? 'Admin' : 'User' }}</span>
                 </div>
-                <nz-avatar
-                    *nzSpaceItem
-                    [nzShape]="'square'"
-                    [nzText]="(userInfo | async)?.name"
-                    [ngStyle]="{ 'background-color': '#000' }"
-                ></nz-avatar>
+                <nz-avatar *nzSpaceItem nzSize="large" nzIcon="user" [ngStyle]="{ 'background-color': '#000' }"></nz-avatar>
             </nz-space>
-            <nz-dropdown-menu #userMenu="nzDropdownMenu">
-                <ul nz-menu nzMode="inline">
-                    <li nz-menu-item>
-                        <i nz-icon nzType="user"></i>
-                        <span>&nbsp;&nbsp;Profile</span>
-                    </li>
-                    <li nz-menu-item>
-                        <i nz-icon nzType="logout"></i>
-                        <span>&nbsp;&nbsp;Log Out</span>
-                    </li>
-                </ul>
-            </nz-dropdown-menu>
+            <nz-drawer [nzClosable]="false" [nzVisible]="showProfile" nzPlacement="right" (nzOnClose)="hideProfileDrawer()">
+                <ng-container *nzDrawerContent>
+                    <nz-card style="width: 100%" [nzCover]="coverTemplate" [nzActions]="[actionEdit, actionLogOut]">
+                        <nz-space nzDirection="vertical" nzAlign="center" style="width: 100%">
+                            <nz-avatar *nzSpaceItem [nzSize]="64" nzIcon="user" [ngStyle]="{ 'background-color': '#000' }"></nz-avatar>
+                            <span *nzSpaceItem nz-typography><strong>Lucas</strong></span>
+                            <span *nzSpaceItem nz-typography nzType="secondary">Admin</span>
+                        </nz-space>
+                    </nz-card>
+                    <ng-template #avatarTemplate>
+                        <nz-avatar nzSize="large" nzIcon="user" [ngStyle]="{ 'background-color': '#000' }"></nz-avatar>
+                    </ng-template>
+                    <ng-template #coverTemplate>
+                        <img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                    </ng-template>
+                    <ng-template #actionEdit>
+                        <span nz-icon nzType="edit" nz-tooltip nzTooltipTitle="Edit Profile"></span>
+                    </ng-template>
+                    <ng-template #actionLogOut>
+                        <span nz-icon nzType="logout" nz-tooltip nzTooltipTitle="Logout"></span>
+                    </ng-template>
+                </ng-container>
+            </nz-drawer>
         </div>
         <ng-template #elseBlock>
             <nz-space>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { ApiResponse, News } from 'src/types'
+import { ApiResponse, News } from '../../../../common/types'
 
 @Injectable({
     providedIn: 'root',
@@ -23,9 +23,19 @@ export class NewsManagementService {
         return this.httpClient.put<ApiResponse>(this.baseUrl, news)
     }
 
-    getAll(): Observable<ApiResponse> {
-        let corsHeader = new HttpHeaders()
+    get(id: string): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>(this.baseUrl + `/${id}`)
+    }
 
-        return this.httpClient.get<ApiResponse>(this.baseUrl + 'all', { headers: corsHeader })
+    getAll(): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>(this.baseUrl + 'all')
+    }
+
+    getPage(pageId: number, newsPerPage: number): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>(this.baseUrl + `page/${pageId}/${newsPerPage}`)
+    }
+
+    getNewsSize(): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
     }
 }

@@ -1,0 +1,47 @@
+<div class="news-grid-container">
+    <section class="news-content">
+        <nz-card style="width: 100%; height: 100%; overflow-y: auto" [nzTitle]="titleNewsTemplate" [nzExtra]="extraTemplate">
+            <nz-spin nzTip="Loading..." [nzSpinning]="loading">
+                <div *ngFor="let news of newsListFiltered" nz-card-grid [ngStyle]="gridStyle">
+                    <app-news-shower
+                        [id]="news.id"
+                        [title]="news.title"
+                        [content]="news.markdownText"
+                        [views]="news.views"
+                        [likes]="news.likes.length"
+                        [comments]="news.comments.length"
+                        [cover]="news.cover"
+                    ></app-news-shower>
+                </div>
+            </nz-spin>
+        </nz-card>
+        <ng-template #titleNewsTemplate>
+            <h3 nz-typography>All news</h3>
+        </ng-template>
+        <ng-template #extraTemplate>
+            <nz-space nzAlign="center">
+                <nz-radio-group *nzSpaceItem [(ngModel)]="radioValue">
+                    <label nz-radio-button nzValue="P">Popular</label>
+                    <label nz-radio-button nzValue="N">Newest</label>
+                </nz-radio-group>
+                <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
+                <nz-input-group *nzSpaceItem [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
+                    <input type="text" nz-input placeholder="Search..." [nzSize]="'large'" [(ngModel)]="filterText" (input)="filterNews()" />
+                </nz-input-group>
+                <ng-template #suffixIconSearch>
+                    <span nz-icon nzType="search"></span>
+                </ng-template>
+            </nz-space>
+        </ng-template>
+    </section>
+    <section class="news-footer">
+        <nz-pagination
+            [nzPageIndex]="pageIndex"
+            [nzTotal]="totalNews"
+            nzShowSizeChanger
+            [nzPageSize]="pageSize"
+            (nzPageIndexChange)="updatePageIndex($event)"
+            (nzPageSizeChange)="updatePageSize($event)"
+        ></nz-pagination>
+    </section>
+</div>

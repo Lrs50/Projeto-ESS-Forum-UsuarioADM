@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { map, Observable } from 'rxjs'
-import { User } from 'src/types'
-import { AppState } from './app.store'
+import { ApiResponse, User } from '../../../common/types'
+import { AppState, setNews } from './app.store'
+import { NewsManagementService } from './services/news-management.service'
 
 @Component({
     selector: 'app-root',
@@ -11,6 +12,7 @@ import { AppState } from './app.store'
 })
 export class AppComponent implements OnInit {
     title = 'front-end'
+    showProfile: boolean = false
 
     logged: Observable<Boolean> = this.store.select('app').pipe(
         map((state) => {
@@ -24,15 +26,23 @@ export class AppComponent implements OnInit {
         })
     )
 
-    constructor(private store: Store<{ app: AppState }>) {}
+    constructor(private store: Store<{ app: AppState }>, private newsManagementService: NewsManagementService) {
+        this.newsManagementService.getNewsSize().subscribe((res: ApiResponse) => {
+            if (res.status == 200) {
+                this.store.dispatch(setNews({ payload: res.result as number }))
+            } else {
+                this.store.dispatch(setNews({ payload: 0 }))
+            }
+        })
+    }
 
     ngOnInit() {}
 
-    isUserLogged(): Boolean {
-        if (localStorage.getItem('userInfo') == null) {
-            return false
-        } else {
-            return true
-        }
+    showProfileDrawer() {
+        this.showProfile = true
+    }
+
+    hideProfileDrawer() {
+        this.showProfile = false
     }
 }
