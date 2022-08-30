@@ -30,8 +30,10 @@
                     <nz-card style="width: 100%" [nzCover]="coverTemplate" [nzActions]="[actionEdit, actionLogOut]">
                         <nz-space nzDirection="vertical" nzAlign="center" style="width: 100%">
                             <nz-avatar *nzSpaceItem [nzSize]="64" [nzSrc]="(userInfo | async)!.avatar"></nz-avatar>
-                            <span *nzSpaceItem nz-typography><strong>Lucas</strong></span>
-                            <span *nzSpaceItem nz-typography nzType="secondary">Admin</span>
+                            <span *nzSpaceItem nz-typography>
+                                <strong>{{ (userInfo | async)?.name }}</strong>
+                            </span>
+                            <span *nzSpaceItem nz-typography nzType="secondary">{{ (userInfo | async)?.type == 'admin' ? 'Admin' : 'User' }}</span>
                         </nz-space>
                     </nz-card>
                     <ng-template #avatarTemplate>
@@ -44,14 +46,14 @@
                         <span nz-icon nzType="edit" nz-tooltip nzTooltipTitle="Edit Profile"></span>
                     </ng-template>
                     <ng-template #actionLogOut>
-                        <span nz-icon nzType="logout" nz-tooltip nzTooltipTitle="Logout"></span>
+                        <span nz-icon nzType="logout" nz-tooltip nzTooltipTitle="Logout" (click)="onLogout()"></span>
                     </ng-template>
                 </ng-container>
             </nz-drawer>
         </div>
         <ng-template #elseBlock>
             <nz-space>
-                <button *nzSpaceItem nz-button nzType="primary" [nzSize]="'large'" routerLink="login">
+                <button *nzSpaceItem nz-button nzType="primary" [nzSize]="'large'" (click)="onLogin()">
                     <i nz-icon nzType="login"></i>
                     Log In
                 </button>

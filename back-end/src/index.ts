@@ -1,10 +1,10 @@
 import express, { Application, Request, Response } from 'express'
 import * as NewsController from './News/controller' // Controller responsável pelas requisições http
+import * as UsersController from './User/controller'
 import { HTTP_SUCCESS } from '../../common/types'
 import cors from 'cors'
 
 import Logger from '@ptkdev/logger'
-import { compressSync, uncompressSync } from 'snappy'
 
 const log = new Logger()
 
@@ -29,6 +29,13 @@ app.get('/newssize', NewsController.getNewsSize)
 app.post('/news', NewsController.createNews)
 app.delete('/news', NewsController.deleteNews)
 app.put('/news', NewsController.editNews)
+app.post('/newsadd/like', NewsController.addLike)
+app.post('/newsremove/like', NewsController.removeLike)
+
+app.get('/user/:id', UsersController.getUser)
+app.get('/userall', UsersController.getAllUsers)
+app.post('/user', UsersController.createUser)
+app.post('/userlogin', UsersController.loginUser)
 
 app.listen(port, () => {
     log.info('Backend listening on port 3000')

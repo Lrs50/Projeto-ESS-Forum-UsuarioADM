@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { ApiResponse, News } from '../../../../common/types'
 
@@ -37,5 +37,13 @@ export class NewsManagementService {
 
     getNewsSize(): Observable<ApiResponse> {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
+    }
+
+    addLike(newsId: string, authorLikeId: string): Observable<ApiResponse> {
+        return this.httpClient.post<ApiResponse>(this.baseUrl + 'add/like', { newsId, authorLikeId })
+    }
+
+    removeLike(newsId: string, authorLikeId: string): Observable<ApiResponse> {
+        return this.httpClient.post<ApiResponse>(this.baseUrl + 'remove/like', { newsId, authorLikeId })
     }
 }

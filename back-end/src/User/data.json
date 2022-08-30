@@ -1,7 +1,11 @@
 [
+    { "id": "124", "name": "marelo", "password": "123", "type": "normal", "cover": "", "avatar": "" },
     {
-      "id": "123",
-      "name": "Baiano",
-      "type": 2
+        "id": "123",
+        "name": "lucas",
+        "password": "123",
+        "type": "admin",
+        "cover": "https://cdn.dribbble.com/users/2808796/screenshots/13984438/media/5204160d8483103ccdfe86bf73499e61.png",
+        "avatar": "https://img.freepik.com/premium-vector/cute-robot-waving-hand-cartoon-illustration_138676-2744.jpg"
     }
 ]

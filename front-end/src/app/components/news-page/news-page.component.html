@@ -8,7 +8,7 @@
         <markdown ngPreserveWhitespaces [data]="news.markdownText"></markdown>
         <nz-divider></nz-divider>
         <nz-space nzAlign="center">
-            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleLike()">
+            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleLikeNews()">
                 <span *nzSpaceItem nz-icon nzType="like" [nzTheme]="hasUserLikedTheNews ? 'twotone' : 'outline'"></span>
                 <span *nzSpaceItem> {{ news.likes.length }} Likes </span>
             </nz-space>
@@ -33,7 +33,7 @@
         </ng-template>
 
         <ng-template #avatarTemplate>
-            <nz-avatar [nzSrc]="(userInfo | async)!.avatar" nz-tooltip [nzTooltipTitle]="(userInfo | async)!.name"></nz-avatar>
+            <nz-avatar [nzSrc]="authorInfo.avatar" nz-tooltip [nzTooltipTitle]="authorInfo.name"></nz-avatar>
         </ng-template>
     </nz-card>
 
@@ -51,7 +51,9 @@
                 </nz-tabset>
             </nz-form-item>
             <nz-form-item>
-                <button nz-button nzType="primary" [disabled]="commentContent == '' || (isAdmin | async)">Add Comment</button>
+                <button nz-button nzType="primary" [disabled]="commentContent == '' || (isAdmin | async) || !(isUserLogged | async)">
+                    Add Comment
+                </button>
             </nz-form-item>
         </nz-comment-content>
     </nz-comment>

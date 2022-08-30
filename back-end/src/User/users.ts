@@ -21,15 +21,32 @@ class UsersDB {
         }
     }
 
+    login(name: string, password: string): User | undefined {
+        for (let i = 0; i < this.db.length; i++) {
+            if (this.db[i].name == name && this.db[i].password == password) {
+                return this.db[i]
+            }
+        }
+
+        return undefined
+    }
+
     getUser(id: string): User | undefined {
-        return this.db.find((news) => news.id == id)
+        return this.db.find((user) => user.id == id)
     }
 
     getAllUsers(): User[] {
         return this.db
     }
 
-    async saveNews(): Promise<Boolean> {
+    createUser(user: User): Promise<Boolean> {
+        this.db.unshift(user)
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
+    }
+
+    async saveUsers(): Promise<Boolean> {
         try {
             await promises.writeFile(Path.resolve(__dirname, this.path), JSON.stringify(this.db), {
                 flag: 'w',

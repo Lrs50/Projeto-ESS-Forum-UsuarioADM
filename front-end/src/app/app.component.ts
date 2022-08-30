@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { map, Observable } from 'rxjs'
 import { ApiResponse, User } from '../../../common/types'
-import { AppState, setNews } from './app.store'
+import { AppState, changeUserInfo, changeUserLoggedStatus, setNews } from './app.store'
 import { NewsManagementService } from './services/news-management.service'
 import { imageFallBack } from 'src/util'
+import { Router } from '@angular/router'
 
 @Component({
     selector: 'app-root',
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
         })
     )
 
-    constructor(private store: Store<{ app: AppState }>, private newsManagementService: NewsManagementService) {
+    constructor(private store: Store<{ app: AppState }>, private newsManagementService: NewsManagementService, private router: Router) {
         this.newsManagementService.getNewsSize().subscribe((res: ApiResponse) => {
             if (res.status == 200) {
                 this.store.dispatch(setNews({ payload: res.result as number }))
@@ -46,6 +47,28 @@ export class AppComponent implements OnInit {
     }
 
     hideProfileDrawer() {
+        this.showProfile = false
+    }
+
+    onLogout() {
+        this.store.dispatch(
+            changeUserInfo({
+                payload: {
+                    id: '',
+                    name: '',
+                    password: '',
+                    avatar: '',
+                    cover: '',
+                    type: 'normal',
+                } as User,
+            })
+        )
+        this.store.dispatch(changeUserLoggedStatus({ payload: false }))
+        this.router.navigateByUrl('/home')
+    }
+
+    onLogin() {
+        this.router.navigateByUrl('/login')
         this.showProfile = false
     }
 }
