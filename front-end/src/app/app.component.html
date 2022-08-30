@@ -21,7 +21,7 @@
                     <span nz-typography>
                         <strong>{{ (userInfo | async)?.name }}</strong>
                     </span>
-                    <span nz-typography nzType="secondary">{{ (userInfo | async)?.type == 2 ? 'Admin' : 'User' }}</span>
+                    <span nz-typography nzType="secondary">{{ (userInfo | async)?.type == 'admin' ? 'Admin' : 'User' }}</span>
                 </div>
                 <nz-avatar *nzSpaceItem nzSize="large" nzIcon="user" [ngStyle]="{ 'background-color': '#000' }"></nz-avatar>
             </nz-space>

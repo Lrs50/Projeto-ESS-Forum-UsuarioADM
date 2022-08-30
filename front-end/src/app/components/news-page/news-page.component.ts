@@ -36,7 +36,7 @@ export class NewsPageComponent implements OnInit {
 
     isAdmin: Observable<boolean> = this.store.select('app').pipe(
         map((state: AppState) => {
-            return (state.user.type == 2) as boolean
+            return (state.user.type == 'admin') as boolean
         })
     )
 

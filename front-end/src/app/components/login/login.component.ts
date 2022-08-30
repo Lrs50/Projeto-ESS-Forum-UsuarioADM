@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
     submitForm(): void {
         if (this.validateForm.valid) {
             console.log('submit', this.validateForm.value)
-            this.store.dispatch(changeUserInfo({ payload: { id: 'fake-id', name: this.validateForm.value.userName, type: 2 } as User }))
+            this.store.dispatch(changeUserInfo({ payload: { id: 'fake-id', name: this.validateForm.value.userName, type: 'admin' } as User }))
             this.store.dispatch(changeUserLoggedStatus({ payload: true }))
             this.router.navigateByUrl('/home')
         } else {

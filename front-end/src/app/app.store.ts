@@ -13,7 +13,7 @@ export const appInitialState: AppState = {
     user: {
         id: '123',
         name: 'Lucas',
-        type: 2,
+        type: 'admin',
     },
     newsCount: 0,
     usersCount: 0,
