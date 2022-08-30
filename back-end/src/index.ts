@@ -4,6 +4,7 @@ import { HTTP_SUCCESS } from '../../common/types'
 import cors from 'cors'
 
 import Logger from '@ptkdev/logger'
+import { compressSync, uncompressSync } from 'snappy'
 
 const log = new Logger()
 

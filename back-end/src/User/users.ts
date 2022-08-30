@@ -1,39 +1,45 @@
 import { User } from '../../../common/types'
-import { promises } from 'fs'
-import Data from './data.json'
+import { readFileSync, promises } from 'fs'
+import Path from 'path'
+
+// Definição da classe da database que vai ler e escrever no arquivo data.json
+// Cada função é responsável por uma tarefa especifica
 
 class UsersDB {
     db: User[] = []
+    path: string
 
-    constructor() {
-        this.db = Data
+    constructor(path: string = './data.json') {
+        this.path = path
+
+        let content: string = readFileSync(Path.resolve(__dirname, this.path), { encoding: 'utf8', flag: 'r' })
+
+        this.db = JSON.parse(content)
+
+        if (!Array.isArray(this.db)) {
+            throw Error('Failed to parse data file!')
+        }
     }
 
-    getUsers(id: string): User | undefined {
-        return this.db.find((User) => User.id == id)
+    getUser(id: string): User | undefined {
+        return this.db.find((news) => news.id == id)
     }
 
-    createUsers(User: User): void {
-        this.db.push(User)
+    getAllUsers(): User[] {
+        return this.db
     }
 
-    deleteUsers(id: string): void {
-        this.db = this.db.filter((User) => User.id == id)
-    }
-
-    editUsers(id: string, User: User): void {
-        this.deleteUsers(id)
-
-        this.createUsers(User)
-    }
-
-    async saveUsers(): Promise<void> {
+    async saveNews(): Promise<Boolean> {
         try {
-            await promises.writeFile('./data.json', this.db.toString(), {
+            await promises.writeFile(Path.resolve(__dirname, this.path), JSON.stringify(this.db), {
                 flag: 'w',
             })
+
+            return true
         } catch (err) {
             console.log(err)
+
+            return false
         }
     }
 }
