@@ -19,7 +19,10 @@ export declare type UserType = "normal" | "admin";
 export interface User {
     readonly id: string;
     name: string;
+    password: string;
     type: UserType;
+    cover: string;
+    avatar: string;
 }
 
 export interface Comment {

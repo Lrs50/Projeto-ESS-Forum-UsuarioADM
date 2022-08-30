@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { News, ApiResponse } from '../../../../../common/types'
+import { News, ApiResponse, User } from '../../../../../common/types'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ActivatedRoute } from '@angular/router'
 import { imageFallBack } from '../../../util'
@@ -14,6 +14,12 @@ import { AppState } from 'src/app/app.store'
 })
 export class NewsPageComponent implements OnInit {
     imgFall: string = imageFallBack
+
+    userInfo: Observable<User> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return state.user
+        })
+    )
 
     news: News = {
         id: '',

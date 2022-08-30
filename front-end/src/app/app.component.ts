@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs'
 import { ApiResponse, User } from '../../../common/types'
 import { AppState, setNews } from './app.store'
 import { NewsManagementService } from './services/news-management.service'
+import { imageFallBack } from 'src/util'
 
 @Component({
     selector: 'app-root',
@@ -11,6 +12,8 @@ import { NewsManagementService } from './services/news-management.service'
     styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
+    imgFall: string = imageFallBack
+
     title = 'front-end'
     showProfile: boolean = false
 

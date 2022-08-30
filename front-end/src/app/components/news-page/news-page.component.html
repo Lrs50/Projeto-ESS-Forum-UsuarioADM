@@ -33,12 +33,12 @@
         </ng-template>
 
         <ng-template #avatarTemplate>
-            <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" nz-tooltip nzTooltipTitle="Lucas"></nz-avatar>
+            <nz-avatar [nzSrc]="(userInfo | async)!.avatar" nz-tooltip [nzTooltipTitle]="(userInfo | async)!.name"></nz-avatar>
         </ng-template>
     </nz-card>
 
     <nz-comment *nzSpaceItem class="news-page-container">
-        <nz-avatar nz-comment-avatar nzIcon="user" nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></nz-avatar>
+        <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="(userInfo | async)!.avatar"></nz-avatar>
         <nz-comment-content>
             <nz-form-item>
                 <nz-tabset nzType="card" class="news-page-space">

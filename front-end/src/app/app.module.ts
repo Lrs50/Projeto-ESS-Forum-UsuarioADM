@@ -40,6 +40,7 @@ import { MarkdownModule } from 'ngx-markdown'
 import { NzCommentModule } from 'ng-zorro-antd/comment'
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
+import { NzBadgeModule } from 'ng-zorro-antd/badge'
 import {
     UserOutline,
     LogoutOutline,
@@ -151,6 +152,7 @@ const icons: IconDefinition[] = [
         NzCommentModule,
         NzEmptyModule,
         NzSpinModule,
+        NzBadgeModule,
     ],
     providers: [{ provide: NZ_I18N, useValue: en_US }],
     bootstrap: [AppComponent],

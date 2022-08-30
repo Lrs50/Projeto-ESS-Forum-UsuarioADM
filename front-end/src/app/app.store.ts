@@ -13,6 +13,9 @@ export const appInitialState: AppState = {
     user: {
         id: '123',
         name: 'Lucas',
+        password: '123',
+        avatar: 'https://img.freepik.com/premium-vector/cute-robot-waving-hand-cartoon-illustration_138676-2744.jpg',
+        cover: 'https://cdn.dribbble.com/users/2808796/screenshots/13984438/media/5204160d8483103ccdfe86bf73499e61.png',
         type: 'admin',
     },
     newsCount: 0,
