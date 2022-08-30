@@ -60,6 +60,7 @@ import {
     CommentOutline,
     DislikeOutline,
     LinkOutline,
+    LikeTwoTone,
 } from '@ant-design/icons-angular/icons'
 import { HomeComponent } from './components/home/home.component'
 import { LoginComponent } from './components/login/login.component'
@@ -94,6 +95,7 @@ const icons: IconDefinition[] = [
     DeleteOutline,
     EyeOutline,
     LikeOutline,
+    LikeTwoTone,
     CommentOutline,
     DislikeOutline,
     LinkOutline,

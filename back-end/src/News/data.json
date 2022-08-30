@@ -1,1 +1,15 @@
-[{"id":"is0ogTgLqcQFuifsWZb8r","cover":"","authorId":"","title":"Change the title!","date":"28/08/2022 22:45","markdownText":"123123","edited":false,"views":0,"likes":[],"comments":[],"tags":[]}]
+[
+    {
+        "id": "is0ogTgLqcQFuifsWZb8r",
+        "cover": "",
+        "authorId": "",
+        "title": "Change the title!",
+        "date": "28/08/2022 22:45",
+        "markdownText": "123123",
+        "edited": false,
+        "views": 0,
+        "likes": [],
+        "comments": [],
+        "tags": []
+    }
+]

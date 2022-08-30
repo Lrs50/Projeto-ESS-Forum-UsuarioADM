@@ -1,4 +1,4 @@
-import { News } from '../../../common/types'
+import { Comment, Like, News } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
 import Path from 'path'
 
@@ -77,6 +77,68 @@ class NewsDB {
         for (var i = 0; i < this.db.length; i++) {
             if (this.db[i].id == id) {
                 this.db[i] = news
+                break
+            }
+        }
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    addComment(newsId: string, comment: Comment): Promise<Boolean> {
+        for (var i = 0; i < this.db.length; i++) {
+            if (this.db[i].id == newsId) {
+                this.db[i].likes.push(comment)
+                break
+            }
+        }
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    removeComment(newsId: string, commentId: string): Promise<Boolean> {
+        for (var i = 0; i < this.db.length; i++) {
+            if (this.db[i].id == newsId) {
+                for (var j = 0; j < this.db[i].likes.length; j++) {
+                    if (this.db[i].comments[j].authorId == commentId) {
+                        this.db[i].comments.splice(j, 1)
+                        break
+                    }
+                }
+                break
+            }
+        }
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    addLike(newsId: string, authorLikeId: string): Promise<Boolean> {
+        for (var i = 0; i < this.db.length; i++) {
+            if (this.db[i].id == newsId) {
+                this.db[i].likes.push({ authorId: authorLikeId } as Like)
+                break
+            }
+        }
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    removeLike(newsId: string, authorLikeId: string): Promise<Boolean> {
+        for (var i = 0; i < this.db.length; i++) {
+            if (this.db[i].id == newsId) {
+                for (var j = 0; j < this.db[i].likes.length; j++) {
+                    if (this.db[i].likes[j].authorId == authorLikeId) {
+                        this.db[i].likes.splice(j, 1)
+                        break
+                    }
+                }
                 break
             }
         }

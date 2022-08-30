@@ -34,7 +34,6 @@ export interface Comment {
 }
 
 export interface Like {
-    readonly id: string;
     readonly authorId: string;
 }
 

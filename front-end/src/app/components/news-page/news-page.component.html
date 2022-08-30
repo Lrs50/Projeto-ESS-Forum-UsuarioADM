@@ -8,8 +8,8 @@
         <markdown ngPreserveWhitespaces [data]="news.markdownText"></markdown>
         <nz-divider></nz-divider>
         <nz-space nzAlign="center">
-            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
-                <span *nzSpaceItem nz-icon nzType="like"></span>
+            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleLike()">
+                <span *nzSpaceItem nz-icon nzType="like" [nzTheme]="hasUserLikedTheNews ? 'twotone' : 'outline'"></span>
                 <span *nzSpaceItem> {{ news.likes.length }} Likes </span>
             </nz-space>
             <nz-divider *nzSpaceItem nzDirection="vertical"></nz-divider>
@@ -56,28 +56,25 @@
         </nz-comment-content>
     </nz-comment>
 
-    <nz-card *nzSpaceItem class="news-page-container">
-        <nz-comment nzAuthor="Baiano">
-            <nz-avatar
-                nz-comment-avatar
-                nzIcon="user"
-                nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                [nzSize]="'large'"
-            ></nz-avatar>
-            <nz-comment-content>
-                <markdown ngPreserveWhitespaces> Porra pivete </markdown>
-                <nz-space nzAlign="center">
-                    <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
-                        <span *nzSpaceItem nz-icon nzType="like"></span>
-                        <span *nzSpaceItem> 12 Likes </span>
+    <div *ngFor="let comment of news.comments">
+        <nz-card *nzSpaceItem class="news-page-container">
+            <nz-comment nzAuthor="Baiano">
+                <nz-avatar nz-comment-avatar nzSrc="//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" [nzSize]="'large'"></nz-avatar>
+                <nz-comment-content>
+                    <markdown ngPreserveWhitespaces> Porra pivete </markdown>
+                    <nz-space nzAlign="center">
+                        <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
+                            <span *nzSpaceItem nz-icon nzType="like"></span>
+                            <span *nzSpaceItem> 12 Likes </span>
+                        </nz-space>
+                        <nz-divider *nzSpaceItem nzDirection="vertical"></nz-divider>
+                        <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
+                            <span *nzSpaceItem nz-icon nzType="dislike"></span>
+                            <span *nzSpaceItem> 12 Dislikes </span>
+                        </nz-space>
                     </nz-space>
-                    <nz-divider *nzSpaceItem nzDirection="vertical"></nz-divider>
-                    <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
-                        <span *nzSpaceItem nz-icon nzType="dislike"></span>
-                        <span *nzSpaceItem> 12 Dislikes </span>
-                    </nz-space>
-                </nz-space>
-            </nz-comment-content>
-        </nz-comment>
-    </nz-card>
+                </nz-comment-content>
+            </nz-comment>
+        </nz-card>
+    </div>
 </nz-space>

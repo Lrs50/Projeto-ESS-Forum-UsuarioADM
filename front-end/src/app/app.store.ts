@@ -55,8 +55,6 @@ export const appReducer = createReducer(
         return currentState
     }),
     on(setNews, (currentState, actions) => {
-        console.log('actions: ' + actions)
-
         currentState = {
             ...currentState,
             newsCount: actions.payload,

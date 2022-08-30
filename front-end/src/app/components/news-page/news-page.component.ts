@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core'
-import { News, ApiResponse, User } from '../../../../../common/types'
+import { News, ApiResponse, User, Like } from '../../../../../common/types'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ActivatedRoute } from '@angular/router'
 import { imageFallBack } from '../../../util'
-import { map, Observable } from 'rxjs'
+import { map, Observable, Subscription, take } from 'rxjs'
 import { Store } from '@ngrx/store'
 import { AppState } from 'src/app/app.store'
 
@@ -14,6 +14,8 @@ import { AppState } from 'src/app/app.store'
 })
 export class NewsPageComponent implements OnInit {
     imgFall: string = imageFallBack
+
+    hasUserLikedTheNews: boolean = false
 
     userInfo: Observable<User> = this.store.select('app').pipe(
         map((state: AppState) => {
@@ -34,9 +36,6 @@ export class NewsPageComponent implements OnInit {
         comments: [],
         tags: [],
     }
-
-    likes = 0
-    dislikes = 0
 
     commentContent: string = ''
 
@@ -74,13 +73,37 @@ export class NewsPageComponent implements OnInit {
 
     ngOnInit(): void {}
 
-    like(): void {
-        this.likes = 1
-        this.dislikes = 0
-    }
+    toggleLike(): void {
+        let userId: string = ''
 
-    dislike(): void {
-        this.likes = 0
-        this.dislikes = 1
+        let userIdSubscription: Subscription = this.userInfo.pipe(take(1)).subscribe((user: User) => (userId = user.id))
+        userIdSubscription.unsubscribe()
+
+        let liked: boolean = false
+
+        for (var i = 0; i < this.news.likes.length; i++) {
+            if (this.news.likes[i].authorId == userId) {
+                liked = true
+                break
+            }
+        }
+
+        if (liked) {
+            this.hasUserLikedTheNews = false
+
+            for (var i = 0; i < this.news.likes.length; i++) {
+                if (this.news.likes[i].authorId == userId) {
+                    this.news.likes.splice(i, 1)
+                    break
+                }
+            }
+
+            // add http request
+        } else {
+            this.hasUserLikedTheNews = true
+            this.news.likes.push({ authorId: userId } as Like)
+
+            // add http request
+        }
     }
 }
