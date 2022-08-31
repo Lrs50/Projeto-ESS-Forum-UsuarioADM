@@ -86,7 +86,7 @@
                                 <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer">
                                     <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
                                 </nz-space>
-                                <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer">
+                                <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer" (click)="removeComment(comment.id)">
                                     <span *nzSpaceItem nz-icon nzType="delete"></span>
                                     <span *nzSpaceItem> Delete </span>
                                 </nz-space>

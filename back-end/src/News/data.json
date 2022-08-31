@@ -1,1 +1,27 @@
-[{"id":"is0ogTgLqcQFuifsWZb8r","cover":"","authorId":"123","title":"Change the title!","date":"28/08/2022 22:45","markdownText":"123123","edited":false,"views":30,"likes":[],"comments":[{"id":"NSZnCIEXv1kSlpWfGz1T8","authorInfo":{"avatar":"","name":"marelo"},"content":"Oi!","likes":[],"dislikes":[]},{"id":"NSZnCIEXv1kSlpWfGz1T8","authorInfo":{"avatar":"https://img.freepik.com/premium-vector/cute-robot-waving-hand-cartoon-illustration_138676-2744.jpg","name":"lucas"},"content":"Salve!","likes":[],"dislikes":[]}],"tags":[]}]
+[
+    {
+        "id": "is0ogTgLqcQFuifsWZb8r",
+        "cover": "",
+        "authorId": "123",
+        "title": "Change the title!",
+        "date": "28/08/2022 22:45",
+        "markdownText": "123123",
+        "edited": false,
+        "views": 32,
+        "likes": [],
+        "comments": [
+            { "id": "NSZnCIEXv1kSlpWfGz1T8", "authorInfo": { "avatar": "", "name": "marelo" }, "content": "Oi!", "likes": [], "dislikes": [] },
+            {
+                "id": "NSZnCIEXv1kSlpWfGz1T8",
+                "authorInfo": {
+                    "avatar": "https://img.freepik.com/premium-vector/cute-robot-waving-hand-cartoon-illustration_138676-2744.jpg",
+                    "name": "lucas"
+                },
+                "content": "Salve!",
+                "likes": [],
+                "dislikes": []
+            }
+        ],
+        "tags": []
+    }
+]

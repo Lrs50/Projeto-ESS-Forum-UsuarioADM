@@ -33,6 +33,7 @@ app.post('/newsadd/like', NewsController.addLike)
 app.post('/newsadd/view', NewsController.addView)
 app.post('/newsadd/comment/:newsId', NewsController.addComment)
 app.post('/newsremove/like', NewsController.removeLike)
+app.post('/newsremove/comment', NewsController.removeComment)
 
 app.get('/user/:id', UsersController.getUser)
 app.get('/userall', UsersController.getAllUsers)

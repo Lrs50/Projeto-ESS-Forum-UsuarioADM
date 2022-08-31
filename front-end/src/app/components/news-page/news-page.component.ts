@@ -173,7 +173,6 @@ export class NewsPageComponent implements OnInit {
             }
 
             this.newsManagementService.addComment(this.news.id, temp).subscribe((res: ApiResponse) => {
-                console.log(res)
                 if (res.status == 200) {
                     this.news.comments.unshift(temp)
                     this.commentContent = ''
@@ -182,6 +181,23 @@ export class NewsPageComponent implements OnInit {
                     this.message.create('error', `Something went wrong!`)
                 }
             })
+        })
+    }
+
+    removeComment(id: string): void {
+        this.newsManagementService.removeComment(this.news.id, id).subscribe((res: ApiResponse) => {
+            if (res.status == 200) {
+                for (let i = 0; i < this.news.comments.length; i++) {
+                    if (this.news.comments[i].id == id) {
+                        this.news.comments.splice(i, 1)
+                        break
+                    }
+                }
+
+                this.message.create('sucess', `Comment removed!`)
+            } else {
+                this.message.create('error', `Something went wrong!`)
+            }
         })
     }
 }

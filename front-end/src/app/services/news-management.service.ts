@@ -54,4 +54,8 @@ export class NewsManagementService {
     addComment(newsId: string, comment: Comment): Observable<ApiResponse> {
         return this.httpClient.post<ApiResponse>(this.baseUrl + `add/comment/${newsId}`, comment)
     }
+
+    removeComment(newsId: string, commentId: string): Observable<ApiResponse> {
+        return this.httpClient.post<ApiResponse>(this.baseUrl + `remove/comment`, { newsId, commentId })
+    }
 }

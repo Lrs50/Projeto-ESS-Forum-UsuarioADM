@@ -299,3 +299,29 @@ export function addComment(request: Request, response: Response): void {
 
     return
 }
+
+export function removeComment(request: Request, response: Response): void {
+    log.info('RemoveComment request received')
+
+    const valid = validator(['newsId', 'commentId'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: NewsDB = new NewsDB()
+
+    let addComment: Promise<Boolean> = db.removeComment(request.body.newsId, request.body.commentId)
+
+    addComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
