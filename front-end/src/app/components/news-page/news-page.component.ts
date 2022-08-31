@@ -186,6 +186,7 @@ export class NewsPageComponent implements OnInit {
 
     removeComment(id: string): void {
         this.newsManagementService.removeComment(this.news.id, id).subscribe((res: ApiResponse) => {
+            console.log(res)
             if (res.status == 200) {
                 for (let i = 0; i < this.news.comments.length; i++) {
                     if (this.news.comments[i].id == id) {
@@ -194,7 +195,7 @@ export class NewsPageComponent implements OnInit {
                     }
                 }
 
-                this.message.create('sucess', `Comment removed!`)
+                this.message.create('success', `Comment removed!`)
             } else {
                 this.message.create('error', `Something went wrong!`)
             }

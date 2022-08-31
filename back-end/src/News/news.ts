@@ -102,7 +102,7 @@ class NewsDB {
     removeComment(newsId: string, commentId: string): Promise<Boolean> {
         for (var i = 0; i < this.db.length; i++) {
             if (this.db[i].id == newsId) {
-                for (var j = 0; j < this.db[i].likes.length; j++) {
+                for (var j = 0; j < this.db[i].comments.length; j++) {
                     if (this.db[i].comments[j].id == commentId) {
                         this.db[i].comments.splice(j, 1)
                         break
