@@ -3,10 +3,10 @@ import { News, ApiResponse, User, Like } from '../../../../../common/types'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ActivatedRoute } from '@angular/router'
 import { imageFallBack } from '../../../util'
-import { map, Observable, Subscription, take } from 'rxjs'
+import { firstValueFrom, map, Observable, Subscription, take } from 'rxjs'
 import { Store } from '@ngrx/store'
 import { AppState } from 'src/app/app.store'
-import { NzMessageService } from 'ng-zorro-antd/message'
+import { NzMessageRef, NzMessageService } from 'ng-zorro-antd/message'
 import { UsersService } from 'src/app/services/users.service'
 
 @Component({
@@ -62,6 +62,8 @@ export class NewsPageComponent implements OnInit {
         })
     )
 
+    usersComments: Map<string, User> = new Map()
+
     constructor(
         private newsManagementService: NewsManagementService,
         private route: ActivatedRoute,
@@ -75,6 +77,12 @@ export class NewsPageComponent implements OnInit {
             this.newsManagementService.get(id).subscribe((res: ApiResponse) => {
                 if (res.status == 200) {
                     this.news = res.result as News
+
+                    this.news.views += 1
+
+                    this.newsManagementService.addView(id).subscribe(() => {
+                        return
+                    })
 
                     this.userService.get(this.news.authorId).subscribe((res: ApiResponse) => {
                         if (res.status == 200) {
@@ -95,11 +103,25 @@ export class NewsPageComponent implements OnInit {
                             break
                         }
                     }
+
+                    this.loadComments()
                 } else {
                     this.message.create('error', `Something went wrong!`)
                 }
             })
         }
+    }
+
+    private async loadComments() {
+        let loadingMsg: NzMessageRef = this.message.loading('Loading comments...', { nzDuration: 0 })
+
+        for (let i = 0; i < this.news.comments.length; i++) {
+            let response: ApiResponse = await firstValueFrom(this.userService.get(this.news.comments[i].authorId))
+
+            this.usersComments.set((response.result as User)!.id, response.result as User)
+        }
+
+        this.message.remove(loadingMsg.messageId)
     }
 
     ngOnInit(): void {}

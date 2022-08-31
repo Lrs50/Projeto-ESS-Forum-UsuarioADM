@@ -31,6 +31,12 @@ export const setNews = createAction('[APP] Set news count value', props<{ payloa
 export const appReducer = createReducer(
     appInitialState,
     on(changeUserLoggedStatus, (currentState, actions) => {
+        if (actions.payload == false) {
+            localStorage.removeItem('userInfo')
+        } else {
+            localStorage.setItem('userInfo', JSON.stringify(currentState.user))
+        }
+
         currentState = {
             ...currentState,
             logged: actions.payload,

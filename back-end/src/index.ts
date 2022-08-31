@@ -30,6 +30,7 @@ app.post('/news', NewsController.createNews)
 app.delete('/news', NewsController.deleteNews)
 app.put('/news', NewsController.editNews)
 app.post('/newsadd/like', NewsController.addLike)
+app.post('/newsadd/view', NewsController.addView)
 app.post('/newsremove/like', NewsController.removeLike)
 
 app.get('/user/:id', UsersController.getUser)

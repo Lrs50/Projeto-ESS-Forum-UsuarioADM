@@ -46,4 +46,8 @@ export class NewsManagementService {
     removeLike(newsId: string, authorLikeId: string): Observable<ApiResponse> {
         return this.httpClient.post<ApiResponse>(this.baseUrl + 'remove/like', { newsId, authorLikeId })
     }
+
+    addView(newsId: string): Observable<ApiResponse> {
+        return this.httpClient.post<ApiResponse>(this.baseUrl + 'add/view', { newsId })
+    }
 }

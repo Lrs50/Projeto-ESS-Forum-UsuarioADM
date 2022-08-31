@@ -195,6 +195,32 @@ export function editNews(request: Request, response: Response): void {
     return
 }
 
+export function addView(request: Request, response: Response): void {
+    log.info('AddView request received')
+
+    const valid = validator(['newsId'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: NewsDB = new NewsDB()
+
+    let addView: Promise<Boolean> = db.addView(request.body.newsId)
+
+    addView.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
 export function addLike(request: Request, response: Response): void {
     log.info('AddLike request received')
 

@@ -161,6 +161,19 @@ class NewsDB {
             return false
         }
     }
+
+    addView(newsId: string): Promise<Boolean> {
+        for (var i = 0; i < this.db.length; i++) {
+            if (this.db[i].id == newsId) {
+                this.db[i].views += 1
+                break
+            }
+        }
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
 }
 
 export default NewsDB

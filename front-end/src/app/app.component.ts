@@ -31,6 +31,15 @@ export class AppComponent implements OnInit {
     )
 
     constructor(private store: Store<{ app: AppState }>, private newsManagementService: NewsManagementService, private router: Router) {
+        let userJsonStr: string | null = localStorage.getItem('userInfo')
+
+        if (userJsonStr != null) {
+            let user: User = JSON.parse(userJsonStr)
+
+            this.store.dispatch(changeUserInfo({ payload: user }))
+            this.store.dispatch(changeUserLoggedStatus({ payload: true }))
+        }
+
         this.newsManagementService.getNewsSize().subscribe((res: ApiResponse) => {
             if (res.status == 200) {
                 this.store.dispatch(setNews({ payload: res.result as number }))
