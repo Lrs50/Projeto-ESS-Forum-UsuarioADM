@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { News, ApiResponse, User, Like } from '../../../../../common/types'
+import { News, ApiResponse, User, Like, Comment } from '../../../../../common/types'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ActivatedRoute } from '@angular/router'
 import { imageFallBack } from '../../../util'
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store'
 import { AppState } from 'src/app/app.store'
 import { NzMessageRef, NzMessageService } from 'ng-zorro-antd/message'
 import { UsersService } from 'src/app/services/users.service'
+import { nanoid } from 'nanoid'
 
 @Component({
     selector: 'app-news-page',
@@ -62,8 +63,6 @@ export class NewsPageComponent implements OnInit {
         })
     )
 
-    usersComments: Map<string, User> = new Map()
-
     constructor(
         private newsManagementService: NewsManagementService,
         private route: ActivatedRoute,
@@ -103,25 +102,11 @@ export class NewsPageComponent implements OnInit {
                             break
                         }
                     }
-
-                    this.loadComments()
                 } else {
                     this.message.create('error', `Something went wrong!`)
                 }
             })
         }
-    }
-
-    private async loadComments() {
-        let loadingMsg: NzMessageRef = this.message.loading('Loading comments...', { nzDuration: 0 })
-
-        for (let i = 0; i < this.news.comments.length; i++) {
-            let response: ApiResponse = await firstValueFrom(this.userService.get(this.news.comments[i].authorId))
-
-            this.usersComments.set((response.result as User)!.id, response.result as User)
-        }
-
-        this.message.remove(loadingMsg.messageId)
     }
 
     ngOnInit(): void {}
@@ -167,11 +152,36 @@ export class NewsPageComponent implements OnInit {
             this.news.likes.push({ authorId: userId } as Like)
 
             this.newsManagementService.addLike(this.news.id, userId).subscribe((res: ApiResponse) => {
-                console.log(res)
                 if (res.status != 200) {
                     this.message.create('error', `Something went wrong!`)
                 }
             })
         }
+    }
+
+    addComment(): void {
+        this.userInfo.pipe(take(1)).subscribe((user: User) => {
+            let temp: Comment = {
+                id: nanoid(),
+                authorInfo: {
+                    avatar: user.avatar,
+                    name: user.name,
+                },
+                content: this.commentContent,
+                likes: [],
+                dislikes: [],
+            }
+
+            this.newsManagementService.addComment(this.news.id, temp).subscribe((res: ApiResponse) => {
+                console.log(res)
+                if (res.status == 200) {
+                    this.news.comments.unshift(temp)
+                    this.commentContent = ''
+                    this.message.create('sucess', `Comment added!`)
+                } else {
+                    this.message.create('error', `Something went wrong!`)
+                }
+            })
+        })
     }
 }

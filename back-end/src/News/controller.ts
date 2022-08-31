@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import NewsDB from './news'
-import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_NOT_FOUND, HTTP_ERROR, News, ApiResponse } from '../../../common/types'
+import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_NOT_FOUND, HTTP_ERROR, News, ApiResponse, Comment } from '../../../common/types'
 import Logger from '@ptkdev/logger'
 
 const log = new Logger()
@@ -263,6 +263,33 @@ export function removeLike(request: Request, response: Response): void {
     let removeLike: Promise<Boolean> = db.removeLike(request.body.newsId, request.body.authorLikeId)
 
     removeLike.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+export function addComment(request: Request, response: Response): void {
+    log.info('AddComment request received')
+
+    const validParam = validator(['newsId'], request.params)
+    const validBody = validator(['id', 'authorInfo', 'content', 'likes', 'dislikes'], request.body)
+
+    if (!validParam || !validBody) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: NewsDB = new NewsDB()
+
+    let addComment: Promise<Boolean> = db.addComment(request.params.newsId, request.body as Comment)
+
+    addComment.then((result: Boolean) => {
         if (result) {
             response.send(HTTP_SUCCESS)
         } else {

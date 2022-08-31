@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { ApiResponse, News } from '../../../../common/types'
+import { ApiResponse, Comment, News } from '../../../../common/types'
 
 @Injectable({
     providedIn: 'root',
@@ -49,5 +49,9 @@ export class NewsManagementService {
 
     addView(newsId: string): Observable<ApiResponse> {
         return this.httpClient.post<ApiResponse>(this.baseUrl + 'add/view', { newsId })
+    }
+
+    addComment(newsId: string, comment: Comment): Observable<ApiResponse> {
+        return this.httpClient.post<ApiResponse>(this.baseUrl + `add/comment/${newsId}`, comment)
     }
 }

@@ -29,7 +29,7 @@ export interface User {
 
 export interface Comment {
   readonly id: string;
-  readonly authorId: string;
+  readonly authorInfo: Pick<User, "avatar" | "name">;
   content: string;
   likes: Like[];
   dislikes: Like[];

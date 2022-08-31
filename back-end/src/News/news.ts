@@ -89,7 +89,7 @@ class NewsDB {
     addComment(newsId: string, comment: Comment): Promise<Boolean> {
         for (var i = 0; i < this.db.length; i++) {
             if (this.db[i].id == newsId) {
-                this.db[i].likes.push(comment)
+                this.db[i].comments.push(comment)
                 break
             }
         }
@@ -103,7 +103,7 @@ class NewsDB {
         for (var i = 0; i < this.db.length; i++) {
             if (this.db[i].id == newsId) {
                 for (var j = 0; j < this.db[i].likes.length; j++) {
-                    if (this.db[i].comments[j].authorId == commentId) {
+                    if (this.db[i].comments[j].id == commentId) {
                         this.db[i].comments.splice(j, 1)
                         break
                     }
