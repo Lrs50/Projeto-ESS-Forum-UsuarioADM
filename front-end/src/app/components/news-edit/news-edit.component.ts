@@ -3,9 +3,13 @@ import { ActivatedRoute } from '@angular/router'
 import { NzStatus } from 'ng-zorro-antd/core/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, News } from '../../../../../common/types'
+import { ApiResponse, News, User } from '../../../../../common/types'
 import { defaultTags } from 'src/util'
 import { imageFallBack } from 'src/util'
+import { map, Observable } from 'rxjs'
+import { Store } from '@ngrx/store'
+import { AppState } from 'src/app/app.store'
+import { UsersService } from 'src/app/services/users.service'
 
 @Component({
     selector: 'app-news-edit',
@@ -18,6 +22,7 @@ export class NewsEditComponent implements OnInit {
     avaliableTags: string[] = defaultTags
 
     statusInputTitle: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
+    statusInputDescription: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
     statusInputContent: NzStatus = ''
 
     news: News = {
@@ -25,6 +30,7 @@ export class NewsEditComponent implements OnInit {
         cover: '',
         authorId: '',
         title: '',
+        description: '',
         date: '',
         markdownText: '',
         edited: false,
@@ -34,20 +40,42 @@ export class NewsEditComponent implements OnInit {
         tags: [],
     }
 
-    constructor(private newsManagementService: NewsManagementService, private route: ActivatedRoute, private message: NzMessageService) {
+    authorInfo: User = {
+        id: '',
+        name: '',
+        password: '',
+        avatar: '',
+        cover: '',
+        type: 'normal',
+    }
+
+    constructor(
+        private newsManagementService: NewsManagementService,
+        private route: ActivatedRoute,
+        private message: NzMessageService,
+        private userService: UsersService
+    ) {
         const id: string | null = this.route.snapshot.paramMap.get('id')
 
         if (id != null) {
             this.newsManagementService.get(id).subscribe((res: ApiResponse) => {
                 if (res.status == 200) {
-                    console.log(res)
                     this.news = res.result as News
+
+                    this.userService.get(this.news.authorId).subscribe((res: ApiResponse) => {
+                        if (res.status == 200) {
+                            this.authorInfo = res.result as User
+                        } else {
+                            this.message.create('error', `Something went wrong!`)
+                        }
+                    })
                 } else {
                     this.news = {
                         id: '',
                         cover: '',
                         authorId: '',
                         title: '',
+                        description: '',
                         date: '',
                         markdownText: '',
                         edited: false,
@@ -67,6 +95,7 @@ export class NewsEditComponent implements OnInit {
         var result: boolean = true
 
         this.statusInputTitle = undefined
+        this.statusInputDescription = undefined
         this.statusInputContent = ''
 
         if (this.news.title == '') {
@@ -79,12 +108,17 @@ export class NewsEditComponent implements OnInit {
             result = false
         }
 
+        if (this.news.description == '') {
+            this.statusInputDescription = 'danger'
+            result = false
+        }
+
         return result
     }
 
     onSaveNews(): void {
         if (this.validateEditInfo() == false) {
-            this.message.create('error', `Please check the fields before save!`)
+            this.message.create('error', `Please make sure that Title, Content and Description are not empty!`)
             return
         }
 

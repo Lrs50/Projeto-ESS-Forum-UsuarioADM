@@ -6,8 +6,9 @@ import { NzStatus } from 'ng-zorro-antd/core/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { AppState, incrementNews } from 'src/app/app.store'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, News } from '../../../../../common/types'
+import { ApiResponse, News, User } from '../../../../../common/types'
 import { defaultTags, imageFallBack } from 'src/util'
+import { map, Observable, Subscription, take } from 'rxjs'
 
 @Component({
     selector: 'app-news-create',
@@ -20,12 +21,14 @@ export class NewsCreateComponent implements OnInit {
 
     statusInputTitle: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
     statusInputContent: NzStatus = ''
+    statusInputDescription: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
 
     news: News = {
         id: '',
         cover: '',
         authorId: '',
         title: 'Change the title!',
+        description: 'Change the description!',
         date: '',
         markdownText: '',
         edited: false,
@@ -34,6 +37,12 @@ export class NewsCreateComponent implements OnInit {
         comments: [],
         tags: [],
     }
+
+    userInfo: Observable<User> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return state.user
+        })
+    )
 
     constructor(
         private newsManagementService: NewsManagementService,
@@ -48,6 +57,7 @@ export class NewsCreateComponent implements OnInit {
         var result: boolean = true
 
         this.statusInputTitle = undefined
+        this.statusInputDescription = undefined
         this.statusInputContent = ''
 
         if (this.news.title == '') {
@@ -60,6 +70,11 @@ export class NewsCreateComponent implements OnInit {
             result = false
         }
 
+        if (this.news.description == '') {
+            this.statusInputDescription = 'danger'
+            result = false
+        }
+
         return result
     }
 
@@ -67,7 +82,7 @@ export class NewsCreateComponent implements OnInit {
         var result: boolean = this.validateEditInfo()
 
         if (result == false) {
-            this.message.create('error', `Please make sure that Title and Content are not empty!`)
+            this.message.create('error', `Please make sure that Title, Content and Description are not empty!`)
             return
         }
 
@@ -76,9 +91,15 @@ export class NewsCreateComponent implements OnInit {
         let date = currentDate.toLocaleDateString()
         let hour = currentDate.toLocaleTimeString()
 
+        let authorId: string = ''
+
+        let userIdSubscription: Subscription = this.userInfo.pipe(take(1)).subscribe((user: User) => (authorId = user.id))
+        userIdSubscription.unsubscribe()
+
         let temp: News = {
             ...this.news,
             id: nanoid(),
+            authorId: authorId,
             date: date + ' ' + hour.slice(0, -3),
         }
 

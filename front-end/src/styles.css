@@ -1,10 +1,2 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~ng-zorro-antd/ng-zorro-antd.min.css';
-
-:root {
-    --primary-orange: '#cc5e14';
-    --secondary-orange: '#ffa840';
-    --base-blue: '#006aff';
-    --secondary-purple: '#483d99';
-    --primary-purple: '#2914cc';
-}

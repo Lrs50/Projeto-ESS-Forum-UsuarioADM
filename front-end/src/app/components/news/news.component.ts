@@ -21,11 +21,13 @@ export class NewsComponent implements OnInit {
     totalNews: number = 50
 
     loading: boolean = false
+    weHaveNews: boolean = false
 
     gridStyle = {
         width: '100%',
         cursor: 'default',
         padding: '0.5rem',
+        background: '#f0f0f0',
     }
 
     ngOnInit(): void {
@@ -60,17 +62,20 @@ export class NewsComponent implements OnInit {
     }
 
     getNewsPage() {
+        this.loading = true
         this.getNewsSize()
 
         this.newsManagementService.getPage(this.pageIndex, this.pageSize).subscribe((res: ApiResponse) => {
-            if (res.status == 200 || res.status == 404) {
+            if (res.status == 200) {
                 this.newsList = res.result as News[]
-
+                this.weHaveNews = true
                 this.clearFilter()
             } else {
                 this.newsList = []
                 this.newsListFiltered = []
+                this.weHaveNews = false
             }
+            this.loading = false
         })
     }
 

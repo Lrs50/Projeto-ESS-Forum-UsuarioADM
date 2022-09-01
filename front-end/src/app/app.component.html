@@ -1,27 +1,34 @@
 <div class="grid-container">
-    <section class="header-logo-name">Logo + Name</section>
+    <section class="header-logo-name">
+        <img
+            nz-image
+            height="60px"
+            nzSrc="https://cdn.discordapp.com/attachments/999832468691632218/1009964486968496148/logotransparente.png"
+            alt=""
+        />
+    </section>
     <section class="header-menu">
         <a nz-button nzType="text" [nzSize]="'large'" routerLink="home">
-            <i nz-icon nzType="file-text"></i>
-            <span>News</span>
+            <i nz-icon nzType="file-text-fill" class="white-text text-nowrap"></i>
+            <span class="white-text text-nowrap">News</span>
         </a>
         <a nz-button nzType="text" [nzSize]="'large'">
-            <i nz-icon nzType="team"></i>
-            <span>Users</span>
+            <i nz-icon nzType="smile-fill" class="white-text text-nowrap"></i>
+            <span class="white-text text-nowrap">Users</span>
         </a>
         <a nz-button nzType="text" [nzSize]="'large'">
-            <i nz-icon nzType="thunderbolt"></i>
-            <span>Artists</span>
+            <i nz-icon nzType="trophy-fill" class="white-text text-nowrap"></i>
+            <span class="white-text text-nowrap">Artists</span>
         </a>
     </section>
     <section class="header-button">
         <div *ngIf="logged | async; else elseBlock" style="width: 100%">
             <nz-space class="user-drodown-container" nzAlign="center" style="cursor: pointer" (click)="showProfileDrawer()">
                 <div *nzSpaceItem class="text-position">
-                    <span nz-typography>
+                    <span nz-typography class="white-text text-nowrap">
                         <strong>{{ (userInfo | async)!.name }}</strong>
                     </span>
-                    <span nz-typography nzType="secondary">{{ (userInfo | async)?.type == 'admin' ? 'Admin' : 'User' }}</span>
+                    <span nz-typography nzType="secondary" style="color: #dbe7de">{{ (userInfo | async)?.type == 'admin' ? 'Admin' : 'User' }}</span>
                 </div>
                 <nz-avatar *nzSpaceItem nzSize="large" [nzSrc]="(userInfo | async)!.avatar"></nz-avatar>
             </nz-space>

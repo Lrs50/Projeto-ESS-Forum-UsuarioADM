@@ -7,13 +7,10 @@ import { imageFallBack } from 'src/util'
     styleUrls: ['./news-shower.component.css'],
 })
 export class NewsShowerComponent implements OnInit {
-    imageFall: string = imageFallBack
-
-    constructor() {}
-
     @Input() id: string = ''
     @Input() title: string = ''
     @Input() content: string = ''
+    @Input() description: string = ''
 
     @Input() subtitle: string = ''
     @Input() comments: number = 0
@@ -22,5 +19,11 @@ export class NewsShowerComponent implements OnInit {
     @Input() cover: string = ''
     @Input() tags: string[] = []
 
-    ngOnInit(): void {}
+    imageFall: string = imageFallBack
+
+    constructor() {}
+
+    ngOnInit(): void {
+        console.log(this.tags)
+    }
 }

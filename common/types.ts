@@ -45,6 +45,7 @@ export interface News {
   cover: string;
   title: string;
   date: string;
+  description: string;
   markdownText: string;
   edited: boolean;
   views: number;

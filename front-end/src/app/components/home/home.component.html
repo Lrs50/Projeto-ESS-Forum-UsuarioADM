@@ -5,7 +5,7 @@
     <section class="right-sidebar">
         <div nz-row [nzGutter]="[16, 16]" style="padding: 0.5rem">
             <div nz-col nzXs="24" class="mb-md">
-                <div nz-row nzType="flex" nzAlign="middle" class="bg-blue statistic-box">
+                <div nz-row nzType="flex" nzAlign="middle" class="bg-base-blue statistic-box">
                     <div nz-col nzSpan="18" class="p-md text-white">
                         <div>
                             <span nz-typography class="text-nowrap white-text md-text-size">
@@ -15,12 +15,12 @@
                         <div class="text-nowrap white-text md-text-size">News</div>
                     </div>
                     <div nz-col nzSpan="6">
-                        <span class="white-text lg-icon-size" nz-icon [nzType]="'file-text'"></span>
+                        <span class="white-text lg-icon-size" nz-icon [nzType]="'file-text-fill'"></span>
                     </div>
                 </div>
             </div>
             <div nz-col nzXs="24" class="mb-md">
-                <div nz-row nzType="flex" nzAlign="middle" class="bg-green statistic-box">
+                <div nz-row nzType="flex" nzAlign="middle" class="bg-primary-orange statistic-box">
                     <div nz-col nzSpan="18" class="p-md text-white">
                         <div>
                             <span nz-typography class="text-nowrap white-text md-text-size"><strong>123,456</strong></span>
@@ -28,12 +28,12 @@
                         <div class="text-nowrap white-text md-text-size">Users</div>
                     </div>
                     <div nz-col nzSpan="6">
-                        <span class="white-text lg-icon-size" nz-icon [nzType]="'team'"></span>
+                        <span class="white-text lg-icon-size" nz-icon [nzType]="'smile-fill'"></span>
                     </div>
                 </div>
             </div>
             <div nz-col nzSpan="24" class="mb-md">
-                <div nz-row nzType="flex" nzAlign="middle" class="bg-orange statistic-box">
+                <div nz-row nzType="flex" nzAlign="middle" class="bg-primary-purple statistic-box">
                     <div nz-col nzSpan="18" class="p-md text-white">
                         <div>
                             <span nz-typography class="text-nowrap white-text md-text-size"><strong>123,456</strong></span>
@@ -41,52 +41,71 @@
                         <div class="text-nowrap white-text md-text-size">Artists</div>
                     </div>
                     <div nz-col nzSpan="6">
-                        <span class="white-text lg-icon-size" nz-icon [nzType]="'thunderbolt'"></span>
+                        <span class="white-text lg-icon-size" nz-icon [nzType]="'trophy-fill'"></span>
                     </div>
                 </div>
             </div>
-            <div *ngIf="isAdmin | async" nz-col nzSpan="24">
-                <div nz-row nzType="flex" nzAlign="middle">
-                    <div nz-col nzSpan="24">
-                        <nz-divider nzText="Admin Panel"></nz-divider>
+            <div *ngIf="isAdmin | async" nz-col nzSpan="24" class="mb-md">
+                <div nz-row nzType="flex" nzAlign="middle" class="statistic-box" style="background: #000">
+                    <div nz-col [nzSpan]="24" class="p-md">
+                        <span nz-typography class="text-nowrap white-text md-text-size center-button-content">
+                            <strong>Admin Panel</strong>
+                        </span>
                     </div>
                 </div>
             </div>
-            <div *ngIf="isAdmin | async" nz-col nzXs="24" class="mb-md">
-                <div nz-row nzType="flex" nzAlign="middle">
-                    <div nz-col nzSpan="24">
-                        <button
-                            nzTooltipTitle="News Management"
-                            nzTooltipPlacement="leftTop"
-                            nz-button
-                            nz-tooltip
-                            nzType="default"
-                            nzBlock
-                            routerLink="management/news"
-                        >
-                            <i nz-icon nzType="file-text"></i>
-                            <span class="lg-text-hide">News Management</span>
-                        </button>
+            <div *ngIf="isAdmin | async" nz-col nzSpan="24" class="mb-md">
+                <div
+                    nz-row
+                    nzType="flex"
+                    nzAlign="middle"
+                    class="bg-white button-box"
+                    nz-tooltip
+                    nzTooltipTitle="News Management"
+                    nzTooltipPlacement="leftTop"
+                    routerLink="management/news"
+                >
+                    <div nz-col nzXs="0" nzSm="0" nzMd="0" nzLg="18" nzXl="18" nzSpan="18" class="p-md">
+                        <span nz-typography class="text-nowrap center-button-content"> News Management </span>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6">
+                        <span class="md-text-size center-button-content" nz-icon [nzType]="'file-text-fill'"></span>
                     </div>
                 </div>
             </div>
-            <div *ngIf="isAdmin | async" nz-col nzXs="24" class="mb-md">
-                <div nz-row nzType="flex" nzAlign="middle">
-                    <div nz-col nzSpan="24">
-                        <button nz-button nz-tooltip nzType="default" nzBlock nzTooltipTitle="Users Management" nzTooltipPlacement="leftTop">
-                            <i nz-icon nzType="team"></i>
-                            <span class="lg-text-hide">Users Management</span>
-                        </button>
+            <div *ngIf="isAdmin | async" nz-col nzSpan="24" class="mb-md">
+                <div
+                    nz-row
+                    nzType="flex"
+                    nzAlign="middle"
+                    class="bg-white button-box"
+                    nz-tooltip
+                    nzTooltipTitle="Users Management"
+                    nzTooltipPlacement="leftTop"
+                >
+                    <div nz-col nzXs="0" nzSm="0" nzMd="0" nzLg="18" nzXl="18" nzSpan="18" class="p-md">
+                        <span nz-typography class="text-nowrap center-button-content"> Users Management </span>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6" nzSpan="6">
+                        <span class="md-text-size center-button-content" nz-icon [nzType]="'smile-fill'"></span>
                     </div>
                 </div>
             </div>
-            <div *ngIf="isAdmin | async" nz-col nzXs="24" class="mb-md">
-                <div nz-row nzType="flex" nzAlign="middle">
-                    <div nz-col nzSpan="24">
-                        <button nz-button nz-tooltip nzType="default" nzBlock nzTooltipTitle="Artists Management" nzTooltipPlacement="leftTop">
-                            <i nz-icon nzType="thunderbolt"></i>
-                            <span class="lg-text-hide">Artists Management</span>
-                        </button>
+            <div *ngIf="isAdmin | async" nz-col nzSpan="24" class="mb-md">
+                <div
+                    nz-row
+                    nzType="flex"
+                    nzAlign="middle"
+                    class="bg-white button-box"
+                    nz-tooltip
+                    nzTooltipTitle="Artists Management"
+                    nzTooltipPlacement="leftTop"
+                >
+                    <div nz-col nzXs="0" nzSm="0" nzMd="0" nzLg="18" nzXl="18" nzSpan="18" class="p-md">
+                        <span nz-typography class="text-nowrap center-button-content"> Artists Management </span>
+                    </div>
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6" nzSpan="6">
+                        <span class="md-text-size center-button-content" nz-icon [nzType]="'trophy-fill'"></span>
                     </div>
                 </div>
             </div>

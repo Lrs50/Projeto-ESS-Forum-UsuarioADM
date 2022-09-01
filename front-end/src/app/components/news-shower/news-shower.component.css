@@ -11,37 +11,37 @@
 
 section.news-content-img {
     grid-area: img;
-    background: blue;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #f0f0f0;
 }
 
 section.news-content-content {
     grid-area: content;
-    background: purple;
+    background: #f0f0f0;
 }
 
 section.news-content-views {
     grid-area: views;
-    background: aqua;
+    background: #f0f0f0;
 }
 
 section.news-content-likes {
     grid-area: likes;
-    background: aliceblue;
+    background: #f0f0f0;
 }
 
 section.news-content-comments {
     grid-area: comments;
-    background: aquamarine;
+    background: #f0f0f0;
 }
 
 section.news-content-tags {
     grid-area: tags;
-    background: lightcoral;
     display: flex;
     align-items: center;
+    background: #f0f0f0;
 }
 
 .news-text-container {
@@ -55,5 +55,4 @@ section.news-content-tags {
     overflow: hidden;
     white-space: nowrap;
     display: inline-block;
-    text-overflow: ellipsis;
 }

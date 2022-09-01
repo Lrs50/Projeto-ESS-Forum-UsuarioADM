@@ -17,12 +17,11 @@ section {
 
 section.news-content {
     grid-area: main;
-    background: green;
 }
 
 section.news-footer {
     grid-area: footer;
-    background: greenyellow;
+    background: #cecbe8;
     display: flex;
     align-items: center;
     justify-content: flex-end;

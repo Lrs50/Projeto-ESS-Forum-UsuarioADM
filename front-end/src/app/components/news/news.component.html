@@ -1,18 +1,31 @@
 <div class="news-grid-container">
     <section class="news-content">
-        <nz-card style="width: 100%; height: 100%; overflow-y: auto" [nzTitle]="titleNewsTemplate" [nzExtra]="extraTemplate">
+        <nz-card
+            style="width: 100%; height: 100%; overflow-y: auto; background: #cecbe8"
+            [nzTitle]="titleNewsTemplate"
+            [nzExtra]="extraTemplate"
+            [nzBorderless]="true"
+            [nzBodyStyle]="{ border: 'none' }"
+        >
             <nz-spin nzTip="Loading..." [nzSpinning]="loading">
-                <div *ngFor="let news of newsListFiltered" nz-card-grid [ngStyle]="gridStyle">
-                    <app-news-shower
-                        [id]="news.id"
-                        [title]="news.title"
-                        [content]="news.markdownText"
-                        [views]="news.views"
-                        [likes]="news.likes.length"
-                        [comments]="news.comments.length"
-                        [cover]="news.cover"
-                    ></app-news-shower>
+                <div *ngIf="weHaveNews; else elseBlock">
+                    <div *ngFor="let news of newsListFiltered" nz-card-grid [ngStyle]="gridStyle">
+                        <app-news-shower
+                            [id]="news.id"
+                            [title]="news.title"
+                            [description]="news.description"
+                            [content]="news.markdownText"
+                            [views]="news.views"
+                            [likes]="news.likes.length"
+                            [comments]="news.comments.length"
+                            [cover]="news.cover"
+                            [tags]="news.tags"
+                        ></app-news-shower>
+                    </div>
                 </div>
+                <ng-template #elseBlock>
+                    <nz-empty nzNotFoundContent="No news"></nz-empty>
+                </ng-template>
             </nz-spin>
         </nz-card>
         <ng-template #titleNewsTemplate>
@@ -21,8 +34,14 @@
         <ng-template #extraTemplate>
             <nz-space nzAlign="center">
                 <nz-radio-group *nzSpaceItem [(ngModel)]="radioValue">
-                    <label nz-radio-button nzValue="P">Popular</label>
-                    <label nz-radio-button nzValue="N">Newest</label>
+                    <label nz-radio-button nzValue="P">
+                        <i nz-icon nzType="fire-fill"></i>
+                        Popular
+                    </label>
+                    <label nz-radio-button nzValue="N">
+                        <i nz-icon nzType="hourglass-fill"></i>
+                        Newest
+                    </label>
                 </nz-radio-group>
                 <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
                 <nz-input-group *nzSpaceItem [nzSuffix]="suffixIconSearch" [nzSize]="'large'">

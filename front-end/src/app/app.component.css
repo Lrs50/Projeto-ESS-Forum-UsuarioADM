@@ -18,12 +18,15 @@ section {
 
 section.header-logo-name {
     grid-area: logo-name;
-    background: orange;
+    background: #483d99;
+    display: flex;
+    align-content: center;
+    align-items: center;
 }
 
 section.header-menu {
     grid-area: menu;
-    background: brown;
+    background: #302966;
     display: flex;
     align-content: center;
     align-items: center;
@@ -31,7 +34,7 @@ section.header-menu {
 
 section.header-button {
     grid-area: button;
-    background: purple;
+    background: #483d99;
     display: flex;
     align-content: center;
     align-items: center;
@@ -42,6 +45,7 @@ section.header-button {
 
 main {
     grid-area: main;
+    background: #7d77aa;
 }
 
 .user-drodown-container {
@@ -55,4 +59,12 @@ main {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+}
+
+.text-nowrap {
+    white-space: nowrap;
+}
+
+.white-text {
+    color: #fff;
 }

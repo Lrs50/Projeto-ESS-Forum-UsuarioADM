@@ -120,7 +120,10 @@ export function getNewsSize(request: Request, response: Response): void {
 export function createNews(request: Request, response: Response): void {
     log.info('CreateNews request received')
 
-    const valid = validator(['id', 'authorId', 'title', 'date', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags'], request.body)
+    const valid = validator(
+        ['id', 'authorId', 'title', 'description', 'date', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags'],
+        request.body
+    )
 
     if (!valid) {
         response.send(HTTP_BAD_REQUEST)
@@ -172,7 +175,10 @@ export function deleteNews(request: Request, response: Response): void {
 export function editNews(request: Request, response: Response): void {
     log.info('EditNews request received')
 
-    const valid = validator(['id', 'authorId', 'title', 'date', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags'], request.body)
+    const valid = validator(
+        ['id', 'authorId', 'title', 'description', 'date', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags'],
+        request.body
+    )
 
     if (!valid) {
         response.send(HTTP_BAD_REQUEST)

@@ -3,10 +3,10 @@ import { News, ApiResponse, User, Like, Comment } from '../../../../../common/ty
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ActivatedRoute } from '@angular/router'
 import { imageFallBack } from '../../../util'
-import { firstValueFrom, map, Observable, Subscription, take } from 'rxjs'
+import { map, Observable, Subscription, take } from 'rxjs'
 import { Store } from '@ngrx/store'
 import { AppState } from 'src/app/app.store'
-import { NzMessageRef, NzMessageService } from 'ng-zorro-antd/message'
+import { NzMessageService } from 'ng-zorro-antd/message'
 import { UsersService } from 'src/app/services/users.service'
 import { nanoid } from 'nanoid'
 
@@ -31,6 +31,7 @@ export class NewsPageComponent implements OnInit {
         cover: '',
         authorId: '',
         title: '',
+        description: '',
         date: '',
         markdownText: '',
         edited: false,
@@ -82,6 +83,8 @@ export class NewsPageComponent implements OnInit {
                     this.newsManagementService.addView(id).subscribe(() => {
                         return
                     })
+
+                    console.log('author id: ', this.news.authorId)
 
                     this.userService.get(this.news.authorId).subscribe((res: ApiResponse) => {
                         if (res.status == 200) {
