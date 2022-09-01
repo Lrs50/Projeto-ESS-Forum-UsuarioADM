@@ -1,8 +1,8 @@
 .login-container {
-  display:flex;
-  justify-content:center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  background-color: bisque;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
 }

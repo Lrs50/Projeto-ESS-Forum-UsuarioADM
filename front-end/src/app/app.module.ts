@@ -41,6 +41,7 @@ import { NzCommentModule } from 'ng-zorro-antd/comment'
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzBadgeModule } from 'ng-zorro-antd/badge'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import {
     UserOutline,
     LogoutOutline,
@@ -169,6 +170,7 @@ const icons: IconDefinition[] = [
         NzEmptyModule,
         NzSpinModule,
         NzBadgeModule,
+        NzPopoverModule,
     ],
     providers: [{ provide: NZ_I18N, useValue: en_US }],
     bootstrap: [AppComponent],

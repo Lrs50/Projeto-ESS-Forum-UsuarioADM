@@ -18,6 +18,7 @@
             <nz-table
                 #borderedTable
                 nzBordered
+                nzTableLayout="fixed"
                 [nzFrontPagination]="false"
                 [nzTotal]="totalNews"
                 [nzData]="newsListFiltered"
@@ -36,16 +37,16 @@
                 <thead>
                     <tr>
                         <th nzEllipsis>Title</th>
-                        <th nzEllipsis>Date</th>
-                        <th nzEllipsis>Edit Status</th>
-                        <th nzEllipsis>Tags</th>
-                        <th>Actions</th>
+                        <th nzWidth="150px">Date</th>
+                        <th nzWidth="130px">Edit Status</th>
+                        <th nzWidth="150px">Tags</th>
+                        <th nzWidth="250px">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let news of newsListFiltered">
                         <td nzEllipsis>
-                            <h5 nz-typography>{{ news.title }}</h5>
+                            <h5 nz-typography nzEllipsis>{{ news.title }}</h5>
                         </td>
                         <td nzEllipsis>
                             <span nz-typography nzType="secondary">{{ news.date }}</span>
@@ -55,15 +56,10 @@
                                 {{ news.edited == false ? 'NOT EDITED' : 'EDITED' }}
                             </nz-tag>
                         </td>
-                        <td nzEllipsis>
+                        <td>
                             <div *ngIf="news.tags.length == 0; else tagsBlock">
                                 <nz-tag>No tags</nz-tag>
                             </div>
-                            <ng-template #tagsBlock>
-                                <nz-space>
-                                    <nz-tag *ngFor="let tag of news.tags">{{ tag }}</nz-tag>
-                                </nz-space>
-                            </ng-template>
                         </td>
                         <td>
                             <nz-space>
@@ -71,12 +67,33 @@
                                     <span nz-icon nzType="edit"></span>
                                     Edit
                                 </button>
-                                <button *nzSpaceItem nz-button nzType="primary" nzDanger (click)="onDeleteNews(news.id)">
+                                <button
+                                    *nzSpaceItem
+                                    nz-button
+                                    nzType="primary"
+                                    nzDanger
+                                    nz-popconfirm
+                                    nzPopconfirmTitle="Are you sure to delete this news?"
+                                    (nzOnConfirm)="onDeleteNews(news.id)"
+                                >
                                     <i nz-icon nzType="delete"></i>
                                     Delete
                                 </button>
                             </nz-space>
                         </td>
+                        <ng-template #tagsBlock>
+                            <div *ngIf="news.tags.length == 1; else multipleTagsBlock">
+                                <nz-tag>{{ news.tags[0] }}</nz-tag>
+                            </div>
+                            <ng-template #multipleTagsBlock>
+                                <nz-badge [nzCount]="news.tags.length">
+                                    <nz-tag nz-popover nzPopoverTitle="Tags" [nzPopoverContent]="renderMultipleTagsBlock"> ALL TAGS </nz-tag>
+                                </nz-badge>
+                                <ng-template #renderMultipleTagsBlock>
+                                    <nz-tag *ngFor="let tag of news.tags">{{ tag }}</nz-tag>
+                                </ng-template>
+                            </ng-template>
+                        </ng-template>
                     </tr>
                 </tbody>
             </nz-table>

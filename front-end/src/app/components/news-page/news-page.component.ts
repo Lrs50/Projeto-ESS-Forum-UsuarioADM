@@ -179,7 +179,7 @@ export class NewsPageComponent implements OnInit {
                 if (res.status == 200) {
                     this.news.comments.unshift(temp)
                     this.commentContent = ''
-                    this.message.create('sucess', `Comment added!`)
+                    this.message.create('success', `Comment added!`)
                 } else {
                     this.message.create('error', `Something went wrong!`)
                 }
