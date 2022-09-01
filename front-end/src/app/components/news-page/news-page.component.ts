@@ -51,6 +51,7 @@ export class NewsPageComponent implements OnInit {
     }
 
     commentContent: string = ''
+    hasUserLikedIComment: boolean[] = []
 
     isAdmin: Observable<boolean> = this.store.select('app').pipe(
         map((state: AppState) => {
@@ -84,8 +85,6 @@ export class NewsPageComponent implements OnInit {
                         return
                     })
 
-                    console.log('author id: ', this.news.authorId)
-
                     this.userService.get(this.news.authorId).subscribe((res: ApiResponse) => {
                         if (res.status == 200) {
                             this.authorInfo = res.result as User
@@ -104,6 +103,10 @@ export class NewsPageComponent implements OnInit {
                             this.hasUserLikedTheNews = true
                             break
                         }
+                    }
+
+                    for (let i = 0; i < this.news.comments.length; i++) {
+                        for (let j = 0; j < this.news.comments[i].likes.length; j++) {}
                     }
                 } else {
                     this.message.create('error', `Something went wrong!`)
