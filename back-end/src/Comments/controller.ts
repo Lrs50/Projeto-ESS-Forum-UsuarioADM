@@ -92,3 +92,55 @@ export function removeComment(request: Request, response: Response): void {
 
     return
 }
+
+export function addLike(request: Request, response: Response): void {
+    log.info('AddView request received')
+
+    const valid = validator(['commentId', 'authorId'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: CommentsDB = new CommentsDB()
+
+    let addView: Promise<Boolean> = db.addLike(request.body.commentId, request.body.authorId)
+
+    addView.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+export function removeLike(request: Request, response: Response): void {
+    log.info('AddView request received')
+
+    const valid = validator(['commentId', 'authorLikeId'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: CommentsDB = new CommentsDB()
+
+    let addView: Promise<Boolean> = db.removeLike(request.body.commentId, request.body.authorLikeId)
+
+    addView.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}

@@ -62,6 +62,24 @@ describe('Comments backend', () => {
         expect(result).toBeUndefined()
     })
 
+    test('The database should be able to add a like', async () => {
+        let result: Boolean = await database.addLike('comment-id', 'fake-id')
+
+        let find: Comment | undefined = database.getComment('comment-id')
+
+        expect(result).not.toBeUndefined()
+        expect(find?.likes.length).toBe(1)
+    })
+
+    test('The database should be able to remove a like', async () => {
+        let result: Boolean = await database.removeLike('comment-id', 'fake-id')
+
+        let find: Comment | undefined = database.getComment('comment-id')
+
+        expect(result).not.toBeUndefined()
+        expect(find?.likes.length).toBe(0)
+    })
+
     test('The database should not be able to delete a comment that doesnt exists', async () => {
         let result: Boolean = await database.deleteComment('comment-id-not-present')
 

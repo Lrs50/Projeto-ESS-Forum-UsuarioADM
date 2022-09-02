@@ -1,7 +1,6 @@
 import express, { Application, Request, Response } from 'express'
 import * as NewsController from './News/controller' // Controller responsável pelas requisições http
-import * as LikesController from './Likes/controller'
-import * as CommentsControoler from './Comments/controller'
+import * as CommentsController from './Comments/controller'
 import * as UsersController from './User/controller'
 import { HTTP_SUCCESS } from '../../common/types'
 import cors from 'cors'
@@ -32,14 +31,14 @@ app.post('/news', NewsController.createNews)
 app.delete('/news', NewsController.deleteNews)
 app.put('/news', NewsController.editNews)
 app.post('/newsadd/view', NewsController.addView)
+app.post('/newsadd/like', NewsController.addLike)
+app.delete('/newsremove/like', NewsController.addLike)
 
-app.get('/like/:id', LikesController.getLike)
-app.post('/likeadd', LikesController.addLike)
-app.post('/likeremove', LikesController.removeLike)
-
-app.get('/comment/:id', CommentsControoler.getComment)
-app.post('/commentadd', CommentsControoler.addComment)
-app.post('/commentremove', CommentsControoler.removeComment)
+app.get('/comment/:id', CommentsController.getComment)
+app.post('/comment', CommentsController.addComment)
+app.delete('/comment', CommentsController.removeComment)
+app.post('/commentadd/like', CommentsController.addLike)
+app.delete('/commentremove/like', CommentsController.addLike)
 
 app.get('/user/:id', UsersController.getUser)
 app.get('/userall', UsersController.getAllUsers)

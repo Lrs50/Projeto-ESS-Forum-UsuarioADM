@@ -27,12 +27,37 @@ export interface User {
   avatar: string;
 }
 
+export function emptyUser(id: string): User {
+  return {
+    id: id,
+    name: "",
+    password: "",
+    type: "normal",
+    cover: "",
+    avatar: "",
+  } as User;
+}
+
 export interface Comment {
   readonly id: CommentId;
   readonly authorInfo: Pick<User, "avatar" | "name" | "id">;
   content: string;
   likes: Like[];
   dislikes: Like[];
+}
+
+export function emptyComment(id: CommentId, authorId: string): Comment {
+  return {
+    id: id,
+    authorInfo: {
+      id: authorId,
+      name: "",
+      avatar: "",
+    },
+    content: "",
+    likes: [],
+    dislikes: [],
+  } as Comment;
 }
 
 export declare type CommentId = string;
@@ -51,4 +76,21 @@ export interface News {
   likes: Like[];
   comments: CommentId[];
   tags: string[];
+}
+
+export function emptyNews(id: CommentId, authorId: string): News {
+  return {
+    id,
+    authorId,
+    cover: "",
+    title: "",
+    date: "",
+    description: "",
+    markdownText: "",
+    edited: false,
+    views: 0,
+    likes: [],
+    comments: [],
+    tags: [],
+  } as News;
 }

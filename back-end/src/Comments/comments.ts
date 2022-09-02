@@ -1,4 +1,4 @@
-import { Comment } from '../../../common/types'
+import { Comment, Like, News } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
 import Path from 'path'
 import { ArrayToMap, MapToArray } from '../utils'
@@ -50,6 +50,46 @@ class CommentDB {
                 resolve(false)
             })
         }
+
+        let result: Promise<Boolean> = this.saveComments()
+
+        return result
+    }
+
+    addLike(commentId: string, authorLikeId: Like): Promise<Boolean> {
+        let find: Comment | undefined = this.db.get(commentId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            likes: find.likes.concat([authorLikeId]),
+        } as Comment)
+
+        let result: Promise<Boolean> = this.saveComments()
+
+        return result
+    }
+
+    removeLike(commentId: string, authorLikeId: string): Promise<Boolean> {
+        let find: Comment | undefined = this.db.get(commentId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            likes: find.likes.filter((value) => {
+                return value != authorLikeId
+            }),
+        } as Comment)
 
         let result: Promise<Boolean> = this.saveComments()
 

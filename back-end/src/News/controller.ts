@@ -227,10 +227,10 @@ export function addView(request: Request, response: Response): void {
     return
 }
 
-/* export function addLike(request: Request, response: Response): void {
-    log.info('AddLike request received')
+export function addLike(request: Request, response: Response): void {
+    log.info('AddView request received')
 
-    const valid = validator(['newsId', 'authorLikeId'], request.body)
+    const valid = validator(['newsId', 'authorId'], request.body)
 
     if (!valid) {
         response.send(HTTP_BAD_REQUEST)
@@ -240,9 +240,9 @@ export function addView(request: Request, response: Response): void {
 
     let db: NewsDB = new NewsDB()
 
-    let addLike: Promise<Boolean> = db.addLike(request.body.newsId, request.body.authorLikeId)
+    let addView: Promise<Boolean> = db.addLike(request.body.newsId, request.body.authorId)
 
-    addLike.then((result: Boolean) => {
+    addView.then((result: Boolean) => {
         if (result) {
             response.send(HTTP_SUCCESS)
         } else {
@@ -254,9 +254,9 @@ export function addView(request: Request, response: Response): void {
 }
 
 export function removeLike(request: Request, response: Response): void {
-    log.info('RemoveLike request received')
+    log.info('AddView request received')
 
-    const valid = validator(['newsId', 'authorLikeId'], request.body)
+    const valid = validator(['newsId', 'authorId'], request.body)
 
     if (!valid) {
         response.send(HTTP_BAD_REQUEST)
@@ -266,36 +266,9 @@ export function removeLike(request: Request, response: Response): void {
 
     let db: NewsDB = new NewsDB()
 
-    let removeLike: Promise<Boolean> = db.removeLike(request.body.newsId, request.body.authorLikeId)
+    let addView: Promise<Boolean> = db.removeLike(request.body.newsId, request.body.authorId)
 
-    removeLike.then((result: Boolean) => {
-        if (result) {
-            response.send(HTTP_SUCCESS)
-        } else {
-            response.send(HTTP_ERROR)
-        }
-    })
-
-    return
-} */
-
-/* export function addComment(request: Request, response: Response): void {
-    log.info('AddComment request received')
-
-    const validParam = validator(['newsId'], request.params)
-    const validBody = validator(['id', 'authorInfo', 'content', 'likes', 'dislikes'], request.body)
-
-    if (!validParam || !validBody) {
-        response.send(HTTP_BAD_REQUEST)
-
-        return
-    }
-
-    let db: NewsDB = new NewsDB()
-
-    let addComment: Promise<Boolean> = db.addComment(request.params.newsId, request.body as Comment)
-
-    addComment.then((result: Boolean) => {
+    addView.then((result: Boolean) => {
         if (result) {
             response.send(HTTP_SUCCESS)
         } else {
@@ -305,29 +278,3 @@ export function removeLike(request: Request, response: Response): void {
 
     return
 }
-
-export function removeComment(request: Request, response: Response): void {
-    log.info('RemoveComment request received')
-
-    const valid = validator(['newsId', 'commentId'], request.body)
-
-    if (!valid) {
-        response.send(HTTP_BAD_REQUEST)
-
-        return
-    }
-
-    let db: NewsDB = new NewsDB()
-
-    let addComment: Promise<Boolean> = db.removeComment(request.body.newsId, request.body.commentId)
-
-    addComment.then((result: Boolean) => {
-        if (result) {
-            response.send(HTTP_SUCCESS)
-        } else {
-            response.send(HTTP_ERROR)
-        }
-    })
-
-    return
-} */

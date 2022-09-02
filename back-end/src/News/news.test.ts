@@ -134,6 +134,24 @@ describe('News backend', () => {
         expect(find?.views).toBe(1)
     })
 
+    test('The database should be able to add a like', async () => {
+        let result: Boolean = await database.addLike('fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.likes.length).toBe(1)
+    })
+
+    test('The database should be able to remove a like', async () => {
+        let result: Boolean = await database.removeLike('fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.likes.length).toBe(0)
+    })
+
     test('The database shouldnt be able to delete News that doenst exists', async () => {
         const spy = jest.spyOn(database, 'saveNews')
 

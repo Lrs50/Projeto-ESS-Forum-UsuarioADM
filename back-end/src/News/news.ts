@@ -1,8 +1,7 @@
-import { News } from '../../../common/types'
+import { Like, News } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
 import Path from 'path'
 import { ArrayToMap, MapToArray, MapValuesToArray } from '../utils'
-
 import Logger from '@ptkdev/logger'
 
 const log = new Logger()
@@ -97,6 +96,46 @@ class NewsDB {
         this.db.set(find.id, {
             ...find,
             views: find.views + 1,
+        } as News)
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    addLike(newsId: string, authorId: Like): Promise<Boolean> {
+        let find: News | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            likes: find.likes.concat([authorId]),
+        } as News)
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    removeLike(newsId: string, authorId: string): Promise<Boolean> {
+        let find: News | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            likes: find.likes.filter((value) => {
+                return value != authorId
+            }),
         } as News)
 
         let result: Promise<Boolean> = this.saveNews()
