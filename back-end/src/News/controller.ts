@@ -227,7 +227,7 @@ export function addView(request: Request, response: Response): void {
     return
 }
 
-export function addLike(request: Request, response: Response): void {
+/* export function addLike(request: Request, response: Response): void {
     log.info('AddLike request received')
 
     const valid = validator(['newsId', 'authorLikeId'], request.body)
@@ -277,9 +277,9 @@ export function removeLike(request: Request, response: Response): void {
     })
 
     return
-}
+} */
 
-export function addComment(request: Request, response: Response): void {
+/* export function addComment(request: Request, response: Response): void {
     log.info('AddComment request received')
 
     const validParam = validator(['newsId'], request.params)
@@ -330,4 +330,4 @@ export function removeComment(request: Request, response: Response): void {
     })
 
     return
-}
+} */

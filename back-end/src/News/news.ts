@@ -1,12 +1,17 @@
-import { Comment, Like, News } from '../../../common/types'
+import { News } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
 import Path from 'path'
+import { ArrayToMap, MapToArray, MapValuesToArray } from '../utils'
+
+import Logger from '@ptkdev/logger'
+
+const log = new Logger()
 
 // Definição da classe da database que vai ler e escrever no arquivo data.json
 // Cada função é responsável por uma tarefa especifica
 
 class NewsDB {
-    db: News[] = []
+    db: Map<string, News> = new Map<string, News>()
     path: string
 
     constructor(path: string = './data.json') {
@@ -14,50 +19,49 @@ class NewsDB {
 
         let content: string = readFileSync(Path.resolve(__dirname, this.path), { encoding: 'utf8', flag: 'r' })
 
-        this.db = JSON.parse(content)
+        let tempArr: any[] = JSON.parse(content)
 
-        if (!Array.isArray(this.db)) {
-            throw Error('Failed to parse data file!')
+        if (!Array.isArray(tempArr)) {
+            log.error('Failed to parse data file!')
+            throw new Error()
         }
+
+        this.db = ArrayToMap(tempArr)
     }
 
     getSize(): number {
-        return this.db.length
+        return this.db.size
     }
 
     getNews(id: string): News | undefined {
-        return this.db.find((news) => news.id == id)
+        return this.db.get(id)
     }
 
     getAllNews(): News[] {
-        return this.db
+        return MapValuesToArray(this.db)
     }
 
     getNewsPage(pageId: number, newsPerPage: number): News[] {
-        return this.db.slice((pageId - 1) * newsPerPage, Math.min(pageId * newsPerPage, this.db.length))
+        let tempArr: News[] = MapValuesToArray(this.db)
+
+        return tempArr.slice((pageId - 1) * newsPerPage, Math.min(pageId * newsPerPage, this.db.size))
     }
 
     createNews(news: News): Promise<Boolean> {
-        this.db.unshift(news)
+        this.db.set(news.id, news)
+
         let result: Promise<Boolean> = this.saveNews()
 
         return result
     }
 
     deleteNews(id: string): Promise<Boolean> {
-        let find: News | undefined = this.getNews(id)
+        let find: Boolean = this.db.delete(id)
 
-        if (find == undefined) {
+        if (find == false) {
             return new Promise<Boolean>((resolve, reject) => {
                 resolve(false)
             })
-        }
-
-        for (var i = 0; i < this.db.length; i++) {
-            if (this.db[i].id == id) {
-                this.db.splice(i, 1)
-                break
-            }
         }
 
         let result: Promise<Boolean> = this.saveNews()
@@ -66,7 +70,7 @@ class NewsDB {
     }
 
     editNews(id: string, news: News): Promise<Boolean> {
-        let find: News | undefined = this.getNews(id)
+        let find: News | undefined = this.db.get(id)
 
         if (find == undefined) {
             return new Promise<Boolean>((resolve) => {
@@ -74,74 +78,26 @@ class NewsDB {
             })
         }
 
-        for (var i = 0; i < this.db.length; i++) {
-            if (this.db[i].id == id) {
-                this.db[i] = news
-                break
-            }
-        }
+        this.db.set(id, news)
 
         let result: Promise<Boolean> = this.saveNews()
 
         return result
     }
 
-    addComment(newsId: string, comment: Comment): Promise<Boolean> {
-        for (var i = 0; i < this.db.length; i++) {
-            if (this.db[i].id == newsId) {
-                this.db[i].comments.push(comment)
-                break
-            }
+    addView(id: string): Promise<Boolean> {
+        let find: News | undefined = this.db.get(id)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
         }
 
-        let result: Promise<Boolean> = this.saveNews()
-
-        return result
-    }
-
-    removeComment(newsId: string, commentId: string): Promise<Boolean> {
-        for (var i = 0; i < this.db.length; i++) {
-            if (this.db[i].id == newsId) {
-                for (var j = 0; j < this.db[i].comments.length; j++) {
-                    if (this.db[i].comments[j].id == commentId) {
-                        this.db[i].comments.splice(j, 1)
-                        break
-                    }
-                }
-                break
-            }
-        }
-
-        let result: Promise<Boolean> = this.saveNews()
-
-        return result
-    }
-
-    addLike(newsId: string, authorLikeId: string): Promise<Boolean> {
-        for (var i = 0; i < this.db.length; i++) {
-            if (this.db[i].id == newsId) {
-                this.db[i].likes.push({ authorId: authorLikeId } as Like)
-                break
-            }
-        }
-
-        let result: Promise<Boolean> = this.saveNews()
-
-        return result
-    }
-
-    removeLike(newsId: string, authorLikeId: string): Promise<Boolean> {
-        for (var i = 0; i < this.db.length; i++) {
-            if (this.db[i].id == newsId) {
-                for (var j = 0; j < this.db[i].likes.length; j++) {
-                    if (this.db[i].likes[j].authorId == authorLikeId) {
-                        this.db[i].likes.splice(j, 1)
-                        break
-                    }
-                }
-                break
-            }
-        }
+        this.db.set(find.id, {
+            ...find,
+            views: find.views + 1,
+        } as News)
 
         let result: Promise<Boolean> = this.saveNews()
 
@@ -150,29 +106,16 @@ class NewsDB {
 
     async saveNews(): Promise<Boolean> {
         try {
-            await promises.writeFile(Path.resolve(__dirname, this.path), JSON.stringify(this.db), {
+            await promises.writeFile(Path.resolve(__dirname, this.path), JSON.stringify(MapToArray(this.db)), {
                 flag: 'w',
             })
 
             return true
-        } catch (err) {
-            console.log(err)
+        } catch (err: any) {
+            log.error(err)
 
             return false
         }
-    }
-
-    addView(newsId: string): Promise<Boolean> {
-        for (var i = 0; i < this.db.length; i++) {
-            if (this.db[i].id == newsId) {
-                this.db[i].views += 1
-                break
-            }
-        }
-
-        let result: Promise<Boolean> = this.saveNews()
-
-        return result
     }
 }
 

@@ -28,16 +28,15 @@ export interface User {
 }
 
 export interface Comment {
-  readonly id: string;
-  readonly authorInfo: Pick<User, "avatar" | "name">;
+  readonly id: CommentId;
+  readonly authorInfo: Pick<User, "avatar" | "name" | "id">;
   content: string;
   likes: Like[];
   dislikes: Like[];
 }
 
-export interface Like {
-  readonly authorId: string;
-}
+export declare type CommentId = string;
+export declare type Like = string;
 
 export interface News {
   readonly id: string;
@@ -50,6 +49,6 @@ export interface News {
   edited: boolean;
   views: number;
   likes: Like[];
-  comments: Comment[];
+  comments: CommentId[];
   tags: string[];
 }
