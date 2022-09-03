@@ -69,6 +69,7 @@ import {
     HourglassFill,
     SmileFill,
     TrophyFill,
+    DislikeTwoTone,
 } from '@ant-design/icons-angular/icons'
 import { HomeComponent } from './components/home/home.component'
 import { LoginComponent } from './components/login/login.component'
@@ -113,6 +114,7 @@ const icons: IconDefinition[] = [
     LikeTwoTone,
     CommentOutline,
     DislikeOutline,
+    DislikeTwoTone,
     LinkOutline,
 ]
 

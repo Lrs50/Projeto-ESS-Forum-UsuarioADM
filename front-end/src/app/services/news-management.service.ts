@@ -55,6 +55,22 @@ export class NewsManagementService {
         return this.httpClient.delete<ApiResponse>(this.baseUrl + `remove/comment`, { body: { newsId, commentId } })
     }
 
+    addLikeInComment(newsId: string, commentId: string, authorLikeId: string): Observable<ApiResponse> {
+        return this.httpClient.post<ApiResponse>(this.baseUrl + '/commentsadd/like', { newsId, commentId, authorLikeId })
+    }
+
+    removeLikeInComment(newsId: string, commentId: string, authorLikeId: string): Observable<ApiResponse> {
+        return this.httpClient.delete<ApiResponse>(this.baseUrl + '/commentsremove/like', { body: { newsId, commentId, authorLikeId } })
+    }
+
+    addDislikeInComment(newsId: string, commentId: string, authorLikeId: string): Observable<ApiResponse> {
+        return this.httpClient.post<ApiResponse>(this.baseUrl + '/commentsadd/dislike', { newsId, commentId, authorLikeId })
+    }
+
+    removeDislikeInComment(newsId: string, commentId: string, authorLikeId: string): Observable<ApiResponse> {
+        return this.httpClient.delete<ApiResponse>(this.baseUrl + '/commentsremove/dislike', { body: { newsId, commentId, authorLikeId } })
+    }
+
     addView(newsId: string): Observable<ApiResponse> {
         return this.httpClient.post<ApiResponse>(this.baseUrl + 'add/view', { newsId })
     }

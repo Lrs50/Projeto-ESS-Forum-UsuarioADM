@@ -161,6 +161,42 @@ describe('News backend', () => {
         expect(find?.comments.length).toBe(1)
     })
 
+    test('The database should be able to add a like in a comment', async () => {
+        let result: Boolean = await database.addLikeInComment('fake-id', 'fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments[0].likes.length).toBe(1)
+    })
+
+    test('The database should be able to remove a like in a comment', async () => {
+        let result: Boolean = await database.removeLikeInComment('fake-id', 'fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments[0].likes.length).toBe(0)
+    })
+
+    test('The database should be able to add a dislike in a comment', async () => {
+        let result: Boolean = await database.addDislikeInComment('fake-id', 'fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments[0].dislikes.length).toBe(1)
+    })
+
+    test('The database should be able to remove a dislike in a comment', async () => {
+        let result: Boolean = await database.removeDislikeInComment('fake-id', 'fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments[0].likes.length).toBe(0)
+    })
+
     test('The database should be able to remove a comment', async () => {
         let result: Boolean = await database.removeComment('fake-id', 'fake-id')
 

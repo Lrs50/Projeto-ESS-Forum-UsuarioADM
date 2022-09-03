@@ -331,3 +331,107 @@ export function removeComment(request: Request, response: Response): void {
 
     return
 }
+
+export function addLikeInComment(request: Request, response: Response): void {
+    log.info('AddLike request received')
+
+    const valid = validator(['newsId', 'commentId', 'authorLikeId'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: NewsDB = new NewsDB()
+
+    let addLikeInComment: Promise<Boolean> = db.addLikeInComment(request.body.newsId, request.body.commentId, request.body.authorLikeId)
+
+    addLikeInComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+export function removeLikeInComment(request: Request, response: Response): void {
+    log.info('AddLike request received')
+
+    const valid = validator(['newsId', 'commentId', 'authorLikeId'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: NewsDB = new NewsDB()
+
+    let removeLikeInComment: Promise<Boolean> = db.removeLikeInComment(request.body.newsId, request.body.commentId, request.body.authorLikeId)
+
+    removeLikeInComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+export function addDislikeInComment(request: Request, response: Response): void {
+    log.info('AddLike request received')
+
+    const valid = validator(['newsId', 'commentId', 'authorLikeId'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: NewsDB = new NewsDB()
+
+    let addDislikeInComment: Promise<Boolean> = db.addDislikeInComment(request.body.newsId, request.body.commentId, request.body.authorLikeId)
+
+    addDislikeInComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+export function removeDislikeInComment(request: Request, response: Response): void {
+    log.info('AddLike request received')
+
+    const valid = validator(['newsId', 'commentId', 'authorLikeId'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: NewsDB = new NewsDB()
+
+    let removeDislikeInComment: Promise<Boolean> = db.removeDislikeInComment(request.body.newsId, request.body.commentId, request.body.authorLikeId)
+
+    removeDislikeInComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}

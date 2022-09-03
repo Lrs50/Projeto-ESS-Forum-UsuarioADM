@@ -183,6 +183,106 @@ class NewsDB {
         return result
     }
 
+    addLikeInComment(newsId: string, commentId: string, authorLikeId: string): Promise<Boolean> {
+        let find: News | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        for (let i = 0; i < find.comments.length; i++) {
+            if (find.comments[i].id == commentId) {
+                find.comments[i].likes.push(authorLikeId)
+            }
+        }
+
+        this.db.set(find.id, {
+            ...find,
+        })
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    removeLikeInComment(newsId: string, commentId: string, authorLikeId: string): Promise<Boolean> {
+        let find: News | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        for (let i = 0; i < find.comments.length; i++) {
+            if (find.comments[i].id == commentId) {
+                find.comments[i].likes = find.comments[i].likes.filter((authorLike: Like) => {
+                    return authorLike != authorLikeId
+                })
+            }
+        }
+
+        this.db.set(find.id, {
+            ...find,
+        })
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    addDislikeInComment(newsId: string, commentId: string, authorDislikeId: string): Promise<Boolean> {
+        let find: News | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        for (let i = 0; i < find.comments.length; i++) {
+            if (find.comments[i].id == commentId) {
+                find.comments[i].dislikes.push(authorDislikeId)
+            }
+        }
+
+        this.db.set(find.id, {
+            ...find,
+        })
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    removeDislikeInComment(newsId: string, commentId: string, authorDislikeId: string): Promise<Boolean> {
+        let find: News | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        for (let i = 0; i < find.comments.length; i++) {
+            if (find.comments[i].id == commentId) {
+                find.comments[i].dislikes = find.comments[i].dislikes.filter((authorLike: Like) => {
+                    return authorLike != authorDislikeId
+                })
+            }
+        }
+
+        this.db.set(find.id, {
+            ...find,
+        })
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
     async saveNews(): Promise<Boolean> {
         try {
             await promises.writeFile(Path.resolve(__dirname, this.path), JSON.stringify(MapToArray(this.db)), {

@@ -64,22 +64,22 @@
     </nz-comment>
 
     <div *nzSpaceItem>
-        <div *ngFor="let comment of news.comments">
+        <div *ngFor="let comment of news.comments; index as i">
             <nz-card class="news-page-container" [nzBodyStyle]="{ padding: '5px' }">
                 <nz-comment [nzAuthor]="comment.authorInfo.name">
                     <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="comment.authorInfo.avatar" [nzSize]="'large'"></nz-avatar>
                     <nz-comment-content>
                         <markdown ngPreserveWhitespaces>{{ comment.content }}</markdown>
                         <nz-space nzAlign="center">
-                            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
-                                <span *nzSpaceItem nz-icon nzType="like"></span>
+                            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleLikeComment(i)">
+                                <span *nzSpaceItem nz-icon nzType="like" [nzTheme]="hasUserLikedIComment[i] ? 'twotone' : 'outline'"></span>
                                 <span *nzSpaceItem> {{ comment.likes.length }} Likes </span>
                             </nz-space>
                             <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
                                 <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
                             </nz-space>
-                            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
-                                <span *nzSpaceItem nz-icon nzType="dislike"></span>
+                            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleDislikeComment(i)">
+                                <span *nzSpaceItem nz-icon nzType="dislike" [nzTheme]="hasUserDislikedIComment[i] ? 'twotone' : 'outline'"></span>
                                 <span *nzSpaceItem> {{ comment.dislikes.length }} Dislikes </span>
                             </nz-space>
                             <div *nzSpaceItem>
