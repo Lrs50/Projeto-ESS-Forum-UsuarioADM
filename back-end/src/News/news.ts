@@ -1,4 +1,4 @@
-import { Like, News } from '../../../common/types'
+import { Comment, Like, News } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
 import Path from 'path'
 import { ArrayToMap, MapToArray, MapValuesToArray } from '../utils'
@@ -137,6 +137,46 @@ class NewsDB {
                 return value != authorId
             }),
         } as News)
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    addComment(newsId: string, comment: Comment): Promise<Boolean> {
+        let find: News | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            comments: [...find.comments, comment],
+        })
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    removeComment(newsId: string, comment: Comment): Promise<Boolean> {
+        let find: News | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            comments: find.comments.filter((value: Comment) => {
+                return value.id != comment.id
+            }),
+        })
 
         let result: Promise<Boolean> = this.saveNews()
 

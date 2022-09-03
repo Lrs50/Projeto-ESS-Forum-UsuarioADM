@@ -1,4 +1,4 @@
-import { News } from '../../../common/types'
+import { emptyComment, News } from '../../../common/types'
 import { validator } from './controller'
 import NewsDB from './news'
 
@@ -150,6 +150,24 @@ describe('News backend', () => {
 
         expect(result).toBeTruthy()
         expect(find?.likes.length).toBe(0)
+    })
+
+    test('The database should be able to add a comment', async () => {
+        let result: Boolean = await database.addComment('fake-id', emptyComment('fake-id', 'fake-id'))
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments.length).toBe(1)
+    })
+
+    test('The database should be able to remove a comment', async () => {
+        let result: Boolean = await database.removeComment('fake-id', emptyComment('fake-id', 'fake-id'))
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments.length).toBe(0)
     })
 
     test('The database shouldnt be able to delete News that doenst exists', async () => {

@@ -74,7 +74,7 @@ export interface News {
   edited: boolean;
   views: number;
   likes: Like[];
-  comments: CommentId[];
+  comments: Comment[];
   tags: string[];
 }
 
