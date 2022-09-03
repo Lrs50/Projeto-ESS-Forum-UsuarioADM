@@ -99,7 +99,7 @@ export class NewsPageComponent implements OnInit {
                     userIdSubscription.unsubscribe()
 
                     for (let i = 0; i < this.news.likes.length; i++) {
-                        if (this.news.likes[i].authorId == userId) {
+                        if (this.news.likes[i] == userId) {
                             this.hasUserLikedTheNews = true
                             break
                         }
@@ -131,7 +131,7 @@ export class NewsPageComponent implements OnInit {
         let liked: boolean = false
 
         for (var i = 0; i < this.news.likes.length; i++) {
-            if (this.news.likes[i].authorId == userId) {
+            if (this.news.likes[i] == userId) {
                 liked = true
                 break
             }
@@ -140,26 +140,26 @@ export class NewsPageComponent implements OnInit {
         if (liked) {
             this.hasUserLikedTheNews = false
 
-            for (var i = 0; i < this.news.likes.length; i++) {
-                if (this.news.likes[i].authorId == userId) {
-                    this.news.likes.splice(i, 1)
-                    break
-                }
-            }
-
             this.newsManagementService.removeLike(this.news.id, userId).subscribe((res: ApiResponse) => {
                 if (res.status != 200) {
                     this.message.create('error', `Something went wrong!`)
+                } else {
+                    for (var i = 0; i < this.news.likes.length; i++) {
+                        if (this.news.likes[i] == userId) {
+                            this.news.likes.splice(i, 1)
+                            break
+                        }
+                    }
                 }
             })
         } else {
             this.hasUserLikedTheNews = true
 
-            this.news.likes.push({ authorId: userId } as Like)
-
             this.newsManagementService.addLike(this.news.id, userId).subscribe((res: ApiResponse) => {
                 if (res.status != 200) {
                     this.message.create('error', `Something went wrong!`)
+                } else {
+                    this.news.likes.push(userId)
                 }
             })
         }
@@ -172,6 +172,7 @@ export class NewsPageComponent implements OnInit {
                 authorInfo: {
                     avatar: user.avatar,
                     name: user.name,
+                    id: user.id,
                 },
                 content: this.commentContent,
                 likes: [],
@@ -179,6 +180,7 @@ export class NewsPageComponent implements OnInit {
             }
 
             this.newsManagementService.addComment(this.news.id, temp).subscribe((res: ApiResponse) => {
+                console.log(res)
                 if (res.status == 200) {
                     this.news.comments.unshift(temp)
                     this.commentContent = ''

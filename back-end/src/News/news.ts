@@ -162,7 +162,7 @@ class NewsDB {
         return result
     }
 
-    removeComment(newsId: string, comment: Comment): Promise<Boolean> {
+    removeComment(newsId: string, commentId: string): Promise<Boolean> {
         let find: News | undefined = this.db.get(newsId)
 
         if (find == undefined) {
@@ -174,7 +174,7 @@ class NewsDB {
         this.db.set(find.id, {
             ...find,
             comments: find.comments.filter((value: Comment) => {
-                return value.id != comment.id
+                return value.id != commentId
             }),
         })
 

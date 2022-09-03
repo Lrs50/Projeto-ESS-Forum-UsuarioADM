@@ -162,7 +162,7 @@ describe('News backend', () => {
     })
 
     test('The database should be able to remove a comment', async () => {
-        let result: Boolean = await database.removeComment('fake-id', emptyComment('fake-id', 'fake-id'))
+        let result: Boolean = await database.removeComment('fake-id', 'fake-id')
 
         let find: News | undefined = database.getNews('fake-id')
 

@@ -309,10 +309,9 @@ export function addComment(request: Request, response: Response): void {
 export function removeComment(request: Request, response: Response): void {
     log.info('Remove Comment request received')
 
-    const validParameter = validator(['newsId'], request.params)
-    const validBody = validator(['id', 'authorInfo', 'content', 'likes', 'dislikes'], request.body)
+    const valid = validator(['newsId', 'commentId'], request.body)
 
-    if (!validParameter || !validBody) {
+    if (!valid) {
         response.send(HTTP_BAD_REQUEST)
 
         return
@@ -320,7 +319,7 @@ export function removeComment(request: Request, response: Response): void {
 
     let db: NewsDB = new NewsDB()
 
-    let removeComment: Promise<Boolean> = db.removeComment(request.params.newsId, request.body as Comment)
+    let removeComment: Promise<Boolean> = db.removeComment(request.body.newsId, request.body.commentId)
 
     removeComment.then((result: Boolean) => {
         if (result) {
