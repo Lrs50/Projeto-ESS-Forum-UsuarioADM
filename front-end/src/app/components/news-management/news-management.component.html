@@ -53,12 +53,12 @@
                         </td>
                         <td nzEllipsis>
                             <nz-tag [nzColor]="news.edited == false ? 'green' : 'blue'">
-                                {{ news.edited == false ? 'NOT EDITED' : 'EDITED' }}
+                                <strong>{{ news.edited == false ? 'NOT EDITED' : 'EDITED' }}</strong>
                             </nz-tag>
                         </td>
                         <td>
                             <div *ngIf="news.tags.length == 0; else tagsBlock">
-                                <nz-tag>No tags</nz-tag>
+                                <nz-tag [nzColor]="'red'"><strong>NO TAGS</strong></nz-tag>
                             </div>
                         </td>
                         <td>
@@ -83,11 +83,15 @@
                         </td>
                         <ng-template #tagsBlock>
                             <div *ngIf="news.tags.length == 1; else multipleTagsBlock">
-                                <nz-tag>{{ news.tags[0] }}</nz-tag>
+                                <nz-tag
+                                    ><strong>{{ news.tags[0] }}</strong></nz-tag
+                                >
                             </div>
                             <ng-template #multipleTagsBlock>
                                 <nz-badge [nzCount]="news.tags.length">
-                                    <nz-tag nz-popover nzPopoverTitle="Tags" [nzPopoverContent]="renderMultipleTagsBlock"> ALL TAGS </nz-tag>
+                                    <nz-tag nz-popover nzPopoverTitle="Tags" [nzPopoverContent]="renderMultipleTagsBlock"
+                                        ><strong>ALL TAGS</strong></nz-tag
+                                    >
                                 </nz-badge>
                                 <ng-template #renderMultipleTagsBlock>
                                     <nz-tag *ngFor="let tag of news.tags">{{ tag }}</nz-tag>
