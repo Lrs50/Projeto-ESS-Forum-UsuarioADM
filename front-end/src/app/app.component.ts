@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { map, Observable } from 'rxjs'
-import { ApiResponse, User } from '../../../common/types'
+import { ApiResponse, User, emptyUser } from '../../../common/types'
 import { AppState, changeUserInfo, changeUserLoggedStatus, setNews } from './app.store'
 import { NewsManagementService } from './services/news-management.service'
 import { imageFallBack } from 'src/util'
@@ -64,14 +64,7 @@ export class AppComponent implements OnInit {
     onLogout() {
         this.store.dispatch(
             changeUserInfo({
-                payload: {
-                    id: '',
-                    name: '',
-                    password: '',
-                    avatar: '',
-                    cover: '',
-                    type: 'normal',
-                } as User,
+                payload: emptyUser(''),
             })
         )
         this.store.dispatch(changeUserLoggedStatus({ payload: false }))

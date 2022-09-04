@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
 
     isAdmin: Observable<boolean> = this.store.select('app').pipe(
         map((state) => {
-            return (state.user.type == 'admin') as boolean
+            return (state.user.type == 'Admin') as boolean
         })
     )
 

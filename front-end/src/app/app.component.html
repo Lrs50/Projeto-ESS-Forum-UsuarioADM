@@ -89,7 +89,7 @@ c6.565,0.753,13.236,1.154,20,1.154V73.17z"
                             <span *nzSpaceItem nz-typography>
                                 <strong>{{ (userInfo | async)?.name }}</strong>
                             </span>
-                            <span *nzSpaceItem nz-typography nzType="secondary">{{ (userInfo | async)?.type == 'admin' ? 'Admin' : 'User' }}</span>
+                            <span *nzSpaceItem nz-typography nzType="secondary">{{ (userInfo | async)!.type }}</span>
                         </nz-space>
                     </nz-card>
                     <ng-template #avatarTemplate>

@@ -69,7 +69,7 @@ export function getAllUsers(request: Request, response: Response): void {
 export function createUser(request: Request, response: Response): void {
     log.info('CreateUser request received')
 
-    const valid = validator(['id', 'name', 'password', 'type', 'cover', 'avatar'], request.body)
+    const valid = validator(['id', 'name', 'username', 'password', 'aboutme', 'type', 'cover', 'avatar'], request.body)
 
     if (!valid) {
         response.send(HTTP_BAD_REQUEST)
@@ -95,7 +95,7 @@ export function createUser(request: Request, response: Response): void {
 export function loginUser(request: Request, response: Response): void {
     log.info('LoginUser request received')
 
-    const valid = validator(['name', 'password'], request.body)
+    const valid = validator(['username', 'password'], request.body)
 
     if (!valid) {
         response.send(HTTP_BAD_REQUEST)
@@ -105,7 +105,7 @@ export function loginUser(request: Request, response: Response): void {
 
     let db: UsersDB = new UsersDB()
 
-    let result: User | undefined = db.login(request.body.name as string, request.body.password as string)
+    let result: User | undefined = db.login(request.body.username as string, request.body.password as string)
 
     if (result != undefined) {
         let httpResponse: ApiResponse = HTTP_SUCCESS

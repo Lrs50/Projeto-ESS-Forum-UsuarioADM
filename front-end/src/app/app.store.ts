@@ -1,5 +1,5 @@
 import { createAction, createReducer, on, props } from '@ngrx/store'
-import { User } from '../../../common/types'
+import { User, emptyUser } from '../../../common/types'
 
 export interface AppState {
     logged: boolean
@@ -10,14 +10,7 @@ export interface AppState {
 
 export const appInitialState: AppState = {
     logged: false,
-    user: {
-        id: '',
-        name: '',
-        password: '',
-        avatar: '',
-        cover: '',
-        type: 'normal',
-    },
+    user: emptyUser(''),
     newsCount: 0,
     usersCount: 0,
 }

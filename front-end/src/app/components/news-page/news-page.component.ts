@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { News, ApiResponse, User, Like, Comment } from '../../../../../common/types'
+import { News, ApiResponse, User, Like, Comment, emptyUser } from '../../../../../common/types'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { imageFallBack } from '../../../util'
@@ -41,14 +41,7 @@ export class NewsPageComponent implements OnInit {
         tags: [],
     }
 
-    authorInfo: User = {
-        id: '',
-        name: '',
-        password: '',
-        avatar: '',
-        cover: '',
-        type: 'normal',
-    }
+    authorInfo: User = emptyUser('')
 
     commentContent: string = ''
     hasUserLikedIComment: boolean[] = []
@@ -56,7 +49,7 @@ export class NewsPageComponent implements OnInit {
 
     isAdmin: Observable<boolean> = this.store.select('app').pipe(
         map((state: AppState) => {
-            return (state.user.type == 'admin') as boolean
+            return (state.user.type == 'Admin') as boolean
         })
     )
 

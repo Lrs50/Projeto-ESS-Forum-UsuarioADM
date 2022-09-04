@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import { NzStatus } from 'ng-zorro-antd/core/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, News, User } from '../../../../../common/types'
+import { ApiResponse, News, User, emptyUser } from '../../../../../common/types'
 import { defaultTags } from 'src/util'
 import { imageFallBack } from 'src/util'
 import { map, Observable } from 'rxjs'
@@ -40,14 +40,7 @@ export class NewsEditComponent implements OnInit {
         tags: [],
     }
 
-    authorInfo: User = {
-        id: '',
-        name: '',
-        password: '',
-        avatar: '',
-        cover: '',
-        type: 'normal',
-    }
+    authorInfo: User = emptyUser('')
 
     constructor(
         private newsManagementService: NewsManagementService,

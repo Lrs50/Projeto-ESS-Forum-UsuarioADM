@@ -23,7 +23,7 @@ export class UsersService {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'all')
     }
 
-    login(name: string, password: string) {
-        return this.httpClient.post<ApiResponse>(this.baseUrl + `login`, { name, password })
+    login(username: string, password: string) {
+        return this.httpClient.post<ApiResponse>(this.baseUrl + `login`, { username, password })
     }
 }
