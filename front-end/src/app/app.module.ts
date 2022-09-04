@@ -71,6 +71,7 @@ import {
     SmileFill,
     TrophyFill,
     DislikeTwoTone,
+    ProfileOutline,
 } from '@ant-design/icons-angular/icons'
 import { HomeComponent } from './components/home/home.component'
 import { LoginComponent } from './components/login/login.component'
@@ -88,8 +89,10 @@ import en from '@angular/common/locales/en'
 registerLocaleData(en)
 
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n'
-import { NotFoundComponent } from './components/not-found/not-found.component';
+import { NotFoundComponent } from './components/not-found/not-found.component'
 import { ServerErrorComponent } from './components/server-error/server-error.component'
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserProfileEditComponent } from './components/user-profile-edit/user-profile-edit.component'
 
 const icons: IconDefinition[] = [
     UserOutline,
@@ -119,6 +122,7 @@ const icons: IconDefinition[] = [
     DislikeOutline,
     DislikeTwoTone,
     LinkOutline,
+    ProfileOutline,
 ]
 
 @NgModule({
@@ -135,6 +139,8 @@ const icons: IconDefinition[] = [
         NewsCreateComponent,
         NotFoundComponent,
         ServerErrorComponent,
+        UserProfileComponent,
+        UserProfileEditComponent,
     ],
     imports: [
         BrowserModule,

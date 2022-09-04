@@ -50,7 +50,7 @@
                         <img nz-image [nzSrc]="(userInfo | async)!.cover" [nzFallback]="imgFall" />
                     </ng-template>
                     <ng-template #actionEdit>
-                        <span nz-icon nzType="edit" nz-tooltip nzTooltipTitle="Edit Profile"></span>
+                        <span nz-icon nzType="user" nz-tooltip nzTooltipTitle="Profile"></span>
                     </ng-template>
                     <ng-template #actionLogOut>
                         <span nz-icon nzType="logout" nz-tooltip nzTooltipTitle="Logout" (click)="onLogout()"></span>

@@ -9,6 +9,8 @@ import { NewsEditComponent } from './components/news-edit/news-edit.component'
 import { NewsCreateComponent } from './components/news-create/news-create.component'
 import { NotFoundComponent } from './components/not-found/not-found.component'
 import { ServerErrorComponent } from './components/server-error/server-error.component'
+import { UserProfileComponent } from './components/user-profile/user-profile.component'
+import { UserProfileEditComponent } from './components/user-profile-edit/user-profile-edit.component'
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -22,6 +24,8 @@ const routes: Routes = [
             { path: 'management/news/edit/:id', component: NewsEditComponent },
             { path: 'management/news/create', component: NewsCreateComponent },
             { path: 'management/news', component: NewsManagementComponent },
+            { path: 'user/:id', component: UserProfileComponent },
+            { path: 'user/:id/edit', component: UserProfileEditComponent },
         ],
     },
     { path: 'login', component: LoginComponent },
