@@ -42,6 +42,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzBadgeModule } from 'ng-zorro-antd/badge'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { NzResultModule } from 'ng-zorro-antd/result'
 import {
     UserOutline,
     LogoutOutline,
@@ -87,6 +88,8 @@ import en from '@angular/common/locales/en'
 registerLocaleData(en)
 
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n'
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ServerErrorComponent } from './components/server-error/server-error.component'
 
 const icons: IconDefinition[] = [
     UserOutline,
@@ -130,6 +133,8 @@ const icons: IconDefinition[] = [
         NewsPageComponent,
         NewsEditComponent,
         NewsCreateComponent,
+        NotFoundComponent,
+        ServerErrorComponent,
     ],
     imports: [
         BrowserModule,
@@ -173,6 +178,7 @@ const icons: IconDefinition[] = [
         NzSpinModule,
         NzBadgeModule,
         NzPopoverModule,
+        NzResultModule,
     ],
     providers: [{ provide: NZ_I18N, useValue: en_US }],
     bootstrap: [AppComponent],

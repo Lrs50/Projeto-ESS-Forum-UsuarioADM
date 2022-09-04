@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ApiResponse, News } from '../../../../../common/types'
 
@@ -8,7 +9,7 @@ import { ApiResponse, News } from '../../../../../common/types'
     styleUrls: ['./news.component.css'],
 })
 export class NewsComponent implements OnInit {
-    constructor(private newsManagementService: NewsManagementService) {}
+    constructor(private newsManagementService: NewsManagementService, private router: Router) {}
 
     newsList: News[] = []
     newsListFiltered: News[] = []
@@ -70,12 +71,12 @@ export class NewsComponent implements OnInit {
                 this.newsList = res.result as News[]
                 this.weHaveNews = true
                 this.clearFilter()
+                this.loading = false
             } else {
-                this.newsList = []
-                this.newsListFiltered = []
                 this.weHaveNews = false
+                this.loading = false
+                this.router.navigateByUrl('/error')
             }
-            this.loading = false
         })
     }
 

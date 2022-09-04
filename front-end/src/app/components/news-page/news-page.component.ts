@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { News, ApiResponse, User, Like, Comment } from '../../../../../common/types'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { imageFallBack } from '../../../util'
 import { map, Observable, Subscription, take } from 'rxjs'
 import { Store } from '@ngrx/store'
@@ -69,6 +69,7 @@ export class NewsPageComponent implements OnInit {
     constructor(
         private newsManagementService: NewsManagementService,
         private route: ActivatedRoute,
+        private router: Router,
         private store: Store<{ app: AppState }>,
         private message: NzMessageService,
         private userService: UsersService
@@ -90,7 +91,7 @@ export class NewsPageComponent implements OnInit {
                         if (res.status == 200) {
                             this.authorInfo = res.result as User
                         } else {
-                            this.message.create('error', `Something went wrong!`)
+                            this.router.navigateByUrl('/error')
                         }
                     })
 
@@ -126,7 +127,7 @@ export class NewsPageComponent implements OnInit {
                         }
                     }
                 } else {
-                    this.message.create('error', `Something went wrong!`)
+                    this.router.navigateByUrl('/notfound')
                 }
             })
         }

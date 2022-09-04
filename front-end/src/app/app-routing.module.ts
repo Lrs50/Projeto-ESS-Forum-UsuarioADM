@@ -7,6 +7,8 @@ import { NewsPageComponent } from './components/news-page/news-page.component'
 import { NewsComponent } from './components/news/news.component'
 import { NewsEditComponent } from './components/news-edit/news-edit.component'
 import { NewsCreateComponent } from './components/news-create/news-create.component'
+import { NotFoundComponent } from './components/not-found/not-found.component'
+import { ServerErrorComponent } from './components/server-error/server-error.component'
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -23,6 +25,8 @@ const routes: Routes = [
         ],
     },
     { path: 'login', component: LoginComponent },
+    { path: 'notfound', component: NotFoundComponent },
+    { path: 'error', component: ServerErrorComponent },
 ]
 
 @NgModule({
