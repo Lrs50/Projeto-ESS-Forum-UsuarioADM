@@ -13,10 +13,14 @@
                 </ng-template>
 
                 <ng-template #extraTemplate>
-                    <a nz-button nzType="text" routerLink="edit"> <span nz-icon nzType="edit"></span> Edit Profile </a>
+                    <div *nfIf="(isAdmin | async) || (userInfo | async)!.id == user.id">
+                        <a nz-button nzType="text" routerLink="edit"> <span nz-icon nzType="edit"></span> Edit Profile </a>
+                    </div>
                 </ng-template>
                 <ng-template #logoutTemplate>
-                    <a nz-button nzType="text" routerLink="edit" nzDanger (click)="onLogout()"> Logout </a>
+                    <div *nfIf="(userInfo | async)!.id == user.id">
+                        <a nz-button nzType="text" routerLink="edit" nzDanger (click)="onLogout()"> Logout </a>
+                    </div>
                 </ng-template>
             </nz-card>
         </div>

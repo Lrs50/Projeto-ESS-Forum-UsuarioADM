@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Store } from '@ngrx/store'
 import { NzMessageService } from 'ng-zorro-antd/message'
+import { map, Observable } from 'rxjs'
 import { AppState, changeUserInfo, changeUserLoggedStatus } from 'src/app/app.store'
 import { UsersService } from 'src/app/services/users.service'
 import { imageFallBack } from 'src/util'
@@ -16,6 +17,18 @@ export class UserProfileComponent implements OnInit {
     imgFall: string = imageFallBack
 
     user: User = emptyUser('')
+
+    userInfo: Observable<User> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return state.user
+        })
+    )
+
+    isAdmin: Observable<boolean> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return (state.user.type == 'Admin') as boolean
+        })
+    )
 
     constructor(
         private store: Store<{ app: AppState }>,
