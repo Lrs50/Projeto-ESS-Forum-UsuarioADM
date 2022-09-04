@@ -18,6 +18,8 @@ export class AppComponent implements OnInit {
     title = 'front-end'
     showProfile: boolean = false
 
+    theme: string = 'light'
+
     logged: Observable<Boolean> = this.store.select('app').pipe(
         map((state) => {
             return state.logged

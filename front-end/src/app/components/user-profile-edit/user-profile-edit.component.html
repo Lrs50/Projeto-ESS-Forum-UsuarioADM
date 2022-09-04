@@ -1,1 +1,51 @@
-<p>user-profile-edit works!</p>
+<div class="profile-edit-container">
+    <div nz-row nzGutter="24" class="full-height">
+        <div nz-col nzSpan="24" class="full-height">
+            <nz-card [nzBordered]="false" [nzCover]="coverTemplate" [nzExtra]="extraTemplate">
+                <ng-template #extraTemplate>
+                    <nz-input-group [nzSize]="'large'" nzAddOnBeforeIcon="link" nz-tooltip nzTooltipTitle="Cover URL">
+                        <input type="text" nz-input [(ngModel)]="editingUser.cover" [nzSize]="'large'" [placeholder]="'Url to use as Cover'" />
+                    </nz-input-group>
+                </ng-template>
+                <nz-space nzDirection="vertical" nzAlign="center" class="full-width">
+                    <nz-space *nzSpaceItem nzAlign="center">
+                        <nz-avatar *nzSpaceItem [nzSize]="128" nzIcon="user" [nzSrc]="editingUser.avatar"></nz-avatar>
+                        <span
+                            *nzSpaceItem
+                            nz-icon
+                            nzType="edit"
+                            nz-tooltip
+                            nzTooltipTitle="Edit avatar"
+                            style="cursor: pointer"
+                            (click)="toggleModalEditAvatar()"
+                        ></span>
+                    </nz-space>
+
+                    <h4 *nzSpaceItem nz-typography nzEditable nzEditTooltip="click to edit your Name" [(nzContent)]="editingUser.name">
+                        {{ editingUser.name }}
+                    </h4>
+                    <span *nzSpaceItem nz-typography nzEditable nzEditTooltip="click to edit your About me" [(nzContent)]="editingUser.name">
+                        {{ editingUser.name }}
+                    </span>
+                </nz-space>
+                <div style="float: right">
+                    <button nz-button nzType="primary" [nzSize]="'large'" (click)="onSaveUser()">
+                        <span nz-icon nzType="check"></span>
+                        Save
+                    </button>
+                </div>
+                <ng-template #coverTemplate>
+                    <img nz-image [nzSrc]="editingUser.cover" [nzFallback]="imgFall" />
+                </ng-template>
+            </nz-card>
+        </div>
+    </div>
+</div>
+
+<nz-modal [(nzVisible)]="showModalEditAvatar" nzTitle="Change your avatar" (nzOnCancel)="toggleModalEditAvatar()" (nzOnOk)="toggleModalEditAvatar()">
+    <ng-container *nzModalContent>
+        <nz-input-group nzAddOnBeforeIcon="link" nz-tooltip nzTooltipTitle="Avatar URL">
+            <input type="text" nz-input [(ngModel)]="editingUser.avatar" [placeholder]="'Url to use as avatar'" />
+        </nz-input-group>
+    </ng-container>
+</nz-modal>

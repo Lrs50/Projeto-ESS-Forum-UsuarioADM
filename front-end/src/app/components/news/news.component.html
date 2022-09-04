@@ -29,7 +29,14 @@
             </nz-spin>
         </nz-card>
         <ng-template #titleNewsTemplate>
-            <h3 nz-typography>All news</h3>
+            <div *ngIf="isUserLogged | async; else notLoggedMessage">
+                <h3 nz-typography>Hello, {{ (userInfo | async)!.name }} 👋</h3>
+                <span nz-typography nzType="secondary">Ready for your daily dose of news?</span>
+            </div>
+            <ng-template #notLoggedMessage>
+                <h3 nz-typography>Hello there! 👋</h3>
+                <span nz-typography nzType="secondary">Consider to login to enjoy all of your content!</span>
+            </ng-template>
         </ng-template>
         <ng-template #extraTemplate>
             <nz-space nzAlign="center">

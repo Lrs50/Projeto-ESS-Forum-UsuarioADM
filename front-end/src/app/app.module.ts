@@ -43,6 +43,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzBadgeModule } from 'ng-zorro-antd/badge'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzResultModule } from 'ng-zorro-antd/result'
+import { NzSwitchModule } from 'ng-zorro-antd/switch'
 import {
     UserOutline,
     LogoutOutline,
@@ -91,7 +92,7 @@ registerLocaleData(en)
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n'
 import { NotFoundComponent } from './components/not-found/not-found.component'
 import { ServerErrorComponent } from './components/server-error/server-error.component'
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component'
 import { UserProfileEditComponent } from './components/user-profile-edit/user-profile-edit.component'
 
 const icons: IconDefinition[] = [
@@ -185,6 +186,7 @@ const icons: IconDefinition[] = [
         NzBadgeModule,
         NzPopoverModule,
         NzResultModule,
+        NzSwitchModule,
     ],
     providers: [{ provide: NZ_I18N, useValue: en_US }],
     bootstrap: [AppComponent],

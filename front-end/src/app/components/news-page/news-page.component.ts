@@ -130,6 +130,8 @@ export class NewsPageComponent implements OnInit {
                     this.router.navigateByUrl('/notfound')
                 }
             })
+        } else {
+            this.router.navigateByUrl('/notfound')
         }
     }
 

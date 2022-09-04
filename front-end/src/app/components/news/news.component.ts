@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
+import { Store } from '@ngrx/store'
+import { map, Observable } from 'rxjs'
+import { AppState } from 'src/app/app.store'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, News } from '../../../../../common/types'
+import { ApiResponse, News, User } from '../../../../../common/types'
 
 @Component({
     selector: 'app-news',
@@ -9,7 +12,7 @@ import { ApiResponse, News } from '../../../../../common/types'
     styleUrls: ['./news.component.css'],
 })
 export class NewsComponent implements OnInit {
-    constructor(private newsManagementService: NewsManagementService, private router: Router) {}
+    constructor(private newsManagementService: NewsManagementService, private router: Router, private store: Store<{ app: AppState }>) {}
 
     newsList: News[] = []
     newsListFiltered: News[] = []
@@ -30,6 +33,18 @@ export class NewsComponent implements OnInit {
         padding: '0.5rem',
         background: '#f0f0f0',
     }
+
+    isUserLogged: Observable<boolean> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return state.logged
+        })
+    )
+
+    userInfo: Observable<User> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return state.user
+        })
+    )
 
     ngOnInit(): void {
         this.getNewsPage()

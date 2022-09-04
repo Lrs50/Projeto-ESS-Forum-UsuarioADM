@@ -1,7 +1,7 @@
 <div class="user-profile-container">
     <div nz-row nzGutter="24" class="full-height">
         <div nz-col nzMd="24" nzLg="7" class="full-height">
-            <nz-card [nzBordered]="false" [nzCover]="coverTemplate" [nzActions]="[extraTemplate]">
+            <nz-card [nzBordered]="false" [nzCover]="coverTemplate" [nzActions]="[extraTemplate, logoutTemplate]">
                 <nz-space nzDirection="vertical" nzAlign="center" class="full-width">
                     <nz-avatar
                         *nzSpaceItem
@@ -26,6 +26,9 @@
 
                 <ng-template #extraTemplate>
                     <a nz-button nzType="text" routerLink="edit"> <span nz-icon nzType="edit"></span> Edit Profile </a>
+                </ng-template>
+                <ng-template #logoutTemplate>
+                    <a nz-button nzType="text" routerLink="edit" nzDanger> Logout </a>
                 </ng-template>
             </nz-card>
         </div>
