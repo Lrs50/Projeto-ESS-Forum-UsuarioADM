@@ -3,32 +3,20 @@
         <div nz-col nzMd="24" nzLg="7" class="full-height">
             <nz-card [nzBordered]="false" [nzCover]="coverTemplate" [nzActions]="[extraTemplate, logoutTemplate]">
                 <nz-space nzDirection="vertical" nzAlign="center" class="full-width">
-                    <nz-avatar
-                        *nzSpaceItem
-                        [nzSize]="64"
-                        nzIcon="user"
-                        [nzSrc]="'https://img.freepik.com/premium-vector/cute-robot-waving-hand-cartoon-illustration_138676-2744.jpg'"
-                    ></nz-avatar>
-                    <h4 nz-typography *nzSpaceItem>Lucas Costa</h4>
-                    <h5 nz-typography *nzSpaceItem nzType="secondary">Admin</h5>
-                    <span *nzSpaceItem nz-typography>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque varius lectus eu diam venenatis, eu iaculis neque
-                        posuere. Sed ultrices ligula eget lectus bibendum congue ut vel dui. Nunc ut tincidunt dui. Maecenas accumsan dignissim nibh
-                        id vulputate. Sed vestibulum mi sit amet pretium pellentesque.
-                    </span>
+                    <nz-avatar *nzSpaceItem [nzSize]="64" nzIcon="user" [nzSrc]="user.avatar"></nz-avatar>
+                    <h4 nz-typography *nzSpaceItem>{{ user.name }}</h4>
+                    <h5 nz-typography *nzSpaceItem nzType="secondary">{{ user.type }}</h5>
+                    <span *nzSpaceItem nz-typography>{{ user.aboutme }}</span>
                 </nz-space>
                 <ng-template #coverTemplate>
-                    <img
-                        nz-image
-                        [nzSrc]="'https://cdn.dribbble.com/users/2808796/screenshots/13984438/media/5204160d8483103ccdfe86bf73499e61.png'"
-                    />
+                    <img nz-image [nzSrc]="user.cover" />
                 </ng-template>
 
                 <ng-template #extraTemplate>
                     <a nz-button nzType="text" routerLink="edit"> <span nz-icon nzType="edit"></span> Edit Profile </a>
                 </ng-template>
                 <ng-template #logoutTemplate>
-                    <a nz-button nzType="text" routerLink="edit" nzDanger> Logout </a>
+                    <a nz-button nzType="text" routerLink="edit" nzDanger (click)="onLogout()"> Logout </a>
                 </ng-template>
             </nz-card>
         </div>

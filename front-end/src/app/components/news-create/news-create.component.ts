@@ -110,6 +110,7 @@ export class NewsCreateComponent implements OnInit {
                 this.router.navigateByUrl('/home/news/' + temp.id)
             } else {
                 this.message.create('error', `Failed to create the news!`)
+                this.router.navigateByUrl('/error')
             }
         })
     }

@@ -1,11 +1,1 @@
-[
-    { "id": "124", "name": "marelo", "password": "123", "type": "normal", "cover": "", "avatar": "" },
-    {
-        "id": "123",
-        "name": "lucas",
-        "password": "123",
-        "type": "admin",
-        "cover": "https://cdn.dribbble.com/users/2808796/screenshots/13984438/media/5204160d8483103ccdfe86bf73499e61.png",
-        "avatar": "https://img.freepik.com/premium-vector/cute-robot-waving-hand-cartoon-illustration_138676-2744.jpg"
-    }
-]
+[["costa",{"id":"costa","username":"costa","aboutme":"Full stack developer and cat lover.","name":"Lucas Costa","password":"123","type":"Admin","cover":"https://i.pinimg.com/736x/8d/3e/cd/8d3ecd37ec24ea63f3da41af95f1f1e2.jpg","avatar":"https://i.pinimg.com/originals/28/02/fc/2802fcf7cd2ab499e1c5a6b59e8ed2b4.jpg"}],["marcelo",{"id":"marcelo","username":"marcelo","aboutme":"Bobo","name":"Marcelo Victor","password":"123","type":"User","cover":"","avatar":""}]]

@@ -30,13 +30,17 @@ class UsersDB {
     }
 
     login(username: string, password: string): User | undefined {
+        let find: User | undefined = undefined
+
         this.db.forEach((user: User) => {
+            if (find != undefined) return
+
             if (user.username == username && user.password == password) {
-                return user
+                find = user
             }
         })
 
-        return undefined
+        return find
     }
 
     getUser(id: string): User | undefined {
@@ -49,6 +53,22 @@ class UsersDB {
 
     createUser(user: User): Promise<Boolean> {
         this.db.set(user.id, user)
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
+    }
+
+    editUser(user: User): Promise<Boolean> {
+        let find: User | undefined = this.db.get(user.id)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, user)
 
         let result: Promise<Boolean> = this.saveUsers()
 

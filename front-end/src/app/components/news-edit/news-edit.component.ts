@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { NzStatus } from 'ng-zorro-antd/core/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NewsManagementService } from 'src/app/services/news-management.service'
@@ -46,7 +46,8 @@ export class NewsEditComponent implements OnInit {
         private newsManagementService: NewsManagementService,
         private route: ActivatedRoute,
         private message: NzMessageService,
-        private userService: UsersService
+        private userService: UsersService,
+        private router: Router
     ) {
         const id: string | null = this.route.snapshot.paramMap.get('id')
 
@@ -127,6 +128,7 @@ export class NewsEditComponent implements OnInit {
                 this.message.create('success', `Saved!`)
             } else {
                 this.message.create('error', `Failed to save the news!`)
+                this.router.navigateByUrl('/error')
             }
         })
     }

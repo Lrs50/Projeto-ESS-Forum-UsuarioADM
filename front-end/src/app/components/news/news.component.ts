@@ -90,7 +90,6 @@ export class NewsComponent implements OnInit {
             } else {
                 this.weHaveNews = false
                 this.loading = false
-                this.router.navigateByUrl('/error')
             }
         })
     }

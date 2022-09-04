@@ -15,6 +15,10 @@ export class UsersService {
         return this.httpClient.post<ApiResponse>(this.baseUrl, user)
     }
 
+    edit(user: User): Observable<ApiResponse> {
+        return this.httpClient.put<ApiResponse>(this.baseUrl, user)
+    }
+
     get(id: string): Observable<ApiResponse> {
         return this.httpClient.get<ApiResponse>(this.baseUrl + `/${id}`)
     }

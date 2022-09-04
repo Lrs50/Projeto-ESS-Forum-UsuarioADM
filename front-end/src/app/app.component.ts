@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { map, Observable } from 'rxjs'
+import { map, Observable, Subscription, take } from 'rxjs'
 import { ApiResponse, User, emptyUser } from '../../../common/types'
 import { AppState, changeUserInfo, changeUserLoggedStatus, setNews } from './app.store'
 import { NewsManagementService } from './services/news-management.service'
@@ -73,6 +73,16 @@ export class AppComponent implements OnInit {
 
     onLogin() {
         this.router.navigateByUrl('/login')
+        this.showProfile = false
+    }
+
+    onEditProfile() {
+        let userId: string = ''
+
+        let userIdSubscription: Subscription = this.userInfo.pipe(take(1)).subscribe((user: User) => (userId = user.id))
+        userIdSubscription.unsubscribe()
+
+        this.router.navigateByUrl(`/home/user/${userId}`)
         this.showProfile = false
     }
 }

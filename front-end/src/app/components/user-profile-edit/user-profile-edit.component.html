@@ -24,8 +24,15 @@
                     <h4 *nzSpaceItem nz-typography nzEditable nzEditTooltip="click to edit your Name" [(nzContent)]="editingUser.name">
                         {{ editingUser.name }}
                     </h4>
-                    <span *nzSpaceItem nz-typography nzEditable nzEditTooltip="click to edit your About me" [(nzContent)]="editingUser.name">
-                        {{ editingUser.name }}
+                    <span
+                        *nzSpaceItem
+                        nz-typography
+                        nzEditable
+                        nzEditTooltip="click to edit your About me"
+                        [(nzContent)]="editingUser.aboutme"
+                        style="width: 300px"
+                    >
+                        {{ editingUser.aboutme }}
                     </span>
                 </nz-space>
                 <div style="float: right">
