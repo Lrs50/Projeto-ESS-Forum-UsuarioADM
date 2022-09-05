@@ -23,7 +23,9 @@
                 <div nz-row nzType="flex" nzAlign="middle" class="bg-primary-orange statistic-box">
                     <div nz-col nzSpan="18" class="p-md text-white">
                         <div>
-                            <span nz-typography class="text-nowrap white-text md-text-size"><strong>123,456</strong></span>
+                            <span nz-typography class="text-nowrap white-text md-text-size">
+                                <strong>{{ userCount | async }}</strong>
+                            </span>
                         </div>
                         <div class="text-nowrap white-text md-text-size">Users</div>
                     </div>

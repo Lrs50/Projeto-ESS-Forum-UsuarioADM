@@ -66,6 +66,28 @@ export function getAllUsers(request: Request, response: Response): void {
     return
 }
 
+export function getUsersSize(request: Request, response: Response): void {
+    log.info('GetUsersSize request received')
+
+    const valid = validator([], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: number = db.getSize()
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
+
+    return
+}
+
 export function createUser(request: Request, response: Response): void {
     log.info('CreateUser request received')
 

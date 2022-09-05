@@ -27,6 +27,10 @@ export class UsersService {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'all')
     }
 
+    getUsersSize(): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
+    }
+
     login(username: string, password: string) {
         return this.httpClient.post<ApiResponse>(this.baseUrl + `login`, { username, password })
     }

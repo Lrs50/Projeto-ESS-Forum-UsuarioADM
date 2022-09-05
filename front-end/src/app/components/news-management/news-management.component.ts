@@ -4,7 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { imageFallBack } from 'src/util'
 import { Store } from '@ngrx/store'
-import { AppState, decrementNews } from 'src/app/app.store'
+import { AppState, addToNewsCount } from 'src/app/app.store'
 import { Router } from '@angular/router'
 
 @Component({
@@ -122,7 +122,7 @@ export class NewsManagementComponent implements OnInit {
                 this.newsList.splice(find, 1)
                 this.clearFilter()
                 this.totalNews -= 1
-                this.store.dispatch(decrementNews())
+                this.store.dispatch(addToNewsCount({ payload: -1 }))
                 this.message.create('success', `News deleted successfully!`)
             } else {
                 this.message.create('error', `Failed to delete the news!`)

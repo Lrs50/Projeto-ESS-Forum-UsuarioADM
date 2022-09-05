@@ -29,6 +29,10 @@ class UsersDB {
         this.db = ArrayToMap(tempArr)
     }
 
+    getSize(): number {
+        return this.db.size
+    }
+
     login(username: string, password: string): User | undefined {
         let find: User | undefined = undefined
 

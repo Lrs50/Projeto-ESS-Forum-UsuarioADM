@@ -42,6 +42,7 @@ app.delete('/news/commentsremove/dislike', NewsController.removeDislikeInComment
 
 app.get('/user/:id', UsersController.getUser)
 app.get('/userall', UsersController.getAllUsers)
+app.get('/usersize', UsersController.getUsersSize)
 app.post('/user', UsersController.createUser)
 app.put('/user', UsersController.editUser)
 app.post('/userlogin', UsersController.loginUser)
