@@ -108,8 +108,20 @@ export declare type ArtistType =
 
 export interface Artist {
     readonly id: string;
+    type: ArtistType;
     name: string;
     mentions: number;
     avatar: string;
     cover: string;
+}
+
+export function emptyArtist(id: string): Artist {
+    return {
+        id: id,
+        type: "Actor",
+        name: "string",
+        mentions: 0,
+        avatar: "string",
+        cover: "string",
+    } as Artist;
 }
