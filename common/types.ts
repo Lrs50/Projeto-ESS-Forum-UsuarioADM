@@ -14,7 +14,10 @@ export const HTTP_BAD_REQUEST: ApiResponse = {
 export const HTTP_NOT_FOUND: ApiResponse = { msg: "NOT FOUND", status: 404 };
 export const HTTP_ERROR: ApiResponse = { msg: "ERROR", status: 500 };
 
-export declare type UserType = "User" | "Admin";
+export declare type CommentId = string;
+export declare type Like = string;
+
+export declare type UserType = "User" | "Admin" | "Mod";
 
 // Usamos name e pass para identificar um usuario, i.e, a combinação de nome e pass deve ser única!
 
@@ -64,9 +67,6 @@ export function emptyComment(id: CommentId, authorId: string): Comment {
     } as Comment;
 }
 
-export declare type CommentId = string;
-export declare type Like = string;
-
 export interface News {
     readonly id: string;
     readonly authorId: string;
@@ -97,4 +97,19 @@ export function emptyNews(id: CommentId, authorId: string): News {
         comments: [],
         tags: [],
     } as News;
+}
+
+export declare type ArtistType =
+    | "Singer"
+    | "Illustrator"
+    | "Actor"
+    | "Voice Actor"
+    | "Writer";
+
+export interface Artist {
+    readonly id: string;
+    name: string;
+    mentions: number;
+    avatar: string;
+    cover: string;
 }

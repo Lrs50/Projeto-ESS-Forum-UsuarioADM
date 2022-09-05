@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express'
 import * as NewsController from './News/controller' // Controller responsável pelas requisições http
 import * as UsersController from './User/controller'
+import * as ArtistsController from './Artist/controller'
 import { HTTP_SUCCESS } from '../../common/types'
 import cors from 'cors'
 
@@ -44,6 +45,11 @@ app.get('/userall', UsersController.getAllUsers)
 app.post('/user', UsersController.createUser)
 app.put('/user', UsersController.editUser)
 app.post('/userlogin', UsersController.loginUser)
+
+app.get('/artist/:id', ArtistsController.getArtist)
+app.get('/artistall', ArtistsController.getAllArtists)
+app.post('/artist', ArtistsController.createArtist)
+app.put('/artist', ArtistsController.editArtist)
 
 app.listen(port, () => {
     log.info('Backend listening on port 3000')
