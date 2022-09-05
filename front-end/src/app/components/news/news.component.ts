@@ -31,7 +31,7 @@ export class NewsComponent implements OnInit {
         width: '100%',
         cursor: 'default',
         padding: '0.5rem',
-        background: '#f0f0f0',
+        background: '#fefefe',
     }
 
     isUserLogged: Observable<boolean> = this.store.select('app').pipe(

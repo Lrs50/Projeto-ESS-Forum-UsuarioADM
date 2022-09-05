@@ -13,7 +13,7 @@
     height: 100%;
     width: 100%;
     grid-area: main;
-    background: #7d77aa;
+    background: #f4f7f9;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -22,9 +22,13 @@
     height: 100%;
     width: 100%;
     grid-area: right;
-    background: #a9a1e5;
+    background: #ffffff;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.statistic-icon-size {
+    font-size: 2rem;
 }
 
 .space-center {

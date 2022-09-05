@@ -14,34 +14,34 @@ section.news-content-img {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f0f0f0;
+    background: #fefefe;
 }
 
 section.news-content-content {
     grid-area: content;
-    background: #f0f0f0;
+    background: #fefefe;
 }
 
 section.news-content-views {
     grid-area: views;
-    background: #f0f0f0;
+    background: #fefefe;
 }
 
 section.news-content-likes {
     grid-area: likes;
-    background: #f0f0f0;
+    background: #fefefe;
 }
 
 section.news-content-comments {
     grid-area: comments;
-    background: #f0f0f0;
+    background: #fefefe;
 }
 
 section.news-content-tags {
     grid-area: tags;
     display: flex;
     align-items: center;
-    background: #f0f0f0;
+    background: #fefefe;
 }
 
 .news-text-container {

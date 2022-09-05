@@ -21,9 +21,20 @@ section.news-content {
 
 section.news-footer {
     grid-area: footer;
-    background: #cecbe8;
+    background: #f4f7f9;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding: 0.5rem;
+}
+
+.text-ellipsis {
+    width: calc(100%);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.icon-size {
+    font-size: 1.125rem;
 }

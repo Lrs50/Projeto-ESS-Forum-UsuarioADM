@@ -11,6 +11,10 @@
     overflow: hidden;
 }
 
+.icon-size {
+    font-size: 1.25rem;
+}
+
 section {
     height: 100%;
     width: 100%;
@@ -18,7 +22,7 @@ section {
 
 section.header-logo-name {
     grid-area: logo-name;
-    background: #483d99;
+    background: #006aff;
     display: flex;
     align-content: center;
     align-items: center;
@@ -26,7 +30,7 @@ section.header-logo-name {
 
 section.header-menu {
     grid-area: menu;
-    background: #302966;
+    background: #006aff;
     display: flex;
     align-content: center;
     align-items: center;
@@ -34,7 +38,7 @@ section.header-menu {
 
 section.header-button {
     grid-area: button;
-    background: #483d99;
+    background: #006aff;
     display: flex;
     align-content: center;
     align-items: center;
