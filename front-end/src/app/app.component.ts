@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { map, Observable, Subscription, take } from 'rxjs'
 import { ApiResponse, User, emptyUser } from '../../../common/types'
-import { addToNewsCount, addToUserCount, AppState, changeUserInfo, changeUserLoggedStatus } from './app.store'
+import { addToArtistCount, addToNewsCount, addToUserCount, AppState, changeUserInfo, changeUserLoggedStatus } from './app.store'
 import { NewsManagementService } from './services/news-management.service'
 import { imageFallBack } from 'src/util'
 import { Router } from '@angular/router'
 import { UsersService } from './services/users.service'
+import { ArtistService } from './services/artist.service'
 
 @Component({
     selector: 'app-root',
@@ -37,7 +38,8 @@ export class AppComponent implements OnInit {
         private store: Store<{ app: AppState }>,
         private newsManagementService: NewsManagementService,
         private router: Router,
-        private userService: UsersService
+        private userService: UsersService,
+        private artistService: ArtistService
     ) {
         let userJsonStr: string | null = localStorage.getItem('userInfo')
 
@@ -49,7 +51,6 @@ export class AppComponent implements OnInit {
         }
 
         this.newsManagementService.getNewsSize().subscribe((res: ApiResponse) => {
-            console.log(res)
             if (res.status == 200) {
                 this.store.dispatch(addToNewsCount({ payload: res.result as number }))
             } else {
@@ -58,11 +59,18 @@ export class AppComponent implements OnInit {
         })
 
         this.userService.getUsersSize().subscribe((res: ApiResponse) => {
-            console.log(res)
             if (res.status == 200) {
                 this.store.dispatch(addToUserCount({ payload: res.result as number }))
             } else {
                 this.store.dispatch(addToUserCount({ payload: 0 }))
+            }
+        })
+
+        this.artistService.getArtistsSize().subscribe((res: ApiResponse) => {
+            if (res.status == 200) {
+                this.store.dispatch(addToArtistCount({ payload: res.result as number }))
+            } else {
+                this.store.dispatch(addToArtistCount({ payload: 0 }))
             }
         })
     }

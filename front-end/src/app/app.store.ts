@@ -6,6 +6,7 @@ export interface AppState {
     user: User
     newsCount: number
     usersCount: number
+    artistsCount: number
 }
 
 export const appInitialState: AppState = {
@@ -13,12 +14,14 @@ export const appInitialState: AppState = {
     user: emptyUser(''),
     newsCount: 0,
     usersCount: 0,
+    artistsCount: 0,
 }
 
 export const changeUserLoggedStatus = createAction('[APP] Change login status of the user', props<{ payload: boolean }>())
 export const changeUserInfo = createAction('[APP] Change user info', props<{ payload: User }>())
 export const addToNewsCount = createAction('[APP] Set news count value', props<{ payload: number }>())
 export const addToUserCount = createAction('[APP] Set user count value', props<{ payload: number }>())
+export const addToArtistCount = createAction('[APP] Set artist count value', props<{ payload: number }>())
 
 export const appReducer = createReducer(
     appInitialState,
@@ -56,6 +59,14 @@ export const appReducer = createReducer(
         currentState = {
             ...currentState,
             usersCount: currentState.usersCount + actions.payload,
+        }
+
+        return currentState
+    }),
+    on(addToArtistCount, (currentState, actions) => {
+        currentState = {
+            ...currentState,
+            artistsCount: currentState.artistsCount + actions.payload,
         }
 
         return currentState

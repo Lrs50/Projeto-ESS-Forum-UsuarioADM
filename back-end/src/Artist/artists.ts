@@ -37,6 +37,10 @@ class ArtistDB {
         return MapValuesToArray(this.db)
     }
 
+    getSize(): number {
+        return this.db.size
+    }
+
     createArtist(artist: Artist): Promise<Boolean> {
         this.db.set(artist.id, artist)
 

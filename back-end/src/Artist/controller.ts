@@ -66,6 +66,28 @@ export function getAllArtists(request: Request, response: Response): void {
     return
 }
 
+export function getArtistsSize(request: Request, response: Response): void {
+    log.info('GetArtistsSize request received')
+
+    const valid = validator([], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: ArtistsDB = new ArtistsDB()
+    let result: number = db.getSize()
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
+
+    return
+}
+
 export function createArtist(request: Request, response: Response): void {
     log.info('CreateArtist request received')
 

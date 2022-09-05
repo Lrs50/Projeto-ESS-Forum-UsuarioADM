@@ -21,6 +21,12 @@ export class HomeComponent implements OnInit {
         })
     )
 
+    artistCount: Observable<number> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return state.artistsCount as number
+        })
+    )
+
     isAdmin: Observable<boolean> = this.store.select('app').pipe(
         map((state: AppState) => {
             return (state.user.type == 'Admin') as boolean

@@ -49,6 +49,7 @@ app.post('/userlogin', UsersController.loginUser)
 
 app.get('/artist/:id', ArtistsController.getArtist)
 app.get('/artistall', ArtistsController.getAllArtists)
+app.get('/usersize', ArtistsController.getArtistsSize)
 app.post('/artist', ArtistsController.createArtist)
 app.put('/artist', ArtistsController.editArtist)
 
