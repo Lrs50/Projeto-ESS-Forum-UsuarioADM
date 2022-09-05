@@ -1,6 +1,6 @@
 <div class="news-content-grid">
     <section class="news-content-img">
-        <img nz-image width="180px" height="130px" [nzSrc]="cover" [nzFallback]="imageFall" />
+        <img nz-image width="180px" height="130px" [nzSrc]="cover" [nzFallback]="imageFall" style="border-radius: 10%" />
     </section>
     <section class="news-content-content">
         <nz-space nzDirection="vertical" class="news-text-container">
@@ -20,6 +20,8 @@
         <app-news-shower-statistic [value]="comments" [subtitle]="'comments'"></app-news-shower-statistic>
     </section>
     <section class="news-content-tags">
-        <nz-tag *ngFor="let tag of tags">{{ tag }}</nz-tag>
+        <nz-tag *ngFor="let tag of tags">
+            <strong>{{ tag }}</strong>
+        </nz-tag>
     </section>
 </div>

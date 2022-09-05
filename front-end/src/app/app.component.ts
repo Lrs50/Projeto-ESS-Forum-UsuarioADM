@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
         }
 
         this.newsManagementService.getNewsSize().subscribe((res: ApiResponse) => {
+            console.log(res)
             if (res.status == 200) {
                 this.store.dispatch(addToNewsCount({ payload: res.result as number }))
             } else {
@@ -57,6 +58,7 @@ export class AppComponent implements OnInit {
         })
 
         this.userService.getUsersSize().subscribe((res: ApiResponse) => {
+            console.log(res)
             if (res.status == 200) {
                 this.store.dispatch(addToUserCount({ payload: res.result as number }))
             } else {
@@ -98,5 +100,13 @@ export class AppComponent implements OnInit {
 
         this.router.navigateByUrl(`/home/user/${userId}`)
         this.showProfile = false
+    }
+
+    toggleTheme() {
+        if (this.theme == 'light') {
+            this.theme = 'dark'
+        } else {
+            this.theme = 'light'
+        }
     }
 }

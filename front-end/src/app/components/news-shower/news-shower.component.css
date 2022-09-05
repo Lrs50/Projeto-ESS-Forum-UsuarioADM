@@ -53,6 +53,7 @@ section.news-content-tags {
 .text-content {
     width: calc(90%);
     overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
     display: inline-block;
 }

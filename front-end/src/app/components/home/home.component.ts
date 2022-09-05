@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { AppState, addToNewsCount, addToUserCount } from '../../app.store'
+import { AppState } from '../../app.store'
 import { map, Observable } from 'rxjs'
-import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse } from '../../../../../common/types'
-import { UsersService } from 'src/app/services/users.service'
 
 @Component({
     selector: 'app-home',
@@ -20,12 +17,12 @@ export class HomeComponent implements OnInit {
 
     userCount: Observable<number> = this.store.select('app').pipe(
         map((state: AppState) => {
-            return state.newsCount as number
+            return state.usersCount as number
         })
     )
 
     isAdmin: Observable<boolean> = this.store.select('app').pipe(
-        map((state) => {
+        map((state: AppState) => {
             return (state.user.type == 'Admin') as boolean
         })
     )
