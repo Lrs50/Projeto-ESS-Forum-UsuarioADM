@@ -18,6 +18,8 @@ export class UserProfileEditComponent implements OnInit {
 
     editingUser: User = emptyUser('')
 
+    loading: boolean = false
+
     showModalEditAvatar: boolean = false
 
     userInfo: Observable<User> = this.store.select('app').pipe(
@@ -42,12 +44,15 @@ export class UserProfileEditComponent implements OnInit {
         const userId: string | null = this.route.snapshot.paramMap.get('id')
 
         if (userId != null) {
+            this.loading = true
+
             this.userService.get(userId).subscribe((res: ApiResponse) => {
                 if (res.status == 200) {
                     this.editingUser = res.result as User
                 } else {
                     this.router.navigateByUrl('/notfound')
                 }
+                this.loading = false
             })
         } else {
             this.router.navigateByUrl('/notfound')

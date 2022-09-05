@@ -16,6 +16,8 @@ import { ApiResponse, emptyUser, User } from '../../../../../common/types'
 export class UserProfileComponent implements OnInit {
     imgFall: string = imageFallBack
 
+    loading: boolean = false
+
     user: User = emptyUser('')
 
     userInfo: Observable<User> = this.store.select('app').pipe(
@@ -40,12 +42,15 @@ export class UserProfileComponent implements OnInit {
         const userId: string | null = this.route.snapshot.paramMap.get('id')
 
         if (userId != null) {
+            this.loading = true
             this.userService.get(userId).subscribe((res: ApiResponse) => {
                 if (res.status == 200) {
                     this.user = res.result as User
                 } else {
                     this.router.navigateByUrl('/notfound')
                 }
+
+                this.loading = false
             })
         } else {
             this.router.navigateByUrl('/notfound')

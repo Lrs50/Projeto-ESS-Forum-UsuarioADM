@@ -6,7 +6,7 @@ import { NzStatus } from 'ng-zorro-antd/core/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { AppState } from 'src/app/app.store'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, News, User } from '../../../../../common/types'
+import { ApiResponse, emptyNews, News, User } from '../../../../../common/types'
 import { defaultTags, imageFallBack } from 'src/util'
 import { map, Observable, Subscription, take } from 'rxjs'
 import { addToNewsCount } from '../../app.store'
@@ -24,20 +24,7 @@ export class NewsCreateComponent implements OnInit {
     statusInputContent: NzStatus = ''
     statusInputDescription: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
 
-    news: News = {
-        id: '',
-        cover: '',
-        authorId: '',
-        title: 'Change the title!',
-        description: 'Change the description!',
-        date: '',
-        markdownText: '',
-        edited: false,
-        views: 0,
-        likes: [],
-        comments: [],
-        tags: [],
-    }
+    news: News = emptyNews('', '')
 
     userInfo: Observable<User> = this.store.select('app').pipe(
         map((state: AppState) => {
