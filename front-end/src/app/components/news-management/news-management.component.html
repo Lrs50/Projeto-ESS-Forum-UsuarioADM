@@ -83,9 +83,9 @@
                         </td>
                         <ng-template #tagsBlock>
                             <div *ngIf="news.tags.length == 1; else multipleTagsBlock">
-                                <nz-tag
-                                    ><strong>{{ news.tags[0] }}</strong></nz-tag
-                                >
+                                <nz-tag>
+                                    <strong>{{ news.tags[0].content }}</strong>
+                                </nz-tag>
                             </div>
                             <ng-template #multipleTagsBlock>
                                 <nz-badge [nzCount]="news.tags.length">
@@ -94,7 +94,7 @@
                                     >
                                 </nz-badge>
                                 <ng-template #renderMultipleTagsBlock>
-                                    <nz-tag *ngFor="let tag of news.tags">{{ tag }}</nz-tag>
+                                    <nz-tag *ngFor="let tag of news.tags">{{ tag.content }}</nz-tag>
                                 </ng-template>
                             </ng-template>
                         </ng-template>
