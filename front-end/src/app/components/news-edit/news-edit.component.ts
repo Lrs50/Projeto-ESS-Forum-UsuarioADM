@@ -3,13 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { NzStatus } from 'ng-zorro-antd/core/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, News, User, emptyUser } from '../../../../../common/types'
-import { defaultTags } from 'src/util'
+import { ApiResponse, News, User, emptyUser, Tag, emptyNews } from '../../../../../common/types'
 import { imageFallBack } from 'src/util'
-import { map, Observable } from 'rxjs'
-import { Store } from '@ngrx/store'
-import { AppState } from 'src/app/app.store'
 import { UsersService } from 'src/app/services/users.service'
+import { ArtistService } from 'src/app/services/artist.service'
 
 @Component({
     selector: 'app-news-edit',
@@ -19,26 +16,13 @@ import { UsersService } from 'src/app/services/users.service'
 export class NewsEditComponent implements OnInit {
     imgFall: string = imageFallBack
 
-    avaliableTags: string[] = defaultTags
+    avaliableTags: Tag[] = []
 
     statusInputTitle: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
     statusInputDescription: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
     statusInputContent: NzStatus = ''
 
-    news: News = {
-        id: '',
-        cover: '',
-        authorId: '',
-        title: '',
-        description: '',
-        date: '',
-        markdownText: '',
-        edited: false,
-        views: 0,
-        likes: [],
-        comments: [],
-        tags: [],
-    }
+    news: News = emptyNews('', '')
 
     authorInfo: User = emptyUser('')
 
@@ -47,7 +31,8 @@ export class NewsEditComponent implements OnInit {
         private route: ActivatedRoute,
         private message: NzMessageService,
         private userService: UsersService,
-        private router: Router
+        private router: Router,
+        private artistService: ArtistService
     ) {
         const id: string | null = this.route.snapshot.paramMap.get('id')
 
@@ -60,24 +45,19 @@ export class NewsEditComponent implements OnInit {
                         if (res.status == 200) {
                             this.authorInfo = res.result as User
                         } else {
-                            this.message.create('error', `Something went wrong!`)
+                            this.router.navigateByUrl('/error')
+                        }
+                    })
+
+                    this.artistService.getTags().subscribe((res: ApiResponse) => {
+                        if (res.status == 200) {
+                            this.avaliableTags = res.result as Tag[]
+                        } else {
+                            this.router.navigateByUrl('/error')
                         }
                     })
                 } else {
-                    this.news = {
-                        id: '',
-                        cover: '',
-                        authorId: '',
-                        title: '',
-                        description: '',
-                        date: '',
-                        markdownText: '',
-                        edited: false,
-                        views: 0,
-                        likes: [],
-                        comments: [],
-                        tags: [],
-                    }
+                    this.router.navigateByUrl('/notfound')
                 }
             })
         }

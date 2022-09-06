@@ -1,3 +1,5 @@
+import { Tag } from '../../common/types'
+
 export function MapToArray(map: Map<any, any>): any[] {
     let arr: any[] = []
 
@@ -23,3 +25,10 @@ export function MapValuesToArray(map: Map<any, any>): any[] {
 
     return arr
 }
+
+export const defaultTags: Tag[] = [
+    { content: 'RAP', color: '' },
+    { content: 'TRAP', color: '' },
+    { content: 'POLEMIC', color: '' },
+    { content: 'INTERNACIONAL', color: '' },
+]

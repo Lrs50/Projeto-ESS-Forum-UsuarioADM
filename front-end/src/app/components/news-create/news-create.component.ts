@@ -6,10 +6,11 @@ import { NzStatus } from 'ng-zorro-antd/core/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { AppState } from 'src/app/app.store'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, emptyNews, News, User } from '../../../../../common/types'
-import { defaultTags, imageFallBack } from 'src/util'
-import { map, Observable, Subscription, take } from 'rxjs'
+import { ApiResponse, emptyNews, News, Tag, User } from '../../../../../common/types'
+import { imageFallBack } from 'src/util'
+import { concat, map, Observable, Subscription, take } from 'rxjs'
 import { addToNewsCount } from '../../app.store'
+import { ArtistService } from 'src/app/services/artist.service'
 
 @Component({
     selector: 'app-news-create',
@@ -17,7 +18,7 @@ import { addToNewsCount } from '../../app.store'
     styleUrls: ['./news-create.component.css'],
 })
 export class NewsCreateComponent implements OnInit {
-    avaliableTags: string[] = defaultTags
+    avaliableTags: Tag[] = []
     imgFall: string = imageFallBack
 
     statusInputTitle: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
@@ -36,8 +37,17 @@ export class NewsCreateComponent implements OnInit {
         private newsManagementService: NewsManagementService,
         private message: NzMessageService,
         private router: Router,
-        private store: Store<{ app: AppState }>
-    ) {}
+        private store: Store<{ app: AppState }>,
+        private artistService: ArtistService
+    ) {
+        this.artistService.getTags().subscribe((res: ApiResponse) => {
+            if (res.status == 200) {
+                this.avaliableTags = res.result as Tag[]
+            } else {
+                this.router.navigateByUrl('/notfound')
+            }
+        })
+    }
 
     ngOnInit(): void {}
 

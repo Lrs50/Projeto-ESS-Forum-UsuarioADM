@@ -53,7 +53,7 @@
                 [(ngModel)]="news.tags"
                 style="width: 70%"
             >
-                <nz-option *ngFor="let item of avaliableTags" [nzLabel]="item" [nzValue]="item"></nz-option>
+                <nz-option *ngFor="let item of avaliableTags" [nzLabel]="item.content" [nzValue]="item"></nz-option>
             </nz-select>
 
             <ng-template #tagPlaceHolder let-selectedList>and {{ avaliableTags.length }} more selected</ng-template>

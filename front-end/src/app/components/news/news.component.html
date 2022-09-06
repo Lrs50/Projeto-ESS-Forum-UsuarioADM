@@ -28,8 +28,8 @@
                 </ng-template>
             </nz-spin>
         </nz-card>
-        <ng-template #titleNewsTemplate class="text-ellipsis">
-            <div *ngIf="isUserLogged | async; else notLoggedMessage">
+        <ng-template #titleNewsTemplate>
+            <div *ngIf="isUserLogged | async; else notLoggedMessage" class="text-ellipsis">
                 <h3 nz-typography>Hello, {{ (userInfo | async)!.name }} 👋</h3>
                 <span nz-typography nzType="secondary">Ready for your daily dose of news?</span>
             </div>

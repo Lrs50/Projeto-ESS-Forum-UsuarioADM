@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { imageFallBack } from 'src/util'
+import { Tag } from '../../../../../common/types'
 
 @Component({
     selector: 'app-news-shower',
@@ -17,7 +18,7 @@ export class NewsShowerComponent implements OnInit {
     @Input() likes: number = 0
     @Input() views: number = 0
     @Input() cover: string = ''
-    @Input() tags: string[] = []
+    @Input() tags: Tag[] = []
 
     imageFall: string = imageFallBack
 

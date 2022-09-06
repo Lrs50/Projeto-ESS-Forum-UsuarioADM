@@ -20,8 +20,8 @@
         <app-news-shower-statistic [value]="comments" [subtitle]="'comments'"></app-news-shower-statistic>
     </section>
     <section class="news-content-tags">
-        <nz-tag *ngFor="let tag of tags">
-            <strong>{{ tag }}</strong>
+        <nz-tag *ngFor="let tag of tags" [nzColor]="tag.color">
+            <strong>{{ tag.content }}</strong>
         </nz-tag>
     </section>
 </div>

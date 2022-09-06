@@ -29,7 +29,7 @@ section.news-footer {
 }
 
 .text-ellipsis {
-    width: calc(100%);
+    width: calc(80%);
     text-overflow: ellipsis;
     white-space: nowrap;
     display: inline-block;

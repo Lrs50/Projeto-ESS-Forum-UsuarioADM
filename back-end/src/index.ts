@@ -49,9 +49,11 @@ app.post('/userlogin', UsersController.loginUser)
 
 app.get('/artist/:id', ArtistsController.getArtist)
 app.get('/artistall', ArtistsController.getAllArtists)
-app.get('/usersize', ArtistsController.getArtistsSize)
+app.get('/artistsize', ArtistsController.getArtistsSize)
 app.post('/artist', ArtistsController.createArtist)
 app.put('/artist', ArtistsController.editArtist)
+
+app.get('/artisttags', ArtistsController.getTags)
 
 app.listen(port, () => {
     log.info('Backend listening on port 3000')

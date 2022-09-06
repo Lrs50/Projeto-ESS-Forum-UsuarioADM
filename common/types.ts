@@ -67,6 +67,18 @@ export function emptyComment(id: CommentId, authorId: string): Comment {
   } as Comment;
 }
 
+export interface Tag {
+  content: string;
+  color: string;
+}
+
+export function emptyTag(): Tag {
+  return {
+    content: "",
+    color: "",
+  } as Tag;
+}
+
 export interface News {
   readonly id: string;
   readonly authorId: string;
@@ -79,7 +91,7 @@ export interface News {
   views: number;
   likes: Like[];
   comments: Comment[];
-  tags: string[];
+  tags: Tag[];
 }
 
 export function emptyNews(id: CommentId, authorId: string): News {

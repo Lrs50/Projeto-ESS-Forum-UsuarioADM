@@ -1,4 +1,4 @@
-import { Artist } from '../../../common/types'
+import { Artist, Tag } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
 import Path from 'path'
 
@@ -6,7 +6,7 @@ import Path from 'path'
 // Cada função é responsável por uma tarefa especifica
 
 import Logger from '@ptkdev/logger'
-import { ArrayToMap, MapToArray, MapValuesToArray } from '../utils'
+import { ArrayToMap, defaultTags, MapToArray, MapValuesToArray } from '../utils'
 
 const log = new Logger()
 
@@ -63,6 +63,16 @@ class ArtistDB {
         let result: Promise<Boolean> = this.saveArtists()
 
         return result
+    }
+
+    getTags(): Tag[] {
+        let tags: Tag[] = defaultTags
+
+        this.db.forEach((artist: Artist) => {
+            tags.push({ content: artist.name, color: 'magenta' })
+        })
+
+        return tags
     }
 
     async saveArtists(): Promise<Boolean> {

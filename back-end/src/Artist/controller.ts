@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import ArtistsDB from './artists'
-import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_NOT_FOUND, HTTP_ERROR, ApiResponse, Artist } from '../../../common/types'
+import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_NOT_FOUND, HTTP_ERROR, ApiResponse, Artist, Tag } from '../../../common/types'
 import Logger from '@ptkdev/logger'
 
 const log = new Logger()
@@ -36,6 +36,28 @@ export function getArtist(request: Request, response: Response): void {
 
         response.send(httpResponse)
     }
+
+    return
+}
+
+export function getTags(request: Request, response: Response): void {
+    log.info('GetTags request received')
+
+    const valid = validator([], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: ArtistsDB = new ArtistsDB()
+    let result: Tag[] = db.getTags()
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
 
     return
 }
