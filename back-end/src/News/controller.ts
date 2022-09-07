@@ -385,7 +385,7 @@ export function removeLikeInComment(request: Request, response: Response): void 
 }
 
 export function addDislikeInComment(request: Request, response: Response): void {
-    log.info('AddLike request received')
+    log.info('AddDislikeInComment request received')
 
     const valid = validator(['newsId', 'commentId', 'authorLikeId'], request.body)
 
@@ -411,7 +411,7 @@ export function addDislikeInComment(request: Request, response: Response): void 
 }
 
 export function removeDislikeInComment(request: Request, response: Response): void {
-    log.info('AddLike request received')
+    log.info('RemoveDislikeInComment request received')
 
     const valid = validator(['newsId', 'commentId', 'authorLikeId'], request.body)
 
