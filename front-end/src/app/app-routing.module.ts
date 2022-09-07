@@ -27,7 +27,7 @@ const routes: Routes = [
             { path: 'management/news/create', component: NewsCreateComponent, canActivate: [LoggedUserGuard, AdminUserGuard] },
             { path: 'management/news', component: NewsManagementComponent, canActivate: [LoggedUserGuard, AdminUserGuard] },
             { path: 'user/:id', component: UserProfileComponent },
-            { path: 'user/:id/edit', component: UserProfileEditComponent },
+            { path: 'user/:id/edit', component: UserProfileEditComponent, canActivate: [LoggedUserGuard] },
         ],
     },
     { path: 'login', component: LoginComponent, canActivate: [LoggedUserGuard] },

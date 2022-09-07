@@ -6,6 +6,14 @@ export type ApiResponse = {
   result?: Object;
 };
 
+export function createHTTPSuccessWithResult(result: Object): ApiResponse {
+  return {
+    msg: "SUCCESS",
+    status: 200,
+    result: result,
+  } as ApiResponse;
+}
+
 export const HTTP_SUCCESS: ApiResponse = { msg: "SUCCESS", status: 200 };
 export const HTTP_BAD_REQUEST: ApiResponse = {
   msg: "BAD REQUEST",
