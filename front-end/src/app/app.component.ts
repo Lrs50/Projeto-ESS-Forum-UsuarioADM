@@ -8,11 +8,13 @@ import { imageFallBack } from 'src/util'
 import { Router } from '@angular/router'
 import { UsersService } from './services/users.service'
 import { ArtistService } from './services/artist.service'
+import { fadeAnimation } from './app.animations'
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
+    animations: [fadeAnimation],
 })
 export class AppComponent implements OnInit {
     imgFall: string = imageFallBack

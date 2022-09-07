@@ -372,7 +372,7 @@ c6.565,0.753,13.236,1.154,20,1.154V73.17z"
             </nz-space>
         </ng-template>
     </section>
-    <main #target>
-        <router-outlet></router-outlet>
+    <main [@fadeAnimation]="outlet.isActivated ? outlet.activatedRoute : ''">
+        <router-outlet #outlet="outlet"></router-outlet>
     </main>
 </div>

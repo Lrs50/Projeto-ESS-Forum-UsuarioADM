@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { AppState } from '../../app.store'
 import { map, Observable } from 'rxjs'
+import { fadeAnimation } from 'src/app/app.animations'
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
+    animations: [fadeAnimation],
 })
 export class HomeComponent implements OnInit {
     newsCount: Observable<number> = this.store.select('app').pipe(

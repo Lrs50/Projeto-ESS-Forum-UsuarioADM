@@ -1,6 +1,6 @@
-<div class="home-grid-container">
+<div class="home-grid-container" [@fadeAnimation]="outlet.isActivated ? outlet.activatedRoute : ''">
     <section class="main-content">
-        <router-outlet></router-outlet>
+        <router-outlet #outlet="outlet"></router-outlet>
     </section>
     <section class="right-sidebar">
         <div nz-row [nzGutter]="[16, 16]" style="padding: 0.5rem">
