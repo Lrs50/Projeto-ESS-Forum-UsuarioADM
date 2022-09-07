@@ -6,6 +6,7 @@ import { AppState, changeUserInfo, changeUserLoggedStatus } from 'src/app/app.st
 import { ApiResponse, User } from '../../../../../common/types'
 import { UsersService } from 'src/app/services/users.service'
 import { NzMessageService } from 'ng-zorro-antd/message'
+import { map, Observable } from 'rxjs'
 
 @Component({
     selector: 'app-login',
@@ -14,6 +15,27 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 })
 export class LoginComponent implements OnInit {
     validateForm!: FormGroup
+
+    logged: Observable<Boolean> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return state.logged
+        })
+    )
+
+    constructor(
+        private fb: FormBuilder,
+        private router: Router,
+        private store: Store<{ app: AppState }>,
+        private userService: UsersService,
+        private message: NzMessageService
+    ) {}
+
+    ngOnInit(): void {
+        this.validateForm = this.fb.group({
+            userName: [null, [Validators.required]],
+            password: [null, [Validators.required]],
+        })
+    }
 
     submitForm(): void {
         if (this.validateForm.valid) {
@@ -38,20 +60,5 @@ export class LoginComponent implements OnInit {
                 }
             })
         }
-    }
-
-    constructor(
-        private fb: FormBuilder,
-        private router: Router,
-        private store: Store<{ app: AppState }>,
-        private userService: UsersService,
-        private message: NzMessageService
-    ) {}
-
-    ngOnInit(): void {
-        this.validateForm = this.fb.group({
-            userName: [null, [Validators.required]],
-            password: [null, [Validators.required]],
-        })
     }
 }
