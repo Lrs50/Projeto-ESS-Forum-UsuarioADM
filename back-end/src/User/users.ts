@@ -1,6 +1,7 @@
 import { User } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
 import Path from 'path'
+import AppConfig from '../app.config.json'
 
 // Definição da classe da database que vai ler e escrever no arquivo data.json
 // Cada função é responsável por uma tarefa especifica
@@ -14,8 +15,12 @@ class UsersDB {
     db: Map<string, User>
     path: string
 
-    constructor(path: string = './data.json') {
-        this.path = path
+    constructor() {
+        if(AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD'){
+            this.path = './data.json'
+        } else {
+            this.path = './data.test.json'
+        }
 
         let content: string = readFileSync(Path.resolve(__dirname, this.path), { encoding: 'utf8', flag: 'r' })
 

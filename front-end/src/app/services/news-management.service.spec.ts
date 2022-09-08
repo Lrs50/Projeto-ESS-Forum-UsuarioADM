@@ -91,4 +91,20 @@ fdescribe('NewsManagementService', () => {
             expect(res.status).toBe(200)
         })
     })
+
+    it('Service should be able to getAll news', () => {
+        let temp = new Observable<ApiResponse>((subscriber: Subscriber<ApiResponse>) => {
+            subscriber.next(createHTTPSuccessWithResult([emptyNews('', '')]))
+            subscriber.complete()
+        })
+
+        let spy = spyOn(http, 'get').and.returnValue(temp)
+
+        let response: Observable<ApiResponse> = service.getAll()
+
+        response.subscribe((res: ApiResponse) => {
+            expect(spy).toHaveBeenCalledOnceWith('http://localhost:3000/newsall')
+            expect(res.status).toBe(200)
+        })
+    })
 })

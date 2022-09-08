@@ -10,7 +10,7 @@ describe('News backend', () => {
     let database: NewsDB
 
     beforeAll(() => {
-        database = new NewsDB('./data.test.json')
+        database = new NewsDB()
     })
 
     test('The database path should be correct', () => {

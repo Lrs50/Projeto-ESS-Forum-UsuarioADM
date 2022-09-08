@@ -4,15 +4,17 @@ import * as UsersController from './User/controller'
 import * as ArtistsController from './Artist/controller'
 import { HTTP_SUCCESS } from '../../common/types'
 import cors from 'cors'
+import AppConfig from './app.config.json'
 
 import Logger from '@ptkdev/logger'
+
 
 const log = new Logger()
 
 const app: Application = express()
-const port = 3000
+const port = AppConfig.PORT
 
-app.use(cors({ origin: 'http://localhost:4200' }))
+app.use(cors({ origin: AppConfig.EXPRESS_ORIGIN_ALLOW }))
 app.use(express.json())
 
 // As rotas são cadastradas aqui, "/" significa localhost:3000, usar o POSTMAN para fazer as requisições e testar.

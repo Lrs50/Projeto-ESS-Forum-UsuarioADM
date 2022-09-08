@@ -3,6 +3,7 @@ import { readFileSync, promises } from 'fs'
 import Path from 'path'
 import { ArrayToMap, MapToArray, MapValuesToArray } from '../utils'
 import Logger from '@ptkdev/logger'
+import AppConfig from '../app.config.json'
 
 const log = new Logger()
 
@@ -13,8 +14,12 @@ class NewsDB {
     db: Map<string, News> = new Map<string, News>()
     path: string
 
-    constructor(path: string = './data.json') {
-        this.path = path
+    constructor() {
+        if(AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD'){
+            this.path = './data.json'
+        } else {
+            this.path = './data.test.json'
+        }
 
         let content: string = readFileSync(Path.resolve(__dirname, this.path), { encoding: 'utf8', flag: 'r' })
 

@@ -8,7 +8,7 @@
         "start": "nodemon src/index.ts --resolveJsonModule --ignore src/**/data.json",
         "test:all": "jest",
         "test:news": "jest src/News/news.test.ts",
-        "test:comments": "jest src/Comments/comments.test.ts"
+        "test:users": "jest src/User/users.test.ts"
     },
     "keywords": [],
     "author": "",
