@@ -1,16 +1,18 @@
 import { TestBed } from '@angular/core/testing'
-import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { NewsManagementService } from './news-management.service'
-import { HttpClient } from '@angular/common/http'
-import { ApiResponse, createHTTPSuccessWithResult, emptyNews, HTTP_SUCCESS } from '../../../../common/types'
-import { observable, Observable, Subscriber } from 'rxjs'
+import { HttpClient, HttpClientModule } from '@angular/common/http'
+import { ApiResponse, emptyNews } from '../../../../common/types'
+import { firstValueFrom } from 'rxjs'
+
+jasmine.getEnv().configure({ random: false })
 
 fdescribe('NewsManagementService', () => {
     let service: NewsManagementService
     let http: HttpClient
+
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
+            imports: [HttpClientModule],
         })
         service = TestBed.inject(NewsManagementService)
         http = TestBed.inject(HttpClient)
@@ -20,91 +22,70 @@ fdescribe('NewsManagementService', () => {
         expect(service).toBeTruthy()
     })
 
-    it('Get method should be called with a valid endpoint', () => {
-        let spy = spyOn(http, 'get')
+    it('Service should be able to CREATE a news', async () => {
+        let spy = spyOn(http, 'post').and.callThrough()
 
-        service.get('123')
+        let response: ApiResponse = await firstValueFrom(service.create(emptyNews('123', '123')))
 
-        expect(spy).toHaveBeenCalledOnceWith('http://localhost:3000/news/123')
+        expect(spy).toHaveBeenCalledWith('http://localhost:3000/news', emptyNews('123', '123'))
+        expect(response.status).toBe(200)
     })
 
-    it('Service should be able to get a news', () => {
-        let temp = new Observable<ApiResponse>((subscriber: Subscriber<ApiResponse>) => {
-            subscriber.next(createHTTPSuccessWithResult(emptyNews('', '')))
-            subscriber.complete()
-        })
+    it('Service should be able to GET a news', async () => {
+        let spy = spyOn(http, 'get').and.callThrough()
 
-        let spy = spyOn(http, 'get').and.returnValue(temp)
+        let response: ApiResponse = await firstValueFrom(service.get('123'))
 
-        let response: Observable<ApiResponse> = service.get('123')
-
-        response.subscribe((res: ApiResponse) => {
-            expect(spy).toHaveBeenCalledOnceWith('http://localhost:3000/news/123')
-            expect(res.result).not.toBe(undefined)
-        })
+        expect(spy).toHaveBeenCalledWith('http://localhost:3000/news/123')
+        expect(response.status).toBe(200)
+        expect(response.result).not.toBeUndefined()
     })
 
-    it('Service should be able to create a news', () => {
-        let temp = new Observable<ApiResponse>((subscriber: Subscriber<ApiResponse>) => {
-            subscriber.next(HTTP_SUCCESS)
-            subscriber.complete()
-        })
+    it('Service should be able to GETALL news', async () => {
+        let spy = spyOn(http, 'get').and.callThrough()
 
-        let spy = spyOn(http, 'post').and.returnValue(temp)
+        let response: ApiResponse = await firstValueFrom(service.getAll())
 
-        let response: Observable<ApiResponse> = service.create(emptyNews('', ''))
-
-        response.subscribe((res: ApiResponse) => {
-            expect(spy).toHaveBeenCalledOnceWith('http://localhost:3000/news', emptyNews('', ''))
-            expect(res.status).toBe(200)
-        })
+        expect(spy).toHaveBeenCalledWith('http://localhost:3000/newsall')
+        expect(response.status).toBe(200)
+        expect(response.result).not.toBeUndefined()
     })
 
-    it('Service should be able to edit a news', () => {
-        let temp = new Observable<ApiResponse>((subscriber: Subscriber<ApiResponse>) => {
-            subscriber.next(HTTP_SUCCESS)
-            subscriber.complete()
-        })
+    it('Service should be able to GETSIZE of news', async () => {
+        let spy = spyOn(http, 'get').and.callThrough()
 
-        let spy = spyOn(http, 'put').and.returnValue(temp)
+        let response: ApiResponse = await firstValueFrom(service.getNewsSize())
 
-        let response: Observable<ApiResponse> = service.edit(emptyNews('', ''))
-
-        response.subscribe((res: ApiResponse) => {
-            expect(spy).toHaveBeenCalledOnceWith('http://localhost:3000/news', emptyNews('', ''))
-            expect(res.status).toBe(200)
-        })
+        expect(spy).toHaveBeenCalledWith('http://localhost:3000/newssize')
+        expect(response.status).toBe(200)
+        expect(response.result).not.toBeUndefined()
     })
 
-    it('Service should be able to delete a news', () => {
-        let temp = new Observable<ApiResponse>((subscriber: Subscriber<ApiResponse>) => {
-            subscriber.next(HTTP_SUCCESS)
-            subscriber.complete()
-        })
+    it('Service should be able to GETPAGE of news', async () => {
+        let spy = spyOn(http, 'get').and.callThrough()
 
-        let spy = spyOn(http, 'delete').and.returnValue(temp)
+        let response: ApiResponse = await firstValueFrom(service.getPage(1, 5))
 
-        let response: Observable<ApiResponse> = service.delete('')
-
-        response.subscribe((res: ApiResponse) => {
-            expect(spy).toHaveBeenCalledOnceWith('http://localhost:3000/news', { body: { id: '' } })
-            expect(res.status).toBe(200)
-        })
+        expect(spy).toHaveBeenCalledWith('http://localhost:3000/newspage/1/5')
+        expect(response.status).toBe(200)
+        expect(response.result).not.toBeUndefined()
     })
 
-    it('Service should be able to getAll news', () => {
-        let temp = new Observable<ApiResponse>((subscriber: Subscriber<ApiResponse>) => {
-            subscriber.next(createHTTPSuccessWithResult([emptyNews('', '')]))
-            subscriber.complete()
-        })
+    it('Service should be able to EDIT a news', async () => {
+        let spy = spyOn(http, 'put').and.callThrough()
 
-        let spy = spyOn(http, 'get').and.returnValue(temp)
+        let response: ApiResponse = await firstValueFrom(service.edit(emptyNews('123', '123')))
 
-        let response: Observable<ApiResponse> = service.getAll()
+        expect(spy).toHaveBeenCalledWith('http://localhost:3000/news', emptyNews('123', '123'))
+        expect(response.status).toBe(200)
+    })
 
-        response.subscribe((res: ApiResponse) => {
-            expect(spy).toHaveBeenCalledOnceWith('http://localhost:3000/newsall')
-            expect(res.status).toBe(200)
-        })
+    it('Service should be able to DELETE a news', async () => {
+        let spy = spyOn(http, 'delete').and.callThrough()
+
+        let response: ApiResponse = await firstValueFrom(service.delete('123'))
+
+        expect(spy).toHaveBeenCalledWith('http://localhost:3000/news', { body: { id: '123' } })
+        expect(response.status).toBe(200)
     })
 })

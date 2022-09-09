@@ -1,5 +1,0 @@
-{
-    "MODE": "PROD",
-    "PORT": 3000,
-    "EXPRESS_ORIGIN_ALLOW": "APP_HOST_AND_PORT" 
-}
