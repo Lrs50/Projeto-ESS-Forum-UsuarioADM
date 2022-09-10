@@ -25,13 +25,13 @@ export class AppComponent implements OnInit {
     theme: string = 'light'
 
     logged: Observable<Boolean> = this.store.select('app').pipe(
-        map((state) => {
+        map((state: AppState) => {
             return state.logged
         })
     )
 
     userInfo: Observable<User> = this.store.select('app').pipe(
-        map((state) => {
+        map((state: AppState) => {
             return state.user
         })
     )
@@ -110,13 +110,5 @@ export class AppComponent implements OnInit {
 
         this.router.navigateByUrl(`/home/user/${userId}`)
         this.showProfile = false
-    }
-
-    toggleTheme() {
-        if (this.theme == 'light') {
-            this.theme = 'dark'
-        } else {
-            this.theme = 'light'
-        }
     }
 }
