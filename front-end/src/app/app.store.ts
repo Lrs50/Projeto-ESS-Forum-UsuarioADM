@@ -7,6 +7,8 @@ export interface AppState {
     newsCount: number
     usersCount: number
     artistsCount: number
+    currentURL: string
+    previousURL: string
 }
 
 export const appInitialState: AppState = {
@@ -15,6 +17,8 @@ export const appInitialState: AppState = {
     newsCount: 0,
     usersCount: 0,
     artistsCount: 0,
+    currentURL: '/home',
+    previousURL: '/home',
 }
 
 export const changeUserLoggedStatus = createAction('[APP] Change login status of the user', props<{ payload: boolean }>())
@@ -22,6 +26,7 @@ export const changeUserInfo = createAction('[APP] Change user info', props<{ pay
 export const addToNewsCount = createAction('[APP] Set news count value', props<{ payload: number }>())
 export const addToUserCount = createAction('[APP] Set user count value', props<{ payload: number }>())
 export const addToArtistCount = createAction('[APP] Set artist count value', props<{ payload: number }>())
+export const addURLToHistory = createAction('[APP] Add URL to history', props<{ payload: string }>())
 
 export const appReducer = createReducer(
     appInitialState,
@@ -67,6 +72,15 @@ export const appReducer = createReducer(
         currentState = {
             ...currentState,
             artistsCount: currentState.artistsCount + actions.payload,
+        }
+
+        return currentState
+    }),
+    on(addURLToHistory, (currentState, actions) => {
+        currentState = {
+            ...currentState,
+            previousURL: currentState.currentURL,
+            currentURL: actions.payload,
         }
 
         return currentState

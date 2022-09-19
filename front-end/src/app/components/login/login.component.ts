@@ -6,7 +6,7 @@ import { AppState, changeUserInfo, changeUserLoggedStatus } from 'src/app/app.st
 import { ApiResponse, User } from '../../../../../common/types'
 import { UsersService } from 'src/app/services/users.service'
 import { NzMessageService } from 'ng-zorro-antd/message'
-import { map, Observable } from 'rxjs'
+import { firstValueFrom, map, Observable } from 'rxjs'
 
 @Component({
     selector: 'app-login',
@@ -42,12 +42,21 @@ export class LoginComponent implements OnInit {
             let name: string = this.validateForm.value.userName
             let password: string = this.validateForm.value.password
 
-            this.userService.login(name, password).subscribe((res: ApiResponse) => {
+            this.userService.login(name, password).subscribe(async (res: ApiResponse) => {
                 if (res.status == 200) {
                     this.message.create('success', `Logged!`)
                     this.store.dispatch(changeUserInfo({ payload: res.result as User }))
                     this.store.dispatch(changeUserLoggedStatus({ payload: true }))
-                    this.router.navigateByUrl('/home')
+
+                    let previousURL: string = await firstValueFrom(
+                        this.store.select('app').pipe(
+                            map((state: AppState) => {
+                                return state.previousURL
+                            })
+                        )
+                    )
+
+                    this.router.navigateByUrl(previousURL)
                 } else {
                     this.message.create('error', `The credentials don't match or does not exist!`)
                 }

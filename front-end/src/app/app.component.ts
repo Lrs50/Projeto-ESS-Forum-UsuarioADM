@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { map, Observable, Subscription, take } from 'rxjs'
 import { ApiResponse, User, emptyUser } from '../../../common/types'
-import { addToArtistCount, addToNewsCount, addToUserCount, AppState, changeUserInfo, changeUserLoggedStatus } from './app.store'
+import { addToArtistCount, addToNewsCount, addToUserCount, addURLToHistory, AppState, changeUserInfo, changeUserLoggedStatus } from './app.store'
 import { NewsManagementService } from './services/news-management.service'
 import { imageFallBack } from 'src/util'
-import { Router } from '@angular/router'
+import { Event, NavigationStart, Router } from '@angular/router'
 import { UsersService } from './services/users.service'
 import { ArtistService } from './services/artist.service'
 import { fadeAnimation } from './app.animations'
@@ -51,6 +51,14 @@ export class AppComponent implements OnInit {
             this.store.dispatch(changeUserInfo({ payload: user }))
             this.store.dispatch(changeUserLoggedStatus({ payload: true }))
         }
+
+        this.router.events.subscribe((event: Event) => {
+            if (event instanceof NavigationStart) {
+                let currentURL: string = event.url
+
+                this.store.dispatch(addURLToHistory({ payload: currentURL }))
+            }
+        })
 
         this.newsManagementService.getNewsSize().subscribe((res: ApiResponse) => {
             if (res.status == 200) {
