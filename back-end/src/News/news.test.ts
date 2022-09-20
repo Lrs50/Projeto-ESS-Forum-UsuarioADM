@@ -1,16 +1,16 @@
-import { News } from '../../../common/types'
+import { emptyComment, News } from '../../../common/types'
 import { validator } from './controller'
 import NewsDB from './news'
 
 // Testes devem ser criados como [instancia].test.ts */
 // Estude JEST e a sua linguagem
-// Esture JASMINE para o front-end
+// Estude JASMINE para o front-end
 
 describe('News backend', () => {
     let database: NewsDB
 
     beforeAll(() => {
-        database = new NewsDB('./data.test.json')
+        database = new NewsDB()
     })
 
     test('The database path should be correct', () => {
@@ -31,22 +31,32 @@ describe('News backend', () => {
     test('The database should be able to create a News', async () => {
         const spy = jest.spyOn(database, 'saveNews')
 
-        let result: Boolean = await database.createNews({
+        let tempNews: News = {
             id: 'fake-id',
+            authorId: 'fake-id',
+            cover: 'fake-cover',
             title: 'fake-title',
             date: 'fake-date',
-            markdownText: 'fake-markdownText',
-        } as News)
+            description: 'fake-description',
+            markdownText: 'fake-markdown',
+            edited: false,
+            views: 0,
+            likes: [],
+            comments: [],
+            tags: [],
+        }
+
+        let result: Boolean = await database.createNews(tempNews)
 
         expect(spy).toBeCalled()
         expect(result).toBeTruthy()
-        expect(database.db.length).toBe(1)
+        expect(database.db.size).toBe(1)
     })
 
     test('The database should be able to get a News', async () => {
         const spy = jest.spyOn(database, 'getNews')
 
-        let result: News | undefined = await database.getNews('fake-id')
+        let result: News | undefined = database.getNews('fake-id')
 
         expect(spy).toBeCalled()
         expect(result).not.toBeUndefined()
@@ -55,7 +65,7 @@ describe('News backend', () => {
     test('The database should not be able to get a News that doesnt exists', async () => {
         const spy = jest.spyOn(database, 'getNews')
 
-        let result: News | undefined = await database.getNews('fake-id-not-present')
+        let result: News | undefined = database.getNews('fake-id-not-present')
 
         expect(spy).toBeCalled()
         expect(result).toBeUndefined()
@@ -64,7 +74,7 @@ describe('News backend', () => {
     test('The database should support pagination', async () => {
         const spy = jest.spyOn(database, 'getNewsPage')
 
-        let result: News[] = await database.getNewsPage(1, 5)
+        let result: News[] = database.getNewsPage(1, 5)
 
         expect(spy).toBeCalled()
         expect(result.length).toBe(1)
@@ -74,10 +84,18 @@ describe('News backend', () => {
         const spy = jest.spyOn(database, 'saveNews')
 
         let result: Boolean = await database.editNews('fake-id-not-existent', {
-            id: 'fake-id-edited',
+            id: 'fake-id',
+            authorId: 'fake-id',
+            cover: 'fake-cover',
             title: 'fake-title',
             date: 'fake-date',
-            markdownText: 'fake-markdownText',
+            description: 'fake-description',
+            markdownText: 'fake-markdown',
+            edited: false,
+            views: 0,
+            likes: [],
+            comments: [],
+            tags: [],
         } as News)
 
         expect(spy).not.toBeCalled()
@@ -88,15 +106,104 @@ describe('News backend', () => {
         const spy = jest.spyOn(database, 'saveNews')
 
         let result: Boolean = await database.editNews('fake-id', {
-            id: 'fake-id-edited',
-            title: 'fake-title',
+            id: 'fake-id',
+            authorId: 'fake-id',
+            cover: 'fake-cover',
+            title: 'fake-title-edited',
             date: 'fake-date',
-            markdownText: 'fake-markdownText',
+            description: 'fake-description',
+            markdownText: 'fake-markdown',
+            edited: false,
+            views: 0,
+            likes: [],
+            comments: [],
+            tags: [],
         } as News)
 
         expect(spy).toBeCalled()
         expect(result).toBeTruthy()
-        expect(database.db.length).toBe(1)
+        expect(database.db.size).toBe(1)
+    })
+
+    test('The database should be able to add a view', async () => {
+        let result: Boolean = await database.addView('fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.views).toBe(1)
+    })
+
+    test('The database should be able to add a like', async () => {
+        let result: Boolean = await database.addLike('fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.likes.length).toBe(1)
+    })
+
+    test('The database should be able to remove a like', async () => {
+        let result: Boolean = await database.removeLike('fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.likes.length).toBe(0)
+    })
+
+    test('The database should be able to add a comment', async () => {
+        let result: Boolean = await database.addComment('fake-id', emptyComment('fake-id', 'fake-id'))
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments.length).toBe(1)
+    })
+
+    test('The database should be able to add a like in a comment', async () => {
+        let result: Boolean = await database.addLikeInComment('fake-id', 'fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments[0].likes.length).toBe(1)
+    })
+
+    test('The database should be able to remove a like in a comment', async () => {
+        let result: Boolean = await database.removeLikeInComment('fake-id', 'fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments[0].likes.length).toBe(0)
+    })
+
+    test('The database should be able to add a dislike in a comment', async () => {
+        let result: Boolean = await database.addDislikeInComment('fake-id', 'fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments[0].dislikes.length).toBe(1)
+    })
+
+    test('The database should be able to remove a dislike in a comment', async () => {
+        let result: Boolean = await database.removeDislikeInComment('fake-id', 'fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments[0].likes.length).toBe(0)
+    })
+
+    test('The database should be able to remove a comment', async () => {
+        let result: Boolean = await database.removeComment('fake-id', 'fake-id')
+
+        let find: News | undefined = database.getNews('fake-id')
+
+        expect(result).toBeTruthy()
+        expect(find?.comments.length).toBe(0)
     })
 
     test('The database shouldnt be able to delete News that doenst exists', async () => {
@@ -106,17 +213,17 @@ describe('News backend', () => {
 
         expect(spy).not.toBeCalled()
         expect(result).not.toBeTruthy()
-        expect(database.db.length).toBe(1)
+        expect(database.db.size).toBe(1)
     })
 
     test('The database should be able to delete a News', async () => {
         const spy = jest.spyOn(database, 'saveNews')
 
-        let result: Boolean = await database.deleteNews('fake-id-edited')
+        let result: Boolean = await database.deleteNews('fake-id')
 
         expect(spy).toBeCalled()
         expect(result).toBeTruthy()
-        expect(database.db.length).toBe(0)
+        expect(database.db.size).toBe(0)
     })
 
     test('Http Validator should work properly', () => {

@@ -1,0 +1,35 @@
+<div class="user-profile-container">
+    <div nz-row nzGutter="24" class="full-height">
+        <div nz-col nzMd="24" nzLg="7" class="full-height">
+            <nz-spin [nzSpinning]="loading" nzTip="Loading...">
+                <nz-card [nzBordered]="false" [nzCover]="coverTemplate" [nzActions]="[extraTemplate, logoutTemplate]">
+                    <nz-space nzDirection="vertical" nzAlign="center" class="full-width">
+                        <nz-avatar *nzSpaceItem [nzSize]="64" nzIcon="user" [nzSrc]="user.avatar"></nz-avatar>
+                        <h4 nz-typography *nzSpaceItem>{{ user.name }}</h4>
+                        <h5 nz-typography *nzSpaceItem nzType="secondary">{{ user.type }}</h5>
+                        <span *nzSpaceItem nz-typography>{{ user.aboutme }}</span>
+                    </nz-space>
+                    <ng-template #coverTemplate>
+                        <img nz-image [nzSrc]="user.cover" />
+                    </ng-template>
+
+                    <ng-template #extraTemplate>
+                        <a *ngIf="(isAdmin | async) == true || (userInfo | async)!.id == user.id" nz-button nzType="text" routerLink="edit">
+                            <span nz-icon nzType="edit"></span> Edit Profile
+                        </a>
+                    </ng-template>
+                    <ng-template #logoutTemplate>
+                        <a *ngIf="(userInfo | async)!.id == user.id" nz-button nzType="text" routerLink="edit" nzDanger (click)="onLogout()">
+                            Logout
+                        </a>
+                    </ng-template>
+                </nz-card>
+            </nz-spin>
+        </div>
+        <div nz-col nzMd="24" nzLg="17" class="full-height">
+            <nz-spin [nzSpinning]="loading" nzTip="Loading...">
+                <nz-card [nzBordered]="false"> </nz-card>
+            </nz-spin>
+        </div>
+    </div>
+</div>

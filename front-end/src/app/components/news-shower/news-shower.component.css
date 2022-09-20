@@ -11,37 +11,37 @@
 
 section.news-content-img {
     grid-area: img;
-    background: blue;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #fefefe;
 }
 
 section.news-content-content {
     grid-area: content;
-    background: purple;
+    background: #fefefe;
 }
 
 section.news-content-views {
     grid-area: views;
-    background: aqua;
+    background: #fefefe;
 }
 
 section.news-content-likes {
     grid-area: likes;
-    background: aliceblue;
+    background: #fefefe;
 }
 
 section.news-content-comments {
     grid-area: comments;
-    background: aquamarine;
+    background: #fefefe;
 }
 
 section.news-content-tags {
     grid-area: tags;
-    background: lightcoral;
     display: flex;
     align-items: center;
+    background: #fefefe;
 }
 
 .news-text-container {
@@ -53,7 +53,7 @@ section.news-content-tags {
 .text-content {
     width: calc(90%);
     overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
     display: inline-block;
-    text-overflow: ellipsis;
 }

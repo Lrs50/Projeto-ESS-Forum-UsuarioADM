@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { NzStatus } from 'ng-zorro-antd/core/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, News } from '../../../../../common/types'
-import { defaultTags } from 'src/util'
+import { ApiResponse, News, User, emptyUser, Tag, emptyNews } from '../../../../../common/types'
 import { imageFallBack } from 'src/util'
+import { UsersService } from 'src/app/services/users.service'
+import { ArtistService } from 'src/app/services/artist.service'
 
 @Component({
     selector: 'app-news-edit',
@@ -15,47 +16,48 @@ import { imageFallBack } from 'src/util'
 export class NewsEditComponent implements OnInit {
     imgFall: string = imageFallBack
 
-    avaliableTags: string[] = defaultTags
+    avaliableTags: Tag[] = []
 
     statusInputTitle: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
+    statusInputDescription: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
     statusInputContent: NzStatus = ''
 
-    news: News = {
-        id: '',
-        cover: '',
-        authorId: '',
-        title: '',
-        date: '',
-        markdownText: '',
-        edited: false,
-        views: 0,
-        likes: [],
-        comments: [],
-        tags: [],
-    }
+    news: News = emptyNews('', '')
 
-    constructor(private newsManagementService: NewsManagementService, private route: ActivatedRoute, private message: NzMessageService) {
+    authorInfo: User = emptyUser('')
+
+    constructor(
+        private newsManagementService: NewsManagementService,
+        private route: ActivatedRoute,
+        private message: NzMessageService,
+        private userService: UsersService,
+        private router: Router,
+        private artistService: ArtistService
+    ) {
         const id: string | null = this.route.snapshot.paramMap.get('id')
 
         if (id != null) {
             this.newsManagementService.get(id).subscribe((res: ApiResponse) => {
                 if (res.status == 200) {
-                    console.log(res)
                     this.news = res.result as News
+
+                    this.userService.get(this.news.authorId).subscribe((res: ApiResponse) => {
+                        if (res.status == 200) {
+                            this.authorInfo = res.result as User
+                        } else {
+                            this.router.navigateByUrl('/error')
+                        }
+                    })
+
+                    this.artistService.getTags().subscribe((res: ApiResponse) => {
+                        if (res.status == 200) {
+                            this.avaliableTags = res.result as Tag[]
+                        } else {
+                            this.router.navigateByUrl('/error')
+                        }
+                    })
                 } else {
-                    this.news = {
-                        id: '',
-                        cover: '',
-                        authorId: '',
-                        title: '',
-                        date: '',
-                        markdownText: '',
-                        edited: false,
-                        views: 0,
-                        likes: [],
-                        comments: [],
-                        tags: [],
-                    }
+                    this.router.navigateByUrl('/notfound')
                 }
             })
         }
@@ -67,6 +69,7 @@ export class NewsEditComponent implements OnInit {
         var result: boolean = true
 
         this.statusInputTitle = undefined
+        this.statusInputDescription = undefined
         this.statusInputContent = ''
 
         if (this.news.title == '') {
@@ -79,12 +82,17 @@ export class NewsEditComponent implements OnInit {
             result = false
         }
 
+        if (this.news.description == '') {
+            this.statusInputDescription = 'danger'
+            result = false
+        }
+
         return result
     }
 
     onSaveNews(): void {
         if (this.validateEditInfo() == false) {
-            this.message.create('error', `Please check the fields before save!`)
+            this.message.create('error', `Please make sure that Title, Content and Description are not empty!`)
             return
         }
 
@@ -100,6 +108,7 @@ export class NewsEditComponent implements OnInit {
                 this.message.create('success', `Saved!`)
             } else {
                 this.message.create('error', `Failed to save the news!`)
+                this.router.navigateByUrl('/error')
             }
         })
     }

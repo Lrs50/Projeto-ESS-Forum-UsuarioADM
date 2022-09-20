@@ -1,12 +1,12 @@
 <div class="news-content-grid">
     <section class="news-content-img">
-        <img nz-image width="180px" height="130px" [nzSrc]="cover" [nzFallback]="imageFall" />
+        <img nz-image width="180px" height="130px" [nzSrc]="cover" [nzFallback]="imageFall" style="border-radius: 10%" />
     </section>
     <section class="news-content-content">
         <nz-space nzDirection="vertical" class="news-text-container">
-            <h3 *nzSpaceItem nz-typography style="cursor: pointer" [routerLink]="id">{{ title }}</h3>
-            <span *nzSpaceItem nz-typography class="text-content">
-                <markdown ngPreserveWhitespaces [data]="content"></markdown>
+            <h3 *nzSpaceItem class="text-content" nz-typography style="cursor: pointer" [routerLink]="id">{{ title }}</h3>
+            <span *nzSpaceItem nz-typography class="text-content" nzType="secondary">
+                {{ description }}
             </span>
         </nz-space>
     </section>
@@ -20,8 +20,8 @@
         <app-news-shower-statistic [value]="comments" [subtitle]="'comments'"></app-news-shower-statistic>
     </section>
     <section class="news-content-tags">
-        <nz-space style="padding: 0.5rem">
-            <nz-tag *ngFor="let tag of tags">{{ tag }}</nz-tag>
-        </nz-space>
+        <nz-tag *ngFor="let tag of tags" [nzColor]="tag.color">
+            <strong>{{ tag.content }}</strong>
+        </nz-tag>
     </section>
 </div>

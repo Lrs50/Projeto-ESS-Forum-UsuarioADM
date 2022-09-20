@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { AppState, setNews } from '../../app.store'
+import { AppState } from '../../app.store'
 import { map, Observable } from 'rxjs'
-import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse } from '../../../../../common/types'
+import { fadeAnimation } from 'src/app/app.animations'
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
+    animations: [fadeAnimation],
 })
 export class HomeComponent implements OnInit {
     newsCount: Observable<number> = this.store.select('app').pipe(
@@ -17,21 +17,25 @@ export class HomeComponent implements OnInit {
         })
     )
 
-    isAdmin: Observable<boolean> = this.store.select('app').pipe(
-        map((state) => {
-            return (state.user.type == 2) as boolean
+    userCount: Observable<number> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return state.usersCount as number
         })
     )
 
-    constructor(private store: Store<{ app: AppState }>, private newsManagementService: NewsManagementService) {
-        this.newsManagementService.getNewsSize().subscribe((res: ApiResponse) => {
-            if (res.status == 200) {
-                this.store.dispatch(setNews({ payload: res.result as number }))
-            } else {
-                this.store.dispatch(setNews({ payload: 0 }))
-            }
+    artistCount: Observable<number> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return state.artistsCount as number
         })
-    }
+    )
+
+    isAdmin: Observable<boolean> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return (state.user.type == 'Admin') as boolean
+        })
+    )
+
+    constructor(private store: Store<{ app: AppState }>) {}
 
     ngOnInit(): void {}
 }

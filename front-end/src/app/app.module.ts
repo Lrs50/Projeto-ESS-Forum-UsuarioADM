@@ -40,6 +40,9 @@ import { MarkdownModule } from 'ngx-markdown'
 import { NzCommentModule } from 'ng-zorro-antd/comment'
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
 import { NzSpinModule } from 'ng-zorro-antd/spin'
+import { NzBadgeModule } from 'ng-zorro-antd/badge'
+import { NzPopoverModule } from 'ng-zorro-antd/popover'
+import { NzResultModule } from 'ng-zorro-antd/result'
 import {
     UserOutline,
     LogoutOutline,
@@ -59,6 +62,18 @@ import {
     CommentOutline,
     DislikeOutline,
     LinkOutline,
+    LikeTwoTone,
+    FileTextFill,
+    ThunderboltFill,
+    SettingFill,
+    FireFill,
+    HourglassFill,
+    SmileFill,
+    TrophyFill,
+    DislikeTwoTone,
+    ProfileOutline,
+    SmileOutline,
+    TrophyOutline,
 } from '@ant-design/icons-angular/icons'
 import { HomeComponent } from './components/home/home.component'
 import { LoginComponent } from './components/login/login.component'
@@ -76,6 +91,10 @@ import en from '@angular/common/locales/en'
 registerLocaleData(en)
 
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n'
+import { NotFoundComponent } from './components/not-found/not-found.component'
+import { ServerErrorComponent } from './components/server-error/server-error.component'
+import { UserProfileComponent } from './components/user-profile/user-profile.component'
+import { UserProfileEditComponent } from './components/user-profile-edit/user-profile-edit.component'
 
 const icons: IconDefinition[] = [
     UserOutline,
@@ -84,18 +103,30 @@ const icons: IconDefinition[] = [
     TeamOutline,
     HomeOutline,
     ThunderboltOutline,
+    SettingFill,
+    FireFill,
+    HourglassFill,
+    SmileFill,
+    SmileOutline,
+    TrophyFill,
+    TrophyOutline,
     LockOutline,
     DownOutline,
     FileTextOutline,
+    FileTextFill,
+    ThunderboltFill,
     SettingOutline,
     CheckOutline,
     PlusSquareOutline,
     DeleteOutline,
     EyeOutline,
     LikeOutline,
+    LikeTwoTone,
     CommentOutline,
     DislikeOutline,
+    DislikeTwoTone,
     LinkOutline,
+    ProfileOutline,
 ]
 
 @NgModule({
@@ -110,6 +141,10 @@ const icons: IconDefinition[] = [
         NewsPageComponent,
         NewsEditComponent,
         NewsCreateComponent,
+        NotFoundComponent,
+        ServerErrorComponent,
+        UserProfileComponent,
+        UserProfileEditComponent,
     ],
     imports: [
         BrowserModule,
@@ -151,6 +186,9 @@ const icons: IconDefinition[] = [
         NzCommentModule,
         NzEmptyModule,
         NzSpinModule,
+        NzBadgeModule,
+        NzPopoverModule,
+        NzResultModule,
     ],
     providers: [{ provide: NZ_I18N, useValue: en_US }],
     bootstrap: [AppComponent],

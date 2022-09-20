@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
+import { Store } from '@ngrx/store'
+import { map, Observable } from 'rxjs'
+import { AppState } from 'src/app/app.store'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, News } from '../../../../../common/types'
+import { ApiResponse, News, User } from '../../../../../common/types'
 
 @Component({
     selector: 'app-news',
@@ -8,7 +12,7 @@ import { ApiResponse, News } from '../../../../../common/types'
     styleUrls: ['./news.component.css'],
 })
 export class NewsComponent implements OnInit {
-    constructor(private newsManagementService: NewsManagementService) {}
+    constructor(private newsManagementService: NewsManagementService, private router: Router, private store: Store<{ app: AppState }>) {}
 
     newsList: News[] = []
     newsListFiltered: News[] = []
@@ -21,12 +25,26 @@ export class NewsComponent implements OnInit {
     totalNews: number = 50
 
     loading: boolean = false
+    weHaveNews: boolean = false
 
     gridStyle = {
         width: '100%',
         cursor: 'default',
         padding: '0.5rem',
+        background: '#fefefe',
     }
+
+    isUserLogged: Observable<boolean> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return state.logged
+        })
+    )
+
+    userInfo: Observable<User> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return state.user
+        })
+    )
 
     ngOnInit(): void {
         this.getNewsPage()
@@ -60,16 +78,18 @@ export class NewsComponent implements OnInit {
     }
 
     getNewsPage() {
+        this.loading = true
         this.getNewsSize()
 
         this.newsManagementService.getPage(this.pageIndex, this.pageSize).subscribe((res: ApiResponse) => {
-            if (res.status == 200 || res.status == 404) {
+            if (res.status == 200) {
                 this.newsList = res.result as News[]
-
+                this.weHaveNews = true
                 this.clearFilter()
+                this.loading = false
             } else {
-                this.newsList = []
-                this.newsListFiltered = []
+                this.weHaveNews = false
+                this.loading = false
             }
         })
     }

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { imageFallBack } from 'src/util'
+import { Tag } from '../../../../../common/types'
 
 @Component({
     selector: 'app-news-shower',
@@ -7,20 +8,21 @@ import { imageFallBack } from 'src/util'
     styleUrls: ['./news-shower.component.css'],
 })
 export class NewsShowerComponent implements OnInit {
-    imageFall: string = imageFallBack
-
-    constructor() {}
-
     @Input() id: string = ''
     @Input() title: string = ''
     @Input() content: string = ''
+    @Input() description: string = ''
 
     @Input() subtitle: string = ''
     @Input() comments: number = 0
     @Input() likes: number = 0
     @Input() views: number = 0
     @Input() cover: string = ''
-    @Input() tags: string[] = []
+    @Input() tags: Tag[] = []
+
+    imageFall: string = imageFallBack
+
+    constructor() {}
 
     ngOnInit(): void {}
 }

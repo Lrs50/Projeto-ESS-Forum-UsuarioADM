@@ -28,7 +28,7 @@ section.news-statistic-subtitle {
     position: relative; /* so that children can be absolutely positioned */
     width: 5em;
     height: 5em;
-    background-color: #f2e9e1;
+    background-color: #fefefe;
     border-radius: 50%;
     line-height: 5em;
 }
@@ -43,7 +43,7 @@ section.news-statistic-subtitle {
     border-radius: 50%;
     width: 4.3em;
     height: 4.3em;
-    background-color: white;
+    background-color: #fefefe;
     content: ' ';
 }
 /* Text inside the control */
@@ -53,7 +53,7 @@ section.news-statistic-subtitle {
     width: 5em;
     text-align: center;
     display: block;
-    color: #53777a;
+    color: #000;
     z-index: 2;
 }
 .left-half-clipper {
@@ -77,7 +77,7 @@ to escape the outer clipping path.*/
     width: 5em;
     height: 5em;
     border-radius: 50%;
-    border: 0.45em solid #53777a; /*The border is 0.35 but making it larger removes visual artifacts */
+    border: 0.45em solid #2b394f; /*The border is 0.35 but making it larger removes visual artifacts */
     /*background-color: #4D642D;*/ /* for debug */
     box-sizing: border-box;
 }
@@ -86,7 +86,7 @@ to escape the outer clipping path.*/
     /*Progress bar for the first 50%, filling the whole right half*/
     position: absolute; /*needed for clipping*/
     clip: rect(0, 5em, 5em, 2.5em);
-    background-color: #53777a;
+    background-color: #2b394f;
     border-radius: 50%;
     width: 5em;
     height: 5em;

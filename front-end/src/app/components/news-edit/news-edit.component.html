@@ -10,6 +10,18 @@
         </ng-template>
         <nz-card-meta [nzTitle]="titleTemplate" [nzDescription]="dateTemplate" [nzAvatar]="avatarTemplate"></nz-card-meta>
         <nz-divider></nz-divider>
+        <nz-space nzDirection="vertical" style="width: 50%">
+            <span *nzSpaceItem nz-typography><strong>Description</strong></span>
+            <p
+                *nzSpaceItem
+                nz-typography
+                nzEditable
+                [(nzContent)]="news.description"
+                [nzType]="statusInputTitle"
+                nzEditTooltip="Click to edit the description!"
+            ></p>
+        </nz-space>
+        <nz-divider></nz-divider>
         <div nz-row class="editable-text-news" [nzGutter]="24">
             <div nz-col nzSpan="24">
                 <nz-tabset nzType="card" class="editable-text-news">
@@ -41,7 +53,7 @@
                 [(ngModel)]="news.tags"
                 style="width: 70%"
             >
-                <nz-option *ngFor="let item of avaliableTags" [nzLabel]="item" [nzValue]="item"></nz-option>
+                <nz-option *ngFor="let item of avaliableTags" [nzLabel]="item.content" [nzValue]="item"></nz-option>
             </nz-select>
 
             <ng-template #tagPlaceHolder let-selectedList>and {{ avaliableTags.length }} more selected</ng-template>
@@ -62,7 +74,7 @@
         <ng-template #dateTemplate> {{ news.edited ? 'Edited' : 'Created' }} at {{ news.date }} </ng-template>
 
         <ng-template #avatarTemplate>
-            <nz-avatar nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" nz-tooltip nzTooltipTitle="Lucas"></nz-avatar>
+            <nz-avatar [nzSrc]="authorInfo.avatar" nz-tooltip [nzTooltipTitle]="authorInfo.name"></nz-avatar>
         </ng-template>
     </nz-card>
 </nz-space>
