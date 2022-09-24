@@ -13,6 +13,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserProfileEditComponent } from './components/user-profile-edit/user-profile-edit.component'
 import { LoggedUserGuard } from './guards/logged-user.guard'
 import { AdminUserGuard } from './guards/admin-user.guard'
+import { SingupComponent } from './components/singup/singup.component'
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -31,6 +32,7 @@ const routes: Routes = [
         ],
     },
     { path: 'login', component: LoginComponent, canActivate: [LoggedUserGuard] },
+    { path: 'singup', component: SingupComponent, canActivate: [LoggedUserGuard] },
     { path: 'notfound', component: NotFoundComponent },
     { path: 'error', component: ServerErrorComponent },
 ]
