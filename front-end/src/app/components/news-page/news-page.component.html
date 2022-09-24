@@ -1,13 +1,35 @@
-<nz-space nzDirection="vertical" class="news-page-space">
-    <nz-card *nzSpaceItem class="news-page-container" [nzCover]="coverTemplate">
-        <ng-template #coverTemplate>
-            <img nz-image [nzSrc]="news.cover" [nzFallback]="imgFall" />
-        </ng-template>
-        <nz-card-meta [nzTitle]="titleTemplate" [nzDescription]="dateTemplate" [nzAvatar]="avatarTemplate"></nz-card-meta>
-        <nz-divider></nz-divider>
-        <markdown ngPreserveWhitespaces [data]="news.markdownText"></markdown>
-        <nz-divider></nz-divider>
-        <nz-space nzAlign="center">
+<div class="full-width">
+    <nz-space class="full-width" nzDirection="vertical" style="padding: 2rem">
+        <h1 *nzSpaceItem class="main-title-text-size">{{ news.title }}</h1>
+        <div *nzSpaceItem class="full-width" style="display: flex; align-content: center; justify-content: center; background: #000">
+            <img nz-image style="object-fit: contain" [nzSrc]="news.cover" />
+        </div>
+        <span *nzSpaceItem nz-typography class="descrition-text-size">{{ news.description }}</span>
+        <div *nzSpaceItem>
+            <nz-tag *ngFor="let tag of news.tags">
+                <strong>{{ tag.content }}</strong>
+            </nz-tag>
+        </div>
+
+        <span *nzSpaceItem nz-typography nzType="secondary">
+            {{ news.edited ? 'Edited' : 'Created' }} at {{ news.date }} written by
+            <span
+                nz-typography
+                style="cursor: pointer"
+                [routerLink]="'/home'"
+                nzType="secondary"
+                nz-tooltip
+                [nzTooltipTitle]="'Go to ' + authorInfo.name + ' profile'"
+            >
+                {{ authorInfo.name }}
+            </span>
+        </span>
+
+        <markdown *nzSpaceItem ngPreserveWhitespaces [data]="news.markdownText" class="full-width"></markdown>
+
+        <nz-divider *nzSpaceItem></nz-divider>
+
+        <nz-space *nzSpaceItem nzAlign="center">
             <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleLikeNews()">
                 <span *nzSpaceItem nz-icon nzType="like" [nzTheme]="hasUserLikedTheNews ? 'twotone' : 'outline'"></span>
                 <span *nzSpaceItem> {{ news.likes.length }} Likes </span>
@@ -24,77 +46,72 @@
             </nz-space>
         </nz-space>
 
-        <ng-template #titleTemplate>
-            <span>{{ news.title }}</span>
-        </ng-template>
+        <nz-divider *nzSpaceItem></nz-divider>
 
-        <ng-template #dateTemplate>
-            <span>{{ news.edited ? 'Edited' : 'Created' }} at {{ news.date }}</span>
-        </ng-template>
+        <div *nzSpaceItem>
+            <nz-alert *ngIf="!(isUserLogged | async)" nzType="warning" [nzMessage]="'Consider login first to comment'" nzShowIcon></nz-alert>
+            <nz-alert *ngIf="isAdmin | async" nzType="warning" nzMessage="You're an admin, you can't comment in posts" nzShowIcon></nz-alert>
+        </div>
 
-        <ng-template #avatarTemplate>
-            <nz-avatar [nzSrc]="authorInfo.avatar" nz-tooltip [nzTooltipTitle]="authorInfo.name"></nz-avatar>
-        </ng-template>
-    </nz-card>
+        <nz-comment *nzSpaceItem class="full-width">
+            <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="(userInfo | async)!.avatar"></nz-avatar>
+            <nz-comment-content>
+                <nz-form-item>
+                    <nz-tabset nzType="card" class="full-width">
+                        <nz-tab [nzTitle]="'Markdown'">
+                            <textarea [(ngModel)]="commentContent" nz-input rows="4"></textarea>
+                        </nz-tab>
+                        <nz-tab [nzTitle]="'Preview'">
+                            <markdown ngPreserveWhitespaces [data]="commentContent"></markdown>
+                        </nz-tab>
+                    </nz-tabset>
+                </nz-form-item>
+                <nz-form-item>
+                    <button
+                        nz-button
+                        nzType="primary"
+                        [disabled]="commentContent == '' || (isAdmin | async) || !(isUserLogged | async)"
+                        (click)="addComment()"
+                    >
+                        Add Comment
+                    </button>
+                </nz-form-item>
+            </nz-comment-content>
+        </nz-comment>
 
-    <nz-comment *nzSpaceItem class="news-page-container">
-        <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="(userInfo | async)!.avatar"></nz-avatar>
-        <nz-comment-content>
-            <nz-form-item>
-                <nz-tabset nzType="card" class="news-page-space">
-                    <nz-tab [nzTitle]="'Markdown'">
-                        <textarea [(ngModel)]="commentContent" nz-input rows="4"></textarea>
-                    </nz-tab>
-                    <nz-tab [nzTitle]="'Preview'">
-                        <markdown ngPreserveWhitespaces [data]="commentContent"></markdown>
-                    </nz-tab>
-                </nz-tabset>
-            </nz-form-item>
-            <nz-form-item>
-                <button
-                    nz-button
-                    nzType="primary"
-                    [disabled]="commentContent == '' || (isAdmin | async) || !(isUserLogged | async)"
-                    (click)="addComment()"
-                >
-                    Add Comment
-                </button>
-            </nz-form-item>
-        </nz-comment-content>
-    </nz-comment>
-
-    <div *nzSpaceItem>
-        <div *ngFor="let comment of news.comments; index as i">
-            <nz-card class="news-page-container" [nzBodyStyle]="{ padding: '5px' }">
-                <nz-comment [nzAuthor]="comment.authorInfo.name">
-                    <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="comment.authorInfo.avatar" [nzSize]="'large'"></nz-avatar>
-                    <nz-comment-content>
-                        <markdown ngPreserveWhitespaces>{{ comment.content }}</markdown>
-                        <nz-space nzAlign="center">
-                            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleLikeComment(i)">
-                                <span *nzSpaceItem nz-icon nzType="like" [nzTheme]="hasUserLikedIComment[i] ? 'twotone' : 'outline'"></span>
-                                <span *nzSpaceItem> {{ comment.likes.length }} Likes </span>
-                            </nz-space>
-                            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
-                                <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
-                            </nz-space>
-                            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleDislikeComment(i)">
-                                <span *nzSpaceItem nz-icon nzType="dislike" [nzTheme]="hasUserDislikedIComment[i] ? 'twotone' : 'outline'"></span>
-                                <span *nzSpaceItem> {{ comment.dislikes.length }} Dislikes </span>
-                            </nz-space>
-                            <div *nzSpaceItem>
-                                <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer">
+        <div *nzSpaceItem>
+            <div *ngFor="let comment of news.comments; index as i">
+                <nz-card class="news-page-container" [nzBodyStyle]="{ padding: '5px' }">
+                    <nz-comment [nzAuthor]="comment.authorInfo.name">
+                        <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="comment.authorInfo.avatar" [nzSize]="'large'"></nz-avatar>
+                        <nz-comment-content>
+                            <markdown ngPreserveWhitespaces>{{ comment.content }}</markdown>
+                            <nz-space nzAlign="center">
+                                <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleLikeComment(i)">
+                                    <span *nzSpaceItem nz-icon nzType="like" [nzTheme]="hasUserLikedIComment[i] ? 'twotone' : 'outline'"></span>
+                                    <span *nzSpaceItem> {{ comment.likes.length }} Likes </span>
+                                </nz-space>
+                                <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
                                     <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
                                 </nz-space>
-                                <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer" (click)="removeComment(comment.id)">
-                                    <span *nzSpaceItem nz-icon nzType="delete"></span>
-                                    <span *nzSpaceItem> Delete </span>
+                                <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleDislikeComment(i)">
+                                    <span *nzSpaceItem nz-icon nzType="dislike" [nzTheme]="hasUserDislikedIComment[i] ? 'twotone' : 'outline'"></span>
+                                    <span *nzSpaceItem> {{ comment.dislikes.length }} Dislikes </span>
                                 </nz-space>
-                            </div>
-                        </nz-space>
-                    </nz-comment-content>
-                </nz-comment>
-            </nz-card>
+                                <div *nzSpaceItem>
+                                    <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer">
+                                        <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
+                                    </nz-space>
+                                    <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer" (click)="removeComment(comment.id)">
+                                        <span *nzSpaceItem nz-icon nzType="delete"></span>
+                                        <span *nzSpaceItem> Delete </span>
+                                    </nz-space>
+                                </div>
+                            </nz-space>
+                        </nz-comment-content>
+                    </nz-comment>
+                </nz-card>
+            </div>
         </div>
-    </div>
-</nz-space>
+    </nz-space>
+</div>

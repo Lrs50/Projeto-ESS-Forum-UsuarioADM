@@ -239,6 +239,7 @@
                 <nz-avatar
                     *nzSpaceItem
                     nzSize="large"
+                    nzIcon="user"
                     [nzSrc]="(userInfo | async)!.avatar"
                     style="cursor: pointer"
                     (click)="showProfileDrawer()"
@@ -255,7 +256,7 @@
                 <ng-container *nzDrawerContent>
                     <nz-card style="width: 100%" [nzCover]="coverTemplate" [nzActions]="[actionEdit, actionLogOut]">
                         <nz-space nzDirection="vertical" nzAlign="center" style="width: 100%">
-                            <nz-avatar *nzSpaceItem [nzSize]="64" [nzSrc]="(userInfo | async)!.avatar"></nz-avatar>
+                            <nz-avatar *nzSpaceItem [nzSize]="64" [nzSrc]="(userInfo | async)!.avatar" nzIcon="user"></nz-avatar>
                             <span *nzSpaceItem nz-typography>
                                 <strong>{{ (userInfo | async)?.name }}</strong>
                             </span>

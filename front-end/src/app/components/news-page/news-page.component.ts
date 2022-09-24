@@ -3,7 +3,7 @@ import { News, ApiResponse, User, Like, Comment, emptyUser } from '../../../../.
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { imageFallBack } from '../../../util'
-import { map, Observable, Subscription, take } from 'rxjs'
+import { firstValueFrom, map, Observable, Subscription, take } from 'rxjs'
 import { Store } from '@ngrx/store'
 import { AppState } from 'src/app/app.store'
 import { NzMessageService } from 'ng-zorro-antd/message'
@@ -58,6 +58,10 @@ export class NewsPageComponent implements OnInit {
             return state.logged
         })
     )
+
+    newsHeaderStyle = {
+        background: this.news.cover,
+    }
 
     constructor(
         private newsManagementService: NewsManagementService,
@@ -325,5 +329,11 @@ export class NewsPageComponent implements OnInit {
                     }
                 })
         }
+    }
+
+    readingTime() {
+        let minuteRate: number = Math.ceil(this.news.markdownText.split(' ').length / 200)
+
+        return minuteRate
     }
 }

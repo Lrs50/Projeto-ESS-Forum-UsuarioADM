@@ -1,1 +1,2 @@
-export const imageFallBack: string = 'https://www.rabrotech.com/upload/product/1414891809-image-not-found.png'
+export const imageFallBack: string =
+    'https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg'
