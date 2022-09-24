@@ -43,6 +43,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin'
 import { NzBadgeModule } from 'ng-zorro-antd/badge'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzResultModule } from 'ng-zorro-antd/result'
+import { NzAlertModule } from 'ng-zorro-antd/alert'
 import {
     UserOutline,
     LogoutOutline,
@@ -189,6 +190,7 @@ const icons: IconDefinition[] = [
         NzBadgeModule,
         NzPopoverModule,
         NzResultModule,
+        NzAlertModule,
     ],
     providers: [{ provide: NZ_I18N, useValue: en_US }],
     bootstrap: [AppComponent],
