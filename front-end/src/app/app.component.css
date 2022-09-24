@@ -22,7 +22,7 @@ section {
 
 section.header-logo-name {
     grid-area: logo-name;
-    background: #006aff;
+    background: #fefefe;
     display: flex;
     align-content: center;
     align-items: center;
@@ -30,15 +30,16 @@ section.header-logo-name {
 
 section.header-menu {
     grid-area: menu;
-    background: #006aff;
+    background: #fefefe;
     display: flex;
     align-content: center;
     align-items: center;
+    justify-content: space-evenly;
 }
 
 section.header-button {
     grid-area: button;
-    background: #006aff;
+    background: #fefefe;
     display: flex;
     align-content: center;
     align-items: center;

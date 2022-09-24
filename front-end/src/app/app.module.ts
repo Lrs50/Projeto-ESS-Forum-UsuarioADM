@@ -95,8 +95,15 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n'
 import { NotFoundComponent } from './components/not-found/not-found.component'
 import { ServerErrorComponent } from './components/server-error/server-error.component'
 import { UserProfileComponent } from './components/user-profile/user-profile.component'
-import { UserProfileEditComponent } from './components/user-profile-edit/user-profile-edit.component';
+import { UserProfileEditComponent } from './components/user-profile-edit/user-profile-edit.component'
 import { SingupComponent } from './components/singup/singup.component'
+import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config'
+
+const ngZorroConfig: NzConfig = {
+    theme: {
+        primaryColor: '#006aff',
+    },
+}
 
 const icons: IconDefinition[] = [
     UserOutline,
@@ -194,7 +201,10 @@ const icons: IconDefinition[] = [
         NzResultModule,
         NzAlertModule,
     ],
-    providers: [{ provide: NZ_I18N, useValue: en_US }],
+    providers: [
+        { provide: NZ_I18N, useValue: en_US },
+        { provide: NZ_CONFIG, useValue: ngZorroConfig },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

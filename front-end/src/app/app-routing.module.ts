@@ -14,6 +14,7 @@ import { UserProfileEditComponent } from './components/user-profile-edit/user-pr
 import { LoggedUserGuard } from './guards/logged-user.guard'
 import { AdminUserGuard } from './guards/admin-user.guard'
 import { SingupComponent } from './components/singup/singup.component'
+import { NotLoggedGuard } from './guards/not-logged.guard'
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -24,11 +25,11 @@ const routes: Routes = [
             { path: '', redirectTo: 'news', pathMatch: 'full' },
             { path: 'news', component: NewsComponent },
             { path: 'news/:id', component: NewsPageComponent },
-            { path: 'management/news/edit/:id', component: NewsEditComponent, canActivate: [AdminUserGuard] },
-            { path: 'management/news/create', component: NewsCreateComponent, canActivate: [AdminUserGuard] },
-            { path: 'management/news', component: NewsManagementComponent, canActivate: [AdminUserGuard] },
+            { path: 'management/news/edit/:id', component: NewsEditComponent, canActivate: [NotLoggedGuard, AdminUserGuard] },
+            { path: 'management/news/create', component: NewsCreateComponent, canActivate: [NotLoggedGuard, AdminUserGuard] },
+            { path: 'management/news', component: NewsManagementComponent, canActivate: [NotLoggedGuard, AdminUserGuard] },
             { path: 'user/:id', component: UserProfileComponent },
-            { path: 'user/:id/edit', component: UserProfileEditComponent, canActivate: [LoggedUserGuard] },
+            { path: 'user/:id/edit', component: UserProfileEditComponent, canActivate: [NotLoggedGuard] },
         ],
     },
     { path: 'login', component: LoginComponent, canActivate: [LoggedUserGuard] },

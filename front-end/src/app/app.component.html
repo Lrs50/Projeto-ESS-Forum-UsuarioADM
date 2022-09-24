@@ -104,7 +104,7 @@
                     <g></g>
                 </svg>
             </span>
-            <span class="white-text text-nowrap">News</span>
+            <span class="text-nowrap">News</span>
         </a>
         <a nz-button nzType="text" [nzSize]="'large'">
             <span nz-icon class="text-nowrap icon-size">
@@ -155,7 +155,7 @@
                     <g></g>
                 </svg>
             </span>
-            <span class="white-text text-nowrap">Users</span>
+            <span class="text-nowrap">Users</span>
         </a>
         <a nz-button nzType="text" [nzSize]="'large'">
             <span nz-icon class="text-nowrap icon-size">
@@ -230,7 +230,7 @@
                     <g></g>
                 </svg>
             </span>
-            <span class="white-text text-nowrap">Artists</span>
+            <span class="text-nowrap">Artists</span>
         </a>
     </section>
     <section class="header-button">
@@ -245,11 +245,11 @@
                     (click)="showProfileDrawer()"
                 ></nz-avatar>
                 <div *nzSpaceItem style="padding: 0.5rem; cursor: pointer" (click)="showProfileDrawer()">
-                    <span nz-typography style="color: #fff">
+                    <span nz-typography style="color: #006aff">
                         <strong>{{ (userInfo | async)!.name }}</strong>
                         <br />
                     </span>
-                    <span nz-typography style="color: #d3d3d3">{{ (userInfo | async)!.type }}</span>
+                    <span nz-typography style="color: rgb(0, 106, 255, 0.5)">{{ (userInfo | async)!.type }}</span>
                 </div>
             </nz-space>
             <nz-drawer [nzClosable]="false" [nzVisible]="showProfile" nzPlacement="right" (nzOnClose)="hideProfileDrawer()">
