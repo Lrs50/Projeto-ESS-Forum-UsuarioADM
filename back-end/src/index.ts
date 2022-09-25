@@ -8,7 +8,6 @@ import AppConfig from './app.config.json'
 
 import Logger from '@ptkdev/logger'
 
-
 const log = new Logger()
 
 const app: Application = express()
@@ -48,6 +47,8 @@ app.get('/usersize', UsersController.getUsersSize)
 app.post('/user', UsersController.createUser)
 app.put('/user', UsersController.editUser)
 app.post('/userlogin', UsersController.loginUser)
+app.post('/useradd/comment/:userId', UsersController.addComment)
+app.delete('/userremove/comment', UsersController.removeComment)
 
 app.get('/artist/:id', ArtistsController.getArtist)
 app.get('/artistall', ArtistsController.getAllArtists)

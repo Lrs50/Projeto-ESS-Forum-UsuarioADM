@@ -38,6 +38,7 @@ export interface User {
   type: UserType;
   cover: string;
   avatar: string;
+  profileComments: Comment[];
 }
 
 export function emptyUser(id: string): User {
@@ -50,6 +51,7 @@ export function emptyUser(id: string): User {
     type: "User",
     cover: "",
     avatar: "",
+    profileComments: [],
   } as User;
 }
 

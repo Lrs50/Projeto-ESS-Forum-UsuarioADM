@@ -1,4 +1,4 @@
-import { User } from '../../../common/types'
+import { Comment, User } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
 import Path from 'path'
 import AppConfig from '../app.config.json'
@@ -16,7 +16,7 @@ class UsersDB {
     path: string
 
     constructor() {
-        if(AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD'){
+        if (AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD') {
             this.path = './data.json'
         } else {
             this.path = './data.test.json'
@@ -78,6 +78,46 @@ class UsersDB {
         }
 
         this.db.set(find.id, user)
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
+    }
+
+    addComment(newsId: string, comment: Comment): Promise<Boolean> {
+        let find: User | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            profileComments: [...find.profileComments, comment],
+        })
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
+    }
+
+    removeComment(newsId: string, commentId: string): Promise<Boolean> {
+        let find: User | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            profileComments: find.profileComments.filter((value: Comment) => {
+                return value.id != commentId
+            }),
+        })
 
         let result: Promise<Boolean> = this.saveUsers()
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { ApiResponse, User } from '../../../../common/types'
+import { ApiResponse, User, Comment } from '../../../../common/types'
 
 @Injectable({
     providedIn: 'root',
@@ -33,5 +33,13 @@ export class UsersService {
 
     login(username: string, password: string) {
         return this.httpClient.post<ApiResponse>(this.baseUrl + `login`, { username, password })
+    }
+
+    addComment(userId: string, comment: Comment): Observable<ApiResponse> {
+        return this.httpClient.post<ApiResponse>(this.baseUrl + `add/comment/${userId}`, comment)
+    }
+
+    removeComment(userId: string, commentId: string): Observable<ApiResponse> {
+        return this.httpClient.delete<ApiResponse>(this.baseUrl + `remove/comment`, { body: { userId, commentId } })
     }
 }

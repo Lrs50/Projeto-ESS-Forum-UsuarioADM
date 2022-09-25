@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import UsersDB from './users'
-import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_NOT_FOUND, HTTP_ERROR, ApiResponse, User } from '../../../common/types'
+import { HTTP_SUCCESS, HTTP_BAD_REQUEST, HTTP_NOT_FOUND, HTTP_ERROR, ApiResponse, User, Comment } from '../../../common/types'
 import Logger from '@ptkdev/logger'
 
 const log = new Logger()
@@ -91,7 +91,7 @@ export function getUsersSize(request: Request, response: Response): void {
 export function createUser(request: Request, response: Response): void {
     log.info('CreateUser request received')
 
-    const valid = validator(['id', 'name', 'username', 'password', 'aboutme', 'type', 'cover', 'avatar'], request.body)
+    const valid = validator(['id', 'name', 'username', 'password', 'aboutme', 'type', 'cover', 'avatar', 'profileComments'], request.body)
 
     if (!valid) {
         response.send(HTTP_BAD_REQUEST)
@@ -117,7 +117,7 @@ export function createUser(request: Request, response: Response): void {
 export function editUser(request: Request, response: Response): void {
     log.info('EditUser request received')
 
-    const valid = validator(['id', 'name', 'username', 'password', 'aboutme', 'type', 'cover', 'avatar'], request.body)
+    const valid = validator(['id', 'name', 'username', 'password', 'aboutme', 'type', 'cover', 'avatar', 'profileComments'], request.body)
 
     if (!valid) {
         response.send(HTTP_BAD_REQUEST)
@@ -163,6 +163,59 @@ export function loginUser(request: Request, response: Response): void {
     } else {
         response.send(HTTP_NOT_FOUND)
     }
+
+    return
+}
+
+export function addComment(request: Request, response: Response): void {
+    log.info('AddComment user profile request received')
+
+    const validParameter = validator(['userId'], request.params)
+    const validBody = validator(['id', 'authorInfo', 'content', 'likes', 'dislikes'], request.body)
+
+    if (!validParameter || !validBody) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+
+    let addComment: Promise<Boolean> = db.addComment(request.params.userId, request.body as Comment)
+
+    addComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+export function removeComment(request: Request, response: Response): void {
+    log.info('Remove Comment user profile request received')
+
+    const valid = validator(['userId', 'commentId'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+
+    let removeComment: Promise<Boolean> = db.removeComment(request.body.userId, request.body.commentId)
+
+    removeComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
 
     return
 }

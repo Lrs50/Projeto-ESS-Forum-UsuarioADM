@@ -247,9 +247,7 @@
                 <div *nzSpaceItem style="padding: 0.5rem; cursor: pointer" (click)="showProfileDrawer()">
                     <span nz-typography style="color: #006aff">
                         <strong>{{ (userInfo | async)!.name }}</strong>
-                        <br />
                     </span>
-                    <span nz-typography style="color: rgb(0, 106, 255, 0.5)">{{ (userInfo | async)!.type }}</span>
                 </div>
             </nz-space>
             <nz-drawer [nzClosable]="false" [nzVisible]="showProfile" nzPlacement="right" (nzOnClose)="hideProfileDrawer()">
