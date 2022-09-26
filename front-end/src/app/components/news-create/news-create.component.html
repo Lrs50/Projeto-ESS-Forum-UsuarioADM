@@ -53,10 +53,27 @@
                 [(ngModel)]="news.tags"
                 style="width: 70%"
             >
-                <nz-option *ngFor="let item of avaliableTags" [nzLabel]="item.content" [nzValue]="item"></nz-option>
+                <nz-option *ngFor="let tag of avaliableTags" [nzLabel]="tag" [nzValue]="tag"></nz-option>
             </nz-select>
 
-            <ng-template #tagPlaceHolder let-selectedList>and {{ avaliableTags.length }} more selected</ng-template>
+            <ng-template #tagPlaceHolder let-selectedList>and {{ news.tags.length }} more selected</ng-template>
+        </nz-space>
+        <nz-divider></nz-divider>
+        <nz-space nzDirection="vertical" style="width: 100%">
+            <span *nzSpaceItem nz-typography><strong>Mentions</strong></span>
+            <nz-select
+                *nzSpaceItem
+                [nzMaxTagCount]="5"
+                [nzMaxTagPlaceholder]="tagPlaceHolder"
+                nzMode="tags"
+                nzPlaceHolder="Select the tags"
+                [(ngModel)]="news.mention"
+                style="width: 70%"
+            >
+                <nz-option *ngFor="let mention of artistsNames; index as i" [nzLabel]="mention" [nzValue]="artists[i].id"></nz-option>
+            </nz-select>
+
+            <ng-template #tagPlaceHolder let-selectedList>and {{ news.tags.length }} more selected</ng-template>
         </nz-space>
         <nz-divider></nz-divider>
         <div style="float: right">

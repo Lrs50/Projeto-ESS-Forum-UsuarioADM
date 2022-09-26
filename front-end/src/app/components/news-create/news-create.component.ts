@@ -6,9 +6,9 @@ import { NzStatus } from 'ng-zorro-antd/core/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { AppState } from 'src/app/app.store'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, emptyNews, News, Tag, User } from '../../../../../common/types'
+import { ApiResponse, Artist, emptyNews, News, User, defaultTags } from '../../../../../common/types'
 import { imageFallBack } from 'src/util'
-import { concat, map, Observable, Subscription, take } from 'rxjs'
+import { map, Observable, Subscription, take } from 'rxjs'
 import { addToNewsCount } from '../../app.store'
 import { ArtistService } from 'src/app/services/artist.service'
 
@@ -18,7 +18,6 @@ import { ArtistService } from 'src/app/services/artist.service'
     styleUrls: ['./news-create.component.css'],
 })
 export class NewsCreateComponent implements OnInit {
-    avaliableTags: Tag[] = []
     imgFall: string = imageFallBack
 
     statusInputTitle: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
@@ -33,6 +32,11 @@ export class NewsCreateComponent implements OnInit {
         })
     )
 
+    artists: Artist[] = []
+    artistsNames: string[] = []
+
+    avaliableTags: string[] = [...defaultTags]
+
     constructor(
         private newsManagementService: NewsManagementService,
         private message: NzMessageService,
@@ -40,11 +44,15 @@ export class NewsCreateComponent implements OnInit {
         private store: Store<{ app: AppState }>,
         private artistService: ArtistService
     ) {
-        this.artistService.getTags().subscribe((res: ApiResponse) => {
+        this.artistService.getAll().subscribe((res: ApiResponse) => {
             if (res.status == 200) {
-                this.avaliableTags = res.result as Tag[]
+                this.artists = res.result as Artist[]
+
+                for (let i = 0; i < this.artists.length; i++) {
+                    this.artistsNames.push(this.artists[i].name)
+                }
             } else {
-                this.router.navigateByUrl('/notfound')
+                this.router.navigateByUrl('/error')
             }
         })
     }

@@ -44,6 +44,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzResultModule } from 'ng-zorro-antd/result'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
+import { NzRateModule } from 'ng-zorro-antd/rate'
 import {
     UserOutline,
     LogoutOutline,
@@ -75,6 +76,7 @@ import {
     ProfileOutline,
     SmileOutline,
     TrophyOutline,
+    AimOutline,
 } from '@ant-design/icons-angular/icons'
 import { HomeComponent } from './components/home/home.component'
 import { LoginComponent } from './components/login/login.component'
@@ -98,6 +100,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserProfileEditComponent } from './components/user-profile-edit/user-profile-edit.component'
 import { SingupComponent } from './components/singup/singup.component'
 import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config'
+import { ArtistPageComponent } from './components/artist-page/artist-page.component'
 
 const ngZorroConfig: NzConfig = {
     theme: {
@@ -136,6 +139,7 @@ const icons: IconDefinition[] = [
     DislikeTwoTone,
     LinkOutline,
     ProfileOutline,
+    AimOutline,
 ]
 
 @NgModule({
@@ -155,6 +159,7 @@ const icons: IconDefinition[] = [
         UserProfileComponent,
         UserProfileEditComponent,
         SingupComponent,
+        ArtistPageComponent,
     ],
     imports: [
         BrowserModule,
@@ -200,6 +205,7 @@ const icons: IconDefinition[] = [
         NzPopoverModule,
         NzResultModule,
         NzAlertModule,
+        NzRateModule,
     ],
     providers: [
         { provide: NZ_I18N, useValue: en_US },

@@ -57,14 +57,10 @@ export function getNewsPage(request: Request, response: Response): void {
     let db: NewsDB = new NewsDB()
     let result: News[] = db.getNewsPage(pageId, newsPerPage)
 
-    if (result.length == 0) {
-        response.send(HTTP_NOT_FOUND)
-    } else {
-        let httpResponse: ApiResponse = HTTP_SUCCESS
-        httpResponse.result = result
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
 
-        response.send(httpResponse)
-    }
+    response.send(httpResponse)
 
     return
 }
@@ -121,7 +117,7 @@ export function createNews(request: Request, response: Response): void {
     log.info('CreateNews request received')
 
     const valid = validator(
-        ['id', 'authorId', 'title', 'description', 'date', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags'],
+        ['id', 'authorId', 'title', 'description', 'date', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags', 'mention'],
         request.body
     )
 
@@ -176,7 +172,7 @@ export function editNews(request: Request, response: Response): void {
     log.info('EditNews request received')
 
     const valid = validator(
-        ['id', 'authorId', 'title', 'description', 'date', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags'],
+        ['id', 'authorId', 'title', 'description', 'date', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags', 'mention'],
         request.body
     )
 

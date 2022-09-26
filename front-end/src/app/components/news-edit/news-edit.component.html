@@ -50,13 +50,13 @@
                 [nzMaxTagPlaceholder]="tagPlaceHolder"
                 nzMode="tags"
                 nzPlaceHolder="Select the tags"
-                [(ngModel)]="news.tags"
+                [ngModel]="news.tags"
                 style="width: 70%"
             >
-                <nz-option *ngFor="let item of avaliableTags" [nzLabel]="item.content" [nzValue]="item"></nz-option>
+                <nz-option *ngFor="let tag of news.tags" [nzLabel]="tag" [nzValue]="tag"></nz-option>
             </nz-select>
 
-            <ng-template #tagPlaceHolder let-selectedList>and {{ avaliableTags.length }} more selected</ng-template>
+            <ng-template #tagPlaceHolder let-selectedList>and {{ news.tags.length }} more selected</ng-template>
         </nz-space>
         <nz-divider></nz-divider>
         <div style="float: right">

@@ -5,11 +5,25 @@
             <img nz-image style="object-fit: contain" [nzSrc]="news.cover" />
         </div>
         <span *nzSpaceItem nz-typography class="descrition-text-size">{{ news.description }}</span>
-        <div *nzSpaceItem>
-            <nz-tag *ngFor="let tag of news.tags">
-                <strong>{{ tag.content }}</strong>
-            </nz-tag>
-        </div>
+
+        <nz-space *nzSpaceItem>
+            <div *nzSpaceItem>
+                <div *ngIf="mentionedArtistsName.length > 0">
+                    <nz-tag *ngFor="let artist of mentionedArtistsName" nzColor="#483d99">
+                        <strong>{{ artist }}</strong>
+                    </nz-tag>
+                    <nz-divider nzType="vertical"></nz-divider>
+                </div>
+            </div>
+            <div *nzSpaceItem>
+                <nz-tag *ngFor="let tag of news.tags">
+                    <strong>{{ tag }}</strong>
+                </nz-tag>
+            </div>
+
+            <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
+            <span *nzSpaceItem nz-typography nzType="secondary">{{ readingTime }} mins read</span>
+        </nz-space>
 
         <span *nzSpaceItem nz-typography nzType="secondary">
             {{ news.edited ? 'Edited' : 'Created' }} at {{ news.date }} written by

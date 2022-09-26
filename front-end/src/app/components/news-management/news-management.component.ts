@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core'
-import { ApiResponse, News } from '../../../../../common/types'
+import { ApiResponse, Artist, News } from '../../../../../common/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { imageFallBack } from 'src/util'
 import { Store } from '@ngrx/store'
 import { AppState, addToNewsCount } from 'src/app/app.store'
 import { Router } from '@angular/router'
+import { ArtistService } from 'src/app/services/artist.service'
 
 @Component({
     selector: 'app-news-management',
@@ -25,11 +26,14 @@ export class NewsManagementComponent implements OnInit {
 
     filterText: string = ''
 
+    mentionedArtistsNamesInNews: string[][] = []
+
     constructor(
         private message: NzMessageService,
         private newsManagementService: NewsManagementService,
         private store: Store<{ app: AppState }>,
-        private router: Router
+        private router: Router,
+        private artistService: ArtistService
     ) {
         this.getNewsPage()
     }
@@ -64,8 +68,24 @@ export class NewsManagementComponent implements OnInit {
         this.getNewsSize()
 
         this.newsManagementService.getPage(this.pageIndex, this.pageSize).subscribe((res: ApiResponse) => {
-            if (res.status == 200 || res.status == 404) {
+            if (res.status == 200) {
                 this.newsList = res.result as News[]
+
+                for (let i = 0; i < this.newsList.length; i++) {
+                    let tempList: string[] = []
+
+                    for (let j = 0; j < this.newsList[i].mention.length; j++) {
+                        this.artistService.get(this.newsList[i].mention[j]).subscribe((res: ApiResponse) => {
+                            if (res.status == 200) {
+                                tempList.push((res.result as Artist).name)
+                            } else {
+                                this.router.navigateByUrl('/error')
+                            }
+                        })
+                    }
+
+                    this.mentionedArtistsNamesInNews.push(tempList)
+                }
 
                 this.clearFilter()
             } else {

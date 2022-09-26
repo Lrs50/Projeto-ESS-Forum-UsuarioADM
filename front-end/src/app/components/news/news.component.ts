@@ -82,13 +82,15 @@ export class NewsComponent implements OnInit {
         this.getNewsSize()
 
         this.newsManagementService.getPage(this.pageIndex, this.pageSize).subscribe((res: ApiResponse) => {
-            if (res.status == 200) {
+            this.newsList = res.result as News[]
+
+            if (this.newsList.length == 0) {
+                this.weHaveNews = false
+                this.loading = false
+            } else {
                 this.newsList = res.result as News[]
                 this.weHaveNews = true
                 this.clearFilter()
-                this.loading = false
-            } else {
-                this.weHaveNews = false
                 this.loading = false
             }
         })

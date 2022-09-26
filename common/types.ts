@@ -77,37 +77,27 @@ export function emptyComment(id: CommentId, authorId: string): Comment {
   } as Comment;
 }
 
-export interface Tag {
-  content: string;
-  color: string;
-}
-
-export function emptyTag(): Tag {
-  return {
-    content: "",
-    color: "",
-  } as Tag;
-}
-
 export interface News {
   readonly id: string;
   readonly authorId: string;
   cover: string;
   title: string;
   date: string;
+  mention: string[];
   description: string;
   markdownText: string;
   edited: boolean;
   views: number;
   likes: Like[];
   comments: Comment[];
-  tags: Tag[];
+  tags: string[];
 }
 
 export function emptyNews(id: CommentId, authorId: string): News {
   return {
     id,
     authorId,
+    mention: [],
     cover: "",
     title: "Change the title!",
     date: "",
@@ -127,8 +117,8 @@ export interface Artist {
   readonly id: string;
   type: ArtistType;
   name: string;
+  description: string;
   mentions: number;
-  avatar: string;
   cover: string;
 }
 
@@ -136,9 +126,11 @@ export function emptyArtist(id: string): Artist {
   return {
     id: id,
     type: "Actor",
-    name: "string",
+    description: "",
+    name: "",
     mentions: 0,
-    avatar: "string",
-    cover: "string",
+    cover: "",
   } as Artist;
 }
+
+export const defaultTags: string[] = ["RAP", "TRAP", "POLEMIC", "INTERNACIONAL"];

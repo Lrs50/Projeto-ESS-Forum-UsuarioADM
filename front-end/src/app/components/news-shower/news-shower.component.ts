@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
+import { ArtistService } from 'src/app/services/artist.service'
 import { imageFallBack } from 'src/util'
-import { Tag } from '../../../../../common/types'
+import { ApiResponse, Artist } from '../../../../../common/types'
 
 @Component({
     selector: 'app-news-shower',
@@ -18,11 +20,26 @@ export class NewsShowerComponent implements OnInit {
     @Input() likes: number = 0
     @Input() views: number = 0
     @Input() cover: string = ''
-    @Input() tags: Tag[] = []
+    @Input() tags: string[] = []
+    @Input() mention: string[] = []
 
     imageFall: string = imageFallBack
 
-    constructor() {}
+    artistsMentioned: string[] = []
 
-    ngOnInit(): void {}
+    constructor(private artistService: ArtistService, private router: Router) {}
+
+    ngOnInit(): void {
+        for (let i = 0; i < this.mention.length; i++) {
+            this.artistService.get(this.mention[i]).subscribe((res: ApiResponse) => {
+                if (res.status == 200) {
+                    let temp: Artist = res.result as Artist
+
+                    this.artistsMentioned.push(temp.name.toUpperCase())
+                } else {
+                    this.router.navigateByUrl('/error')
+                }
+            })
+        }
+    }
 }

@@ -30,8 +30,4 @@ export class ArtistService {
     getArtistsSize(): Observable<ApiResponse> {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
     }
-
-    getTags(): Observable<ApiResponse> {
-        return this.httpClient.get<ApiResponse>(this.baseUrl + 'tags')
-    }
 }
