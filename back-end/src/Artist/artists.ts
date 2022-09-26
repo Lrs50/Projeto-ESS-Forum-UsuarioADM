@@ -1,4 +1,4 @@
-import { Artist, Tag } from '../../../common/types'
+import { Artist } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
 import Path from 'path'
 import AppConfig from '../app.config.json'
@@ -7,7 +7,7 @@ import AppConfig from '../app.config.json'
 // Cada função é responsável por uma tarefa especifica
 
 import Logger from '@ptkdev/logger'
-import { ArrayToMap, defaultTags, MapToArray, MapValuesToArray } from '../utils'
+import { ArrayToMap, MapToArray, MapValuesToArray } from '../utils'
 
 const log = new Logger()
 
@@ -16,7 +16,7 @@ class ArtistDB {
     path: string
 
     constructor() {
-        if(AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD'){
+        if (AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD') {
             this.path = './data.json'
         } else {
             this.path = './data.test.json'
@@ -68,16 +68,6 @@ class ArtistDB {
         let result: Promise<Boolean> = this.saveArtists()
 
         return result
-    }
-
-    getTags(): Tag[] {
-        let tags: Tag[] = defaultTags
-
-        this.db.forEach((artist: Artist) => {
-            tags.push({ content: artist.name, color: 'magenta' })
-        })
-
-        return tags
     }
 
     async saveArtists(): Promise<Boolean> {

@@ -1,22 +1,42 @@
-<div class="login-container">
-    <nz-card nzHoverable style="width: 400px">
-        <nz-card-meta nzTitle="Revi Reli" nzDescription="Welcome to your community!"></nz-card-meta>
-        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()" style="margin-top: 1rem">
-            <nz-form-item>
-                <nz-form-control nzErrorTip="Please input your username!">
-                    <nz-input-group nzPrefixIcon="user">
-                        <input type="text" nz-input formControlName="userName" placeholder="Username" />
+<div class="login-background">
+    <div class="login-grid-container">
+        <div nz-row nzJustify="center" class="full-height full-width">
+            <div nz-col nzMd="12" class="full-height full-width">
+                <nz-space class="login-content-container full-width full-height" nzDirection="vertical">
+                    <h1 *nzSpaceItem nz-typography>Welcome back</h1>
+                    <span *nzSpaceItem nz-typography nzType="secondary">Please insert your user information.</span>
+                    <span *nzSpaceItem nz-typography>Username</span>
+                    <nz-input-group *nzSpaceItem nzPrefixIcon="user" [nzStatus]="usernameInputStatus">
+                        <input type="text" nz-input placeholder="Username" [(ngModel)]="username" />
                     </nz-input-group>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-                <nz-form-control nzErrorTip="Please input your password!">
-                    <nz-input-group nzPrefixIcon="lock">
-                        <input type="password" nz-input formControlName="password" placeholder="Password" />
+                    <span *nzSpaceItem nz-typography>Password</span>
+                    <nz-input-group *nzSpaceItem nzPrefixIcon="lock" [nzStatus]="passwordInputStatus">
+                        <input type="password" nz-input placeholder="Password" [(ngModel)]="password" />
                     </nz-input-group>
-                </nz-form-control>
-            </nz-form-item>
-            <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" nzBlock>Log in</button>
-        </form>
-    </nz-card>
+                    <button *nzSpaceItem nz-button nzType="primary" nzBlock (click)="login()">Log in</button>
+                    <span *nzSpaceItem nz-typography nzType="secondary">
+                        Don't have an account? consider to
+                        <span nz-typography>
+                            <a [routerLink]="'/singup'">
+                                Singup
+                                <Link />
+                            </a>
+                        </span>
+                    </span>
+                </nz-space>
+            </div>
+            <div nz-col nzMd="12" class="full-height full-width">
+                <nz-space class="art-container full-width full-height" nzDirection="vertical">
+                    <img
+                        *nzSpaceItem
+                        nz-image
+                        width="500px"
+                        nzSrc="https://cdn.discordapp.com/attachments/999832468691632218/1024041916284813333/logo2branco.png"
+                        alt=""
+                    />
+                    <h3 *nzSpaceItem nz-typography class="white-text">The best news community out there!</h3>
+                </nz-space>
+            </div>
+        </div>
+    </div>
 </div>

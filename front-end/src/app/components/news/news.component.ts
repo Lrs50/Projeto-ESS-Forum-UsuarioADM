@@ -15,11 +15,10 @@ export class NewsComponent implements OnInit {
     constructor(private newsManagementService: NewsManagementService, private router: Router, private store: Store<{ app: AppState }>) {}
 
     newsList: News[] = []
-    newsListFiltered: News[] = []
 
     filterText: string = ''
 
-    radioValue: string = 'P'
+    radioValue: string = 'Popular'
     pageSize: number = 5
     pageIndex: number = 1
     totalNews: number = 50
@@ -46,13 +45,18 @@ export class NewsComponent implements OnInit {
         })
     )
 
+    debounceTimer: any
+
     ngOnInit(): void {
         this.getNewsPage()
     }
 
-    private clearFilter() {
-        this.filterText = ''
-        this.newsListFiltered = this.newsList
+    debouncedHTTPRequest() {
+        clearTimeout(this.debounceTimer)
+
+        this.debounceTimer = setTimeout(() => {
+            this.getNewsPage()
+        }, 1000)
     }
 
     getNewsSize() {
@@ -60,7 +64,7 @@ export class NewsComponent implements OnInit {
             if (res.status == 200) {
                 this.totalNews = res.result as number
             } else {
-                this.totalNews = 1
+                this.totalNews = 0
             }
         })
     }
@@ -81,37 +85,17 @@ export class NewsComponent implements OnInit {
         this.loading = true
         this.getNewsSize()
 
-        this.newsManagementService.getPage(this.pageIndex, this.pageSize).subscribe((res: ApiResponse) => {
-            if (res.status == 200) {
+        this.newsManagementService.getPage(this.pageIndex, this.pageSize, this.radioValue, this.filterText).subscribe((res: ApiResponse) => {
+            this.newsList = res.result as News[]
+
+            if (this.newsList.length == 0) {
+                this.weHaveNews = false
+            } else {
                 this.newsList = res.result as News[]
                 this.weHaveNews = true
-                this.clearFilter()
-                this.loading = false
-            } else {
-                this.weHaveNews = false
-                this.loading = false
             }
+
+            this.loading = false
         })
-    }
-
-    filterNews(): void {
-        const value: string = this.filterText.toLowerCase()
-
-        if (value == '') {
-            this.newsListFiltered = this.newsList
-
-            return
-        }
-
-        this.newsListFiltered = []
-
-        for (var i = 0; i < this.newsList.length; i++) {
-            var titleLower = this.newsList[i].title.toLowerCase()
-            var markdownLower = this.newsList[i].markdownText.toLowerCase()
-
-            if (titleLower.includes(value) || markdownLower.includes(value)) {
-                this.newsListFiltered.push(this.newsList[i])
-            }
-        }
     }
 }

@@ -8,7 +8,6 @@ import AppConfig from './app.config.json'
 
 import Logger from '@ptkdev/logger'
 
-
 const log = new Logger()
 
 const app: Application = express()
@@ -26,7 +25,7 @@ app.get('/', (request: Request, response: Response) => {
 })
 
 app.get('/news/:id', NewsController.getNews)
-app.get('/newspage/:pageId/:newsPerPage', NewsController.getNewsPage)
+app.get('/newspage/:pageId/:newsPerPage/:order/:filterTerm?', NewsController.getNewsPage)
 app.get('/newsall', NewsController.getAllNews)
 app.get('/newssize', NewsController.getNewsSize)
 app.post('/news', NewsController.createNews)
@@ -48,14 +47,14 @@ app.get('/usersize', UsersController.getUsersSize)
 app.post('/user', UsersController.createUser)
 app.put('/user', UsersController.editUser)
 app.post('/userlogin', UsersController.loginUser)
+app.post('/useradd/comment/:userId', UsersController.addComment)
+app.delete('/userremove/comment', UsersController.removeComment)
 
 app.get('/artist/:id', ArtistsController.getArtist)
 app.get('/artistall', ArtistsController.getAllArtists)
 app.get('/artistsize', ArtistsController.getArtistsSize)
 app.post('/artist', ArtistsController.createArtist)
 app.put('/artist', ArtistsController.editArtist)
-
-app.get('/artisttags', ArtistsController.getTags)
 
 app.listen(port, () => {
     log.info('Backend listening on port 3000')

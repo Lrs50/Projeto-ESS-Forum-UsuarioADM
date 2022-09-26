@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core'
-import { ApiResponse, News } from '../../../../../common/types'
+import { ApiResponse, Artist, News } from '../../../../../common/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { imageFallBack } from 'src/util'
 import { Store } from '@ngrx/store'
 import { AppState, addToNewsCount } from 'src/app/app.store'
 import { Router } from '@angular/router'
+import { ArtistService } from 'src/app/services/artist.service'
 
 @Component({
     selector: 'app-news-management',
@@ -15,7 +16,7 @@ import { Router } from '@angular/router'
 export class NewsManagementComponent implements OnInit {
     imageFall: string = imageFallBack
     newsList: News[] = []
-    newsListFiltered: News[] = []
+
     tableLoading: boolean = false
 
     pageSizeOptions: number[] = [10, 20, 30, 40]
@@ -25,11 +26,16 @@ export class NewsManagementComponent implements OnInit {
 
     filterText: string = ''
 
+    mentionedArtistsNamesInNews: string[][] = []
+
+    debounceTimer: any
+
     constructor(
         private message: NzMessageService,
         private newsManagementService: NewsManagementService,
         private store: Store<{ app: AppState }>,
-        private router: Router
+        private router: Router,
+        private artistService: ArtistService
     ) {
         this.getNewsPage()
     }
@@ -52,6 +58,14 @@ export class NewsManagementComponent implements OnInit {
         this.getNewsPage()
     }
 
+    debouncedHTTPRequest() {
+        clearTimeout(this.debounceTimer)
+
+        this.debounceTimer = setTimeout(() => {
+            this.getNewsPage()
+        }, 1000)
+    }
+
     updatePageSize(event: number) {
         this.pageSize = event
 
@@ -63,11 +77,25 @@ export class NewsManagementComponent implements OnInit {
 
         this.getNewsSize()
 
-        this.newsManagementService.getPage(this.pageIndex, this.pageSize).subscribe((res: ApiResponse) => {
-            if (res.status == 200 || res.status == 404) {
+        this.newsManagementService.getPage(this.pageIndex, this.pageSize, 'Newest', this.filterText).subscribe((res: ApiResponse) => {
+            if (res.status == 200) {
                 this.newsList = res.result as News[]
 
-                this.clearFilter()
+                for (let i = 0; i < this.newsList.length; i++) {
+                    let tempList: string[] = []
+
+                    for (let j = 0; j < this.newsList[i].mention.length; j++) {
+                        this.artistService.get(this.newsList[i].mention[j]).subscribe((res: ApiResponse) => {
+                            if (res.status == 200) {
+                                tempList.push((res.result as Artist).name)
+                            } else {
+                                this.router.navigateByUrl('/error')
+                            }
+                        })
+                    }
+
+                    this.mentionedArtistsNamesInNews.push(tempList)
+                }
             } else {
                 this.router.navigateByUrl('/error')
             }
@@ -88,39 +116,12 @@ export class NewsManagementComponent implements OnInit {
         return i
     }
 
-    filterNews(): void {
-        const value: string = this.filterText.toLowerCase()
-
-        if (value == '') {
-            this.newsListFiltered = this.newsList
-
-            return
-        }
-
-        this.newsListFiltered = []
-
-        for (var i = 0; i < this.newsList.length; i++) {
-            var titleLower = this.newsList[i].title.toLowerCase()
-            var markdownLower = this.newsList[i].markdownText.toLowerCase()
-
-            if (titleLower.includes(value) || markdownLower.includes(value)) {
-                this.newsListFiltered.push(this.newsList[i])
-            }
-        }
-    }
-
-    private clearFilter() {
-        this.filterText = ''
-        this.newsListFiltered = this.newsList
-    }
-
     onDeleteNews(id: string): void {
         let find: number = this.findIndexFromFilteredList(id)
 
         this.newsManagementService.delete(id).subscribe((res: ApiResponse) => {
             if (res.status == 200) {
                 this.newsList.splice(find, 1)
-                this.clearFilter()
                 this.totalNews -= 1
                 this.store.dispatch(addToNewsCount({ payload: -1 }))
                 this.message.create('success', `News deleted successfully!`)

@@ -1,17 +1,17 @@
-.login-background {
+.singup-background {
     height: 100%;
     width: 100%;
-    background-image: radial-gradient(circle, #f5e3e5, #f3e2ea, #ede2ef, #e4e3f3, #d9e4f5);
+    background-image: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
 }
 
-.login-grid-container {
+.singup-grid-container {
     padding: 1.5rem;
     width: 100%;
     height: 100%;
 }
 
-.login-content-container {
-    padding: 5rem;
+.singup-content-container {
+    padding: 2rem;
     background-color: #fefefe;
 }
 

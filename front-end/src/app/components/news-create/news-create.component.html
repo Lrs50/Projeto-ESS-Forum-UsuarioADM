@@ -1,65 +1,81 @@
-<nz-space nzDirection="vertical" class="news-page-space">
-    <nz-card *nzSpaceItem class="news-page-container" [nzCover]="coverTemplate" [nzExtra]="extraTemplate">
-        <ng-template #extraTemplate>
-            <nz-input-group [nzSize]="'large'" nzAddOnBeforeIcon="link" nz-tooltip nzTooltipTitle="News cover URL">
-                <input type="text" nz-input [(ngModel)]="news.cover" [nzSize]="'large'" [placeholder]="'Url to use as new cover'" />
-            </nz-input-group>
-        </ng-template>
-        <ng-template #coverTemplate>
-            <img nz-image [nzSrc]="news.cover" [nzFallback]="imgFall" />
-        </ng-template>
-        <nz-card-meta [nzTitle]="titleTemplate" [nzDescription]="dateTemplate" [nzAvatar]="avatarTemplate"></nz-card-meta>
-        <nz-divider></nz-divider>
-        <nz-space nzDirection="vertical" style="width: 50%">
-            <span *nzSpaceItem nz-typography><strong>Description</strong></span>
-            <p
-                *nzSpaceItem
-                nz-typography
-                nzEditable
-                [(nzContent)]="news.description"
-                [nzType]="statusInputTitle"
-                nzEditTooltip="Click to edit the description!"
-            ></p>
-        </nz-space>
-        <nz-divider></nz-divider>
-        <div nz-row class="editable-text-news" [nzGutter]="24">
-            <div nz-col nzSpan="24">
-                <nz-tabset nzType="card" class="editable-text-news">
-                    <nz-tab [nzTitle]="'Markdown'">
-                        <textarea
-                            rows="10"
-                            nz-input
-                            [(ngModel)]="news.markdownText"
-                            nzAutosize
-                            [nzStatus]="statusInputContent"
-                            [placeholder]="'Markdown content'"
-                        ></textarea>
-                    </nz-tab>
-                    <nz-tab [nzTitle]="'Preview'">
-                        <markdown ngPreserveWhitespaces [data]="news.markdownText == '' ? 'Markdown content' : news.markdownText"></markdown>
-                    </nz-tab>
-                </nz-tabset>
-            </div>
+<div class="full-width">
+    <nz-space class="full-width" nzDirection="vertical" style="padding: 2rem" nzSize="large">
+        <h1
+            *nzSpaceItem
+            class="main-title-text-size"
+            nz-typography
+            nzEditable
+            [(nzContent)]="news.title"
+            [nzType]="statusInputTitle"
+            nzEditTooltip="Click to edit the title!"
+        ></h1>
+        <nz-input-group *nzSpaceItem [nzSize]="'large'" nzAddOnBeforeIcon="link" nz-tooltip nzTooltipTitle="News cover URL">
+            <input type="text" nz-input [(ngModel)]="news.cover" [nzSize]="'large'" [placeholder]="'Url to use as new cover'" />
+        </nz-input-group>
+        <div *nzSpaceItem class="full-width" style="display: flex; align-content: center; justify-content: center; background: #000">
+            <img nz-image style="object-fit: contain" [nzSrc]="news.cover" [nzFallback]="imgFall" />
         </div>
-        <nz-divider></nz-divider>
-        <nz-space nzDirection="vertical" style="width: 100%">
-            <span *nzSpaceItem nz-typography><strong>Tags</strong></span>
-            <nz-select
-                *nzSpaceItem
-                [nzMaxTagCount]="5"
-                [nzMaxTagPlaceholder]="tagPlaceHolder"
-                nzMode="tags"
-                nzPlaceHolder="Select the tags"
-                [(ngModel)]="news.tags"
-                style="width: 70%"
-            >
-                <nz-option *ngFor="let item of avaliableTags" [nzLabel]="item.content" [nzValue]="item"></nz-option>
-            </nz-select>
+        <span
+            *nzSpaceItem
+            nz-typography
+            nzEditable
+            [(nzContent)]="news.description"
+            [nzType]="statusInputTitle"
+            nzEditTooltip="Click to edit the description!"
+            class="descrition-text-size"
+        ></span>
 
-            <ng-template #tagPlaceHolder let-selectedList>and {{ avaliableTags.length }} more selected</ng-template>
-        </nz-space>
-        <nz-divider></nz-divider>
-        <div style="float: right">
+        <nz-tabset *nzSpaceItem nzType="card" class="editable-text-news">
+            <nz-tab [nzTitle]="'Markdown'">
+                <textarea
+                    rows="10"
+                    nz-input
+                    [(ngModel)]="news.markdownText"
+                    nzAutosize
+                    [nzStatus]="statusInputContent"
+                    [placeholder]="'Markdown content'"
+                ></textarea>
+            </nz-tab>
+            <nz-tab [nzTitle]="'Preview'">
+                <markdown ngPreserveWhitespaces [data]="news.markdownText == '' ? 'Markdown content' : news.markdownText"></markdown>
+            </nz-tab>
+        </nz-tabset>
+
+        <nz-divider *nzSpaceItem></nz-divider>
+
+        <h3 *nzSpaceItem nz-typography><strong>Tags</strong></h3>
+        <nz-select
+            *nzSpaceItem
+            [nzMaxTagCount]="5"
+            [nzMaxTagPlaceholder]="tagPlaceHolder"
+            nzMode="tags"
+            nzPlaceHolder="Select the tags"
+            [(ngModel)]="news.tags"
+            style="width: 70%"
+        >
+            <nz-option *ngFor="let tag of avaliableTags" [nzLabel]="tag" [nzValue]="tag"></nz-option>
+        </nz-select>
+
+        <ng-template #tagPlaceHolder let-selectedList>and {{ news.tags.length }} more selected</ng-template>
+
+        <nz-divider *nzSpaceItem></nz-divider>
+
+        <h3 *nzSpaceItem nz-typography><strong>Mentions</strong></h3>
+        <nz-select
+            *nzSpaceItem
+            [nzMaxTagCount]="5"
+            [nzMaxTagPlaceholder]="tagPlaceHolder"
+            nzMode="tags"
+            nzPlaceHolder="Select the tags"
+            [(ngModel)]="news.mention"
+            style="width: 70%"
+        >
+            <nz-option *ngFor="let mention of artistsNames; index as i" [nzLabel]="mention" [nzValue]="artists[i].id"></nz-option>
+        </nz-select>
+
+        <ng-template #tagPlaceHolder let-selectedList>and {{ news.mention.length }} more selected</ng-template>
+
+        <div *nzSpaceItem style="float: right">
             <nz-space>
                 <button *nzSpaceItem nz-button nzType="primary" [nzSize]="'large'" (click)="onCreateNews()">
                     <span nz-icon nzType="plus-square"></span>
@@ -67,14 +83,5 @@
                 </button>
             </nz-space>
         </div>
-        <ng-template #titleTemplate>
-            <p nz-typography nzEditable [(nzContent)]="news.title" [nzType]="statusInputTitle" nzEditTooltip="Click to edit the title!"></p>
-        </ng-template>
-
-        <ng-template #dateTemplate> Created today </ng-template>
-
-        <ng-template #avatarTemplate>
-            <nz-avatar [nzSrc]="(userInfo | async)!.avatar" nz-tooltip [nzTooltipTitle]="(userInfo | async)!.name"></nz-avatar>
-        </ng-template>
-    </nz-card>
-</nz-space>
+    </nz-space>
+</div>

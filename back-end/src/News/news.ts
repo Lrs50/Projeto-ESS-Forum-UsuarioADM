@@ -1,9 +1,10 @@
-import { Comment, Like, News } from '../../../common/types'
+import { Artist, Comment, Like, News } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
 import Path from 'path'
 import { ArrayToMap, MapToArray, MapValuesToArray } from '../utils'
 import Logger from '@ptkdev/logger'
 import AppConfig from '../app.config.json'
+import ArtistDB from '../Artist/artists'
 
 const log = new Logger()
 
@@ -15,7 +16,7 @@ class NewsDB {
     path: string
 
     constructor() {
-        if(AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD'){
+        if (AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD') {
             this.path = './data.json'
         } else {
             this.path = './data.test.json'
@@ -45,10 +46,100 @@ class NewsDB {
         return MapValuesToArray(this.db)
     }
 
-    getNewsPage(pageId: number, newsPerPage: number): News[] {
+    getNewsPage(pageId: number, newsPerPage: number, order: string, filterTerm: string | undefined): News[] {
         let tempArr: News[] = MapValuesToArray(this.db)
 
-        return tempArr.slice((pageId - 1) * newsPerPage, Math.min(pageId * newsPerPage, this.db.size))
+        let artistsDB: ArtistDB = new ArtistDB()
+
+        if (filterTerm != '' && filterTerm != undefined) {
+            let term: string = filterTerm.toLowerCase()
+
+            tempArr = tempArr.filter((news: News) => {
+                if (news.title.toLowerCase().includes(term)) {
+                    return true
+                }
+
+                if (news.description.toLowerCase().includes(term)) {
+                    return true
+                }
+
+                for (let i = 0; i < news.tags.length; i++) {
+                    if (news.tags[i].toLowerCase().includes(term)) {
+                        return true
+                    }
+                }
+
+                let artists: Artist[] = []
+
+                for (let i = 0; i < news.mention.length; i++) {
+                    artists.push(artistsDB.getArtist(news.mention[i])!)
+                }
+
+                for (let i = 0; i < artists.length; i++) {
+                    if (artists[i].name.toLowerCase().includes(term)) {
+                        return true
+                    }
+                }
+
+                return false
+            })
+        }
+
+        tempArr = tempArr.slice((pageId - 1) * newsPerPage, Math.min(pageId * newsPerPage, this.db.size))
+
+        function comparePopular(a: News, b: News): number {
+            if (a.views > b.views) {
+                return -1
+            } else if (a.views == b.views) {
+                if (a.likes.length > b.likes.length) {
+                    return -1
+                } else if (a.likes.length == b.likes.length) {
+                    if (a.comments.length >= b.comments.length) {
+                        return -1
+                    } else {
+                        return 1
+                    }
+                } else {
+                    return 1
+                }
+            } else {
+                return 1
+            }
+        }
+
+        function compareNewest(a: News, b: News): number {
+            function computeScore(timeStr: string): number {
+                let match: string[] = timeStr.split(' ')
+
+                let score: number = 0
+
+                let date: string[] = match[0].split('/')
+                let hour: string[] = match[1].split(':')
+
+                score += parseFloat(hour[1]) / 60
+                score += parseFloat(hour[0])
+                score += parseFloat(date[0]) * 24
+                score += parseFloat(date[1]) * 24 * 30
+                score += parseFloat(date[2]) * 24 * 30 * 12
+
+                return score
+            }
+
+            let scoreA: number = computeScore(a.date)
+            let scoreB: number = computeScore(b.date)
+
+            if (scoreA > scoreB) {
+                return -1
+            } else {
+                return 1
+            }
+        }
+
+        if (order == 'Popular') {
+            return tempArr.sort(comparePopular)
+        } else {
+            return tempArr.sort(compareNewest)
+        }
     }
 
     createNews(news: News): Promise<Boolean> {

@@ -1,0 +1,24 @@
+<div class="artist-background">
+    <div class="artist-grid-container">
+        <div nz-row nzJustify="center" class="full-height full-width">
+            <div nz-col nzMd="8" class="full-height full-width">
+                <nz-space class="artist-content-container full-width full-height" nzDirection="vertical" [nzSize]="'large'">
+                    <nz-space *nzSpaceItem nzDirection="vertical">
+                        <h1 *nzSpaceItem nz-typography>{{ artist.name }}</h1>
+                        <h4 *nzSpaceItem nz-typography>{{ artist.type }}</h4>
+                    </nz-space>
+                    <span *nzSpaceItem nz-typography>{{ artist.description }}</span>
+                    <nz-space *nzSpaceItem>
+                        <span *nzSpaceItem nz-icon nzType="aim"></span>
+                        <span *nzSpaceItem>Mentioned {{ artist.mentions }} times</span>
+                    </nz-space>
+                </nz-space>
+            </div>
+            <div nz-col nzMd="16" class="full-height full-width">
+                <div class="full-width full-height" style="display: flex; align-content: center; justify-content: center; background-color: #000">
+                    <img nz-image width="100%" style="object-fit: contain" [nzSrc]="artist.cover" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

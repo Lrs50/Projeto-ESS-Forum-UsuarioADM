@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { NzStatus } from 'ng-zorro-antd/core/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, News, User, emptyUser, Tag, emptyNews } from '../../../../../common/types'
+import { ApiResponse, News, User, emptyUser, emptyNews, Artist, defaultTags } from '../../../../../common/types'
 import { imageFallBack } from 'src/util'
 import { UsersService } from 'src/app/services/users.service'
 import { ArtistService } from 'src/app/services/artist.service'
@@ -16,8 +16,6 @@ import { ArtistService } from 'src/app/services/artist.service'
 export class NewsEditComponent implements OnInit {
     imgFall: string = imageFallBack
 
-    avaliableTags: Tag[] = []
-
     statusInputTitle: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
     statusInputDescription: 'secondary' | 'warning' | 'danger' | 'success' | undefined = undefined
     statusInputContent: NzStatus = ''
@@ -25,6 +23,11 @@ export class NewsEditComponent implements OnInit {
     news: News = emptyNews('', '')
 
     authorInfo: User = emptyUser('')
+
+    artists: Artist[] = []
+    artistsNames: string[] = []
+
+    avaliableTags: string[] = [...defaultTags]
 
     constructor(
         private newsManagementService: NewsManagementService,
@@ -48,16 +51,20 @@ export class NewsEditComponent implements OnInit {
                             this.router.navigateByUrl('/error')
                         }
                     })
-
-                    this.artistService.getTags().subscribe((res: ApiResponse) => {
-                        if (res.status == 200) {
-                            this.avaliableTags = res.result as Tag[]
-                        } else {
-                            this.router.navigateByUrl('/error')
-                        }
-                    })
                 } else {
                     this.router.navigateByUrl('/notfound')
+                }
+            })
+
+            this.artistService.getAll().subscribe((res: ApiResponse) => {
+                if (res.status == 200) {
+                    this.artists = res.result as Artist[]
+
+                    for (let i = 0; i < this.artists.length; i++) {
+                        this.artistsNames.push(this.artists[i].name)
+                    }
+                } else {
+                    this.router.navigateByUrl('/error')
                 }
             })
         }
@@ -102,6 +109,8 @@ export class NewsEditComponent implements OnInit {
 
         this.news.date = date + ' ' + hour.slice(0, -3)
         this.news.edited = true
+
+        this.news.tags = []
 
         this.newsManagementService.edit(this.news).subscribe((res: ApiResponse) => {
             if (res.status == 200) {

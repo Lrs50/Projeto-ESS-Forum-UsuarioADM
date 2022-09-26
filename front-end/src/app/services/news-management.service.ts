@@ -31,8 +31,8 @@ export class NewsManagementService {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'all')
     }
 
-    getPage(pageId: number, newsPerPage: number): Observable<ApiResponse> {
-        return this.httpClient.get<ApiResponse>(this.baseUrl + `page/${pageId}/${newsPerPage}`)
+    getPage(pageId: number, newsPerPage: number, order: string, filterTerm: string): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>(this.baseUrl + `page/${pageId}/${newsPerPage}/${order}/${filterTerm}`)
     }
 
     getNewsSize(): Observable<ApiResponse> {

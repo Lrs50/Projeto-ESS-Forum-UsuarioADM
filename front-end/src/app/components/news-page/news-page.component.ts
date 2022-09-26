@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core'
-import { News, ApiResponse, User, Like, Comment, emptyUser } from '../../../../../common/types'
+import { News, ApiResponse, User, Like, Comment, emptyUser, emptyNews, Artist } from '../../../../../common/types'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { imageFallBack } from '../../../util'
-import { map, Observable, Subscription, take } from 'rxjs'
+import { firstValueFrom, map, Observable, Subscription, take } from 'rxjs'
 import { Store } from '@ngrx/store'
 import { AppState } from 'src/app/app.store'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { UsersService } from 'src/app/services/users.service'
 import { nanoid } from 'nanoid'
+import { ArtistService } from 'src/app/services/artist.service'
 
 @Component({
     selector: 'app-news-page',
@@ -26,26 +27,17 @@ export class NewsPageComponent implements OnInit {
         })
     )
 
-    news: News = {
-        id: '',
-        cover: '',
-        authorId: '',
-        title: '',
-        description: '',
-        date: '',
-        markdownText: '',
-        edited: false,
-        views: 0,
-        likes: [],
-        comments: [],
-        tags: [],
-    }
+    news: News = emptyNews('', '')
 
     authorInfo: User = emptyUser('')
 
     commentContent: string = ''
     hasUserLikedIComment: boolean[] = []
     hasUserDislikedIComment: boolean[] = []
+
+    mentionedArtistsName: string[] = []
+
+    readingTime: number = 0
 
     isAdmin: Observable<boolean> = this.store.select('app').pipe(
         map((state: AppState) => {
@@ -65,16 +57,19 @@ export class NewsPageComponent implements OnInit {
         private router: Router,
         private store: Store<{ app: AppState }>,
         private message: NzMessageService,
-        private userService: UsersService
+        private userService: UsersService,
+        private artistService: ArtistService
     ) {
         const id: string | null = this.route.snapshot.paramMap.get('id')
 
         if (id != null) {
-            this.newsManagementService.get(id).subscribe((res: ApiResponse) => {
+            this.newsManagementService.get(id).subscribe(async (res: ApiResponse) => {
                 if (res.status == 200) {
                     this.news = res.result as News
 
                     this.news.views += 1
+
+                    this.readingTime = Math.ceil(this.news.markdownText.split(' ').length / 200)
 
                     this.newsManagementService.addView(id).subscribe(() => {
                         return
@@ -88,10 +83,7 @@ export class NewsPageComponent implements OnInit {
                         }
                     })
 
-                    let userId: string = ''
-
-                    let userIdSubscription: Subscription = this.userInfo.pipe(take(1)).subscribe((user: User) => (userId = user.id))
-                    userIdSubscription.unsubscribe()
+                    let userId: string = (await firstValueFrom(this.userInfo)).id
 
                     for (let i = 0; i < this.news.likes.length; i++) {
                         if (this.news.likes[i] == userId) {
@@ -108,9 +100,7 @@ export class NewsPageComponent implements OnInit {
                                 this.hasUserLikedIComment.push(false)
                             }
                         }
-                    }
 
-                    for (let i = 0; i < this.news.comments.length; i++) {
                         for (let j = 0; j < this.news.comments[i].dislikes.length; j++) {
                             if (this.news.comments[i].dislikes[j] == userId) {
                                 this.hasUserDislikedIComment.push(true)
@@ -118,6 +108,16 @@ export class NewsPageComponent implements OnInit {
                                 this.hasUserDislikedIComment.push(false)
                             }
                         }
+                    }
+
+                    for (let i = 0; i < this.news.mention.length; i++) {
+                        this.artistService.get(this.news.mention[i]).subscribe((res: ApiResponse) => {
+                            if (res.status == 200) {
+                                this.mentionedArtistsName.push((res.result as Artist).name)
+                            } else {
+                                this.router.navigateByUrl('/error')
+                            }
+                        })
                     }
                 } else {
                     this.router.navigateByUrl('/notfound')
@@ -130,11 +130,8 @@ export class NewsPageComponent implements OnInit {
 
     ngOnInit(): void {}
 
-    toggleLikeNews(): void {
-        let userId: string = ''
-
-        let userIdSubscription: Subscription = this.userInfo.pipe(take(1)).subscribe((user: User) => (userId = user.id))
-        userIdSubscription.unsubscribe()
+    async toggleLikeNews(): Promise<void> {
+        let userId: string = (await firstValueFrom(this.userInfo)).id
 
         if (userId == '') {
             this.message.create('warning', `Please login first`)
@@ -193,7 +190,6 @@ export class NewsPageComponent implements OnInit {
             }
 
             this.newsManagementService.addComment(this.news.id, temp).subscribe((res: ApiResponse) => {
-                console.log(res)
                 if (res.status == 200) {
                     this.news.comments.unshift(temp)
                     this.commentContent = ''
@@ -207,7 +203,6 @@ export class NewsPageComponent implements OnInit {
 
     removeComment(id: string): void {
         this.newsManagementService.removeComment(this.news.id, id).subscribe((res: ApiResponse) => {
-            console.log(res)
             if (res.status == 200) {
                 for (let i = 0; i < this.news.comments.length; i++) {
                     if (this.news.comments[i].id == id) {
@@ -223,11 +218,8 @@ export class NewsPageComponent implements OnInit {
         })
     }
 
-    toggleLikeComment(commentIndex: number) {
-        let userId: string = ''
-
-        let userIdSubscription: Subscription = this.userInfo.pipe(take(1)).subscribe((user: User) => (userId = user.id))
-        userIdSubscription.unsubscribe()
+    async toggleLikeComment(commentIndex: number): Promise<void> {
+        let userId: string = (await firstValueFrom(this.userInfo)).id
 
         if (userId == '') {
             this.message.create('warning', `Please login first`)
@@ -274,11 +266,8 @@ export class NewsPageComponent implements OnInit {
         }
     }
 
-    toggleDislikeComment(commentIndex: number) {
-        let userId: string = ''
-
-        let userIdSubscription: Subscription = this.userInfo.pipe(take(1)).subscribe((user: User) => (userId = user.id))
-        userIdSubscription.unsubscribe()
+    async toggleDislikeComment(commentIndex: number): Promise<void> {
+        let userId: string = (await firstValueFrom(this.userInfo)).id
 
         if (userId == '') {
             this.message.create('warning', `Please login first`)
