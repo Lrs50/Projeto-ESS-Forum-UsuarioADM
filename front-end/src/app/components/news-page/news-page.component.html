@@ -10,7 +10,7 @@
             <div *nzSpaceItem>
                 <div *ngIf="mentionedArtistsName.length > 0">
                     <nz-tag *ngFor="let artist of mentionedArtistsName" nzColor="#483d99">
-                        <strong>{{ artist }}</strong>
+                        <strong>{{ artist | uppercase }}</strong>
                     </nz-tag>
                     <nz-divider nzType="vertical"></nz-divider>
                 </div>
@@ -22,7 +22,7 @@
             </div>
 
             <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
-            <span *nzSpaceItem nz-typography nzType="secondary">{{ readingTime }} mins read</span>
+            <span *nzSpaceItem nz-typography nzType="secondary">{{ readingTime }} min(s) read</span>
         </nz-space>
 
         <span *nzSpaceItem nz-typography nzType="secondary">

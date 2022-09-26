@@ -21,10 +21,10 @@
     </section>
     <section class="news-content-tags">
         <div *ngIf="artistsMentioned.length > 0">
-            <nz-divider nzType="vertical"></nz-divider>
             <nz-tag *ngFor="let mention of artistsMentioned" nzColor="#483d99">
                 <strong>{{ mention }}</strong>
             </nz-tag>
+            <nz-divider nzType="vertical"></nz-divider>
         </div>
         <nz-tag *ngFor="let tag of tags">
             <strong>{{ tag }}</strong>
