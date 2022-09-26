@@ -10,32 +10,24 @@ import { AppComponent } from './app.component'
 import { NzIconModule } from 'ng-zorro-antd/icon'
 import { NzButtonModule } from 'ng-zorro-antd/button'
 import { NzAvatarModule } from 'ng-zorro-antd/avatar'
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown'
-import { NzMenuModule } from 'ng-zorro-antd/menu'
 import { NzSpaceModule } from 'ng-zorro-antd/space'
 import { IconDefinition } from '@ant-design/icons-angular'
 import { NzCardModule } from 'ng-zorro-antd/card'
-import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzInputModule } from 'ng-zorro-antd/input'
-import { NzStatisticModule } from 'ng-zorro-antd/statistic'
 import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzDividerModule } from 'ng-zorro-antd/divider'
 import { NzTableModule } from 'ng-zorro-antd/table'
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm'
 import { NzTypographyModule } from 'ng-zorro-antd/typography'
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip'
-import { NzCollapseModule } from 'ng-zorro-antd/collapse'
 import { NzSelectModule } from 'ng-zorro-antd/select'
 import { NzMessageModule } from 'ng-zorro-antd/message'
 import { NzTabsModule } from 'ng-zorro-antd/tabs'
 import { NzPaginationModule } from 'ng-zorro-antd/pagination'
 import { NzModalModule } from 'ng-zorro-antd/modal'
-import { NzProgressModule } from 'ng-zorro-antd/progress'
 import { NzImageModule } from 'ng-zorro-antd/image'
 import { NzTagModule } from 'ng-zorro-antd/tag'
-import { NzRadioModule } from 'ng-zorro-antd/radio'
 import { NzDrawerModule } from 'ng-zorro-antd/drawer'
-import { NzListModule } from 'ng-zorro-antd/list'
 import { MarkdownModule } from 'ngx-markdown'
 import { NzCommentModule } from 'ng-zorro-antd/comment'
 import { NzEmptyModule } from 'ng-zorro-antd/empty'
@@ -44,18 +36,13 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge'
 import { NzPopoverModule } from 'ng-zorro-antd/popover'
 import { NzResultModule } from 'ng-zorro-antd/result'
 import { NzAlertModule } from 'ng-zorro-antd/alert'
-import { NzRateModule } from 'ng-zorro-antd/rate'
+import { NzRadioModule } from 'ng-zorro-antd/radio'
 import {
     UserOutline,
     LogoutOutline,
     LoginOutline,
-    TeamOutline,
-    HomeOutline,
-    ThunderboltOutline,
     LockOutline,
-    DownOutline,
     FileTextOutline,
-    SettingOutline,
     CheckOutline,
     PlusSquareOutline,
     DeleteOutline,
@@ -65,15 +52,7 @@ import {
     DislikeOutline,
     LinkOutline,
     LikeTwoTone,
-    FileTextFill,
-    ThunderboltFill,
-    SettingFill,
-    FireFill,
-    HourglassFill,
-    SmileFill,
-    TrophyFill,
     DislikeTwoTone,
-    ProfileOutline,
     SmileOutline,
     TrophyOutline,
     AimOutline,
@@ -112,22 +91,10 @@ const icons: IconDefinition[] = [
     UserOutline,
     LogoutOutline,
     LoginOutline,
-    TeamOutline,
-    HomeOutline,
-    ThunderboltOutline,
-    SettingFill,
-    FireFill,
-    HourglassFill,
-    SmileFill,
     SmileOutline,
-    TrophyFill,
     TrophyOutline,
     LockOutline,
-    DownOutline,
     FileTextOutline,
-    FileTextFill,
-    ThunderboltFill,
-    SettingOutline,
     CheckOutline,
     PlusSquareOutline,
     DeleteOutline,
@@ -138,7 +105,6 @@ const icons: IconDefinition[] = [
     DislikeOutline,
     DislikeTwoTone,
     LinkOutline,
-    ProfileOutline,
     AimOutline,
 ]
 
@@ -172,31 +138,23 @@ const icons: IconDefinition[] = [
         AppRoutingModule,
         NzButtonModule,
         NzAvatarModule,
-        NzDropDownModule,
-        NzMenuModule,
         NzSpaceModule,
         NzCardModule,
-        NzFormModule,
         NzInputModule,
-        NzStatisticModule,
         NzGridModule,
         NzDividerModule,
         NzTableModule,
         NzPopconfirmModule,
         NzTypographyModule,
         NzToolTipModule,
-        NzCollapseModule,
         NzSelectModule,
         NzMessageModule,
         NzTabsModule,
         NzPaginationModule,
         NzModalModule,
-        NzProgressModule,
         NzImageModule,
         NzTagModule,
-        NzRadioModule,
         NzDrawerModule,
-        NzListModule,
         MarkdownModule.forRoot(),
         NzCommentModule,
         NzEmptyModule,
@@ -205,7 +163,7 @@ const icons: IconDefinition[] = [
         NzPopoverModule,
         NzResultModule,
         NzAlertModule,
-        NzRateModule,
+        NzRadioModule,
     ],
     providers: [
         { provide: NZ_I18N, useValue: en_US },
