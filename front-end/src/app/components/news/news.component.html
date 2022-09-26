@@ -9,7 +9,7 @@
         >
             <nz-spin nzTip="Loading..." [nzSpinning]="loading">
                 <div *ngIf="weHaveNews; else elseBlock">
-                    <div *ngFor="let news of newsListFiltered" nz-card-grid [ngStyle]="gridStyle">
+                    <div *ngFor="let news of newsList" nz-card-grid [ngStyle]="gridStyle">
                         <app-news-shower
                             [id]="news.id"
                             [title]="news.title"
@@ -41,8 +41,8 @@
         </ng-template>
         <ng-template #extraTemplate>
             <nz-space nzAlign="center">
-                <nz-radio-group *nzSpaceItem [(ngModel)]="radioValue">
-                    <label nz-radio-button nzValue="P">
+                <nz-radio-group *nzSpaceItem [(ngModel)]="radioValue" (ngModelChange)="getNewsPage()">
+                    <label nz-radio-button nzValue="Popular">
                         <span nz-icon class="text-nowrap icon-size">
                             <svg
                                 viewBox="0 0 36 36"
@@ -65,7 +65,7 @@
                         </span>
                         Popular
                     </label>
-                    <label nz-radio-button nzValue="N">
+                    <label nz-radio-button nzValue="Newest">
                         <span nz-icon class="text-nowrap icon-size">
                             <svg
                                 version="1.1"
@@ -125,7 +125,14 @@
                 </nz-radio-group>
                 <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
                 <nz-input-group *nzSpaceItem [nzSuffix]="suffixIconSearch" [nzSize]="'large'">
-                    <input type="text" nz-input placeholder="Search..." [nzSize]="'large'" [(ngModel)]="filterText" (input)="filterNews()" />
+                    <input
+                        type="text"
+                        nz-input
+                        placeholder="Search..."
+                        [nzSize]="'large'"
+                        [(ngModel)]="filterText"
+                        (input)="debouncedHTTPRequest()"
+                    />
                 </nz-input-group>
                 <ng-template #suffixIconSearch>
                     <span nz-icon nzType="search"></span>

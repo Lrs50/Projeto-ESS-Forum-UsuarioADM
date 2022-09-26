@@ -106,7 +106,6 @@ export class UserProfileComponent implements OnInit {
 
     removeComment(id: string): void {
         this.userService.removeComment(this.user.id, id).subscribe((res: ApiResponse) => {
-            console.log(res)
             if (res.status == 200) {
                 for (let i = 0; i < this.user.profileComments.length; i++) {
                     if (this.user.profileComments[i].id == id) {

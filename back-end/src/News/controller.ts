@@ -43,7 +43,7 @@ export function getNews(request: Request, response: Response): void {
 export function getNewsPage(request: Request, response: Response): void {
     log.info('GetNewsPage request received')
 
-    const valid = validator(['pageId', 'newsPerPage'], request.params)
+    const valid = validator(['pageId', 'newsPerPage', 'order', 'filterTerm'], request.params)
 
     if (!valid) {
         response.send(HTTP_BAD_REQUEST)
@@ -53,9 +53,11 @@ export function getNewsPage(request: Request, response: Response): void {
 
     let pageId: number = parseInt(request.params.pageId)
     let newsPerPage: number = parseInt(request.params.newsPerPage)
+    let filterTerm: string = request.params.filterTerm
+    let order: string = request.params.order
 
     let db: NewsDB = new NewsDB()
-    let result: News[] = db.getNewsPage(pageId, newsPerPage)
+    let result: News[] = db.getNewsPage(pageId, newsPerPage, order, filterTerm)
 
     let httpResponse: ApiResponse = HTTP_SUCCESS
     httpResponse.result = result

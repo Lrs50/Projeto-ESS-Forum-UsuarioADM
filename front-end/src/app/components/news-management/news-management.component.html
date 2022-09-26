@@ -8,7 +8,7 @@
     <nz-space class="wfull" nzDirection="vertical">
         <div *nzSpaceItem>
             <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                <input type="text" nz-input placeholder="Search by title, author..." [(ngModel)]="filterText" (input)="filterNews()" />
+                <input type="text" nz-input placeholder="Search by title, author..." [(ngModel)]="filterText" (input)="debouncedHTTPRequest()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
                 <button nz-button nzType="primary" nzSearch>Search</button>
@@ -21,7 +21,7 @@
                 nzTableLayout="fixed"
                 [nzFrontPagination]="false"
                 [nzTotal]="totalNews"
-                [nzData]="newsListFiltered"
+                [nzData]="newsList"
                 [nzPageSize]="pageSize"
                 [nzPageIndex]="pageIndex"
                 [nzNoResult]="emptyDataTemplate"
@@ -45,7 +45,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let news of newsListFiltered; index as i">
+                    <tr *ngFor="let news of newsList; index as i">
                         <td nzEllipsis>
                             <h5 nz-typography nzEllipsis>{{ news.title }}</h5>
                         </td>
