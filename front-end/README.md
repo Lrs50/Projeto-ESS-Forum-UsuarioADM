@@ -10,6 +10,10 @@ This project uses [NG-ZORRO](https://ng.ant.design/docs/introduce/en) as FrameWo
 
 Install prettier on your project
 
+## Install dependecies
+
+`npm install --force`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.

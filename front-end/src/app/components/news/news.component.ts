@@ -83,6 +83,7 @@ export class NewsComponent implements OnInit {
 
     getNewsPage() {
         this.loading = true
+        this.pageIndex = 1
         this.getNewsSize()
 
         this.newsManagementService.getPage(this.pageIndex, this.pageSize, this.radioValue, this.filterText).subscribe((res: ApiResponse) => {
