@@ -51,6 +51,26 @@ class UsersDB {
 
         return find
     }
+    //USUARIO COMUM
+    getUserCommon(id: string): User | undefined {
+        var a: User[] = MapValuesToArray(this.db)
+        const result = a.filter(a => a.id == id && a.type == 'User')
+        if(result.length == 1){
+            return result[0]
+        }else{
+            return undefined
+        }
+        
+    }
+
+    getAllCommonUser(): User[] {
+        var a: User[] = MapValuesToArray(this.db)
+        const result = a.filter(a => a.type == 'User')
+        return result  
+        
+    }
+
+    
 
     getUser(id: string): User | undefined {
         return this.db.get(id)
