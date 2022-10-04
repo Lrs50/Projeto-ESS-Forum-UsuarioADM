@@ -26,6 +26,9 @@ export class UsersService {
     getAll(): Observable<ApiResponse> {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'all')
     }
+    getcommonAll(): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>('http://localhost:3000/commonAll')
+    }
 
     getUsersSize(): Observable<ApiResponse> {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
