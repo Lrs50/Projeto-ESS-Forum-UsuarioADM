@@ -39,7 +39,7 @@ export function getUserCommon(request: Request, response: Response): void {
 
     return
 }
-
+//METODOS COMMON USERS
 export function getAllCommonUser(request: Request, response: Response): void {
     log.info('GetAllCommonUser request received')
 
@@ -88,6 +88,31 @@ export function getUser(request: Request, response: Response): void {
 
         response.send(httpResponse)
     }
+
+    return
+}
+export function removeCommonUser(request: Request, response: Response): void {
+    log.info('Remove common user profile request received')
+
+    const valid = validator(['id'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+
+    let removeComment: Promise<Boolean> = db.removeCommonUser(request.params.id)
+
+    removeComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
 
     return
 }
