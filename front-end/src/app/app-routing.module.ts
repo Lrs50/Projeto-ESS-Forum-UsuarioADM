@@ -25,7 +25,7 @@ const routes: Routes = [
         component: HomeComponent,
         children: [
             { path: '', redirectTo: 'news', pathMatch: 'full' },   
-            { path: 'news', component: NewsComponent },
+            { path: 'news', component: NewsComponent, canActivate: [NotLoggedGuard, AdminUserGuard]},
             { path: 'common', component: CommonUsersComponent},
             { path: 'news/:id', component: NewsPageComponent },
             { path: 'management/news/edit/:id', component: NewsEditComponent, canActivate: [NotLoggedGuard, AdminUserGuard] },
