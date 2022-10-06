@@ -1,54 +1,132 @@
-<nz-card class="base-card" nzTitle="News Management">
+<nz-card class="base-card" nzTitle="News Management" [nzExtra]="extraContentTemplate">
+    <ng-template #extraContentTemplate>
+        <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
+            <i nz-icon nzType="plus-square"></i>
+            Create
+        </button>
+    </ng-template>
     <nz-space class="wfull" nzDirection="vertical">
         <div *nzSpaceItem>
-            <button nz-button nzType="primary" (click)="onCreateNews()">
-                <i nz-icon nzType="plus-square"></i>
-                Create
-            </button>
-        </div>
-        <div *nzSpaceItem>
             <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                <input type="text" nz-input placeholder="Search by title, author..." [(ngModel)]="filterText" (input)="filterNews()" />
+                <input type="text" nz-input placeholder="Search by title, author..." [(ngModel)]="filterText" (input)="debouncedHTTPRequest()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
                 <button nz-button nzType="primary" nzSearch>Search</button>
             </ng-template>
         </div>
         <div *nzSpaceItem>
-            <nz-collapse [nzExpandIconPosition]="'right'">
-                <nz-collapse-panel *ngFor="let news of newsListFiltered; index as i" [nzHeader]="news.title" [nzActive]="false" [nzExtra]="extraTpl">
-                    <nz-space class="wfull" nzDirection="vertical">
-                        <span *nzSpaceItem>Title</span>
-                        <input *nzSpaceItem nz-input [nzSize]="'large'" placeholder="Title" [(ngModel)]="news.title" />
-                        <span *nzSpaceItem>Content</span>
-                        <textarea
-                            *nzSpaceItem
-                            nz-input
-                            [nzSize]="'large'"
-                            placeholder="Content"
-                            [nzAutosize]="{ minRows: 10, maxRows: 30 }"
-                            [(ngModel)]="news.markdownText"
-                        ></textarea>
-                        <div *nzSpaceItem style="float: right">
+            <nz-table
+                #borderedTable
+                nzBordered
+                nzTableLayout="fixed"
+                [nzFrontPagination]="false"
+                [nzTotal]="totalNews"
+                [nzData]="newsList"
+                [nzPageSize]="pageSize"
+                [nzPageIndex]="pageIndex"
+                [nzNoResult]="emptyDataTemplate"
+                [nzPageSizeOptions]="pageSizeOptions"
+                [nzShowSizeChanger]="true"
+                [nzLoading]="tableLoading"
+                (nzPageIndexChange)="updatePageIndex($event)"
+                (nzPageSizeChange)="updatePageSize($event)"
+            >
+                <ng-template #emptyDataTemplate>
+                    <nz-empty></nz-empty>
+                </ng-template>
+                <thead>
+                    <tr>
+                        <th nzEllipsis>Title</th>
+                        <th nzWidth="150px">Date</th>
+                        <th nzWidth="130px">Edit Status</th>
+                        <th nzWidth="150px">Tags</th>
+                        <th nzWidth="150px">Mentions</th>
+                        <th nzWidth="200px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let news of newsList; index as i">
+                        <td nzEllipsis>
+                            <h5 nz-typography nzEllipsis>{{ news.title }}</h5>
+                        </td>
+                        <td nzEllipsis>
+                            <span nz-typography nzType="secondary">{{ news.date }}</span>
+                        </td>
+                        <td nzEllipsis>
+                            <nz-tag [nzColor]="news.edited == false ? 'green' : 'blue'">
+                                <strong>{{ news.edited == false ? 'NOT EDITED' : 'EDITED' }}</strong>
+                            </nz-tag>
+                        </td>
+                        <td>
+                            <div *ngIf="news.tags.length == 0; else tagsBlock">
+                                <nz-tag [nzColor]="'red'"><strong>NO TAGS</strong></nz-tag>
+                            </div>
+                            <ng-template #tagsBlock>
+                                <div *ngIf="news.tags.length == 1; else multipleTagsBlock">
+                                    <nz-tag>
+                                        <strong>{{ news.tags[0] }}</strong>
+                                    </nz-tag>
+                                </div>
+                                <ng-template #multipleTagsBlock>
+                                    <nz-badge [nzCount]="news.tags.length">
+                                        <nz-tag nz-popover nzPopoverTitle="Tags" [nzPopoverContent]="renderMultipleTagsBlock"
+                                            ><strong>ALL TAGS</strong></nz-tag
+                                        >
+                                    </nz-badge>
+                                    <ng-template #renderMultipleTagsBlock>
+                                        <nz-tag *ngFor="let tag of news.tags">{{ tag }}</nz-tag>
+                                    </ng-template>
+                                </ng-template>
+                            </ng-template>
+                        </td>
+                        <td>
+                            <div *ngIf="mentionedArtistsNamesInNews[i].length == 0; else mentionsBlock">
+                                <nz-tag [nzColor]="'red'"><strong>NO MENTION</strong></nz-tag>
+                            </div>
+                            <ng-template #mentionsBlock>
+                                <div *ngIf="mentionedArtistsNamesInNews[i].length == 1; else multipleMentionsBlock">
+                                    <nz-tag nzColor="#483d99">
+                                        <strong>{{ mentionedArtistsNamesInNews[i][0] | uppercase }}</strong>
+                                    </nz-tag>
+                                </div>
+                                <ng-template #multipleMentionsBlock>
+                                    <nz-badge [nzCount]="mentionedArtistsNamesInNews[i].length">
+                                        <nz-tag nz-popover nzPopoverTitle="Mentions" [nzPopoverContent]="renderMultipleMentionsBlock">
+                                            <strong>ALL MENTIONS</strong>
+                                        </nz-tag>
+                                    </nz-badge>
+                                    <ng-template #renderMultipleMentionsBlock>
+                                        <nz-tag *ngFor="let mention of mentionedArtistsNamesInNews[i]" nzColor="#483d99">{{
+                                            mention | uppercase
+                                        }}</nz-tag>
+                                    </ng-template>
+                                </ng-template>
+                            </ng-template>
+                        </td>
+                        <td>
                             <nz-space>
-                                <button *nzSpaceItem nz-button nzType="primary" (click)="onDeleteNews(news.id)" nzDanger>
+                                <button *nzSpaceItem nz-button nzType="primary" [routerLink]="'edit/' + news.id" [nzSize]="'small'">
+                                    <span nz-icon nzType="edit"></span>
+                                    Edit
+                                </button>
+                                <button
+                                    *nzSpaceItem
+                                    nz-button
+                                    nzType="primary"
+                                    nzDanger
+                                    nz-popconfirm
+                                    nzPopconfirmTitle="Are you sure to delete this news?"
+                                    (nzOnConfirm)="onDeleteNews(news.id)"
+                                    [nzSize]="'small'"
+                                >
                                     <i nz-icon nzType="delete"></i>
                                     Delete
                                 </button>
-                                <button *nzSpaceItem nz-button nzType="primary" (click)="onSaveNews(news.id, news.title, news.markdownText)">
-                                    <i nz-icon nzType="check"></i>
-                                    Save
-                                </button>
                             </nz-space>
-                        </div>
-                    </nz-space>
-                    <ng-template #extraTpl>
-                        <span nz-typography>
-                            <strong> {{ news.edited ? 'Edited' : 'Created' }} at {{ news.date }} </strong>
-                        </span>
-                    </ng-template>
-                </nz-collapse-panel>
-            </nz-collapse>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
         </div>
     </nz-space>
 </nz-card>

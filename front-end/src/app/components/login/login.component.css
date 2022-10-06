@@ -1,8 +1,33 @@
-.login-container {
-  display:flex;
-  justify-content:center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  background-color: bisque;
+.login-background {
+    height: 100%;
+    width: 100%;
+    background-image: radial-gradient(circle, #f5e3e5, #f3e2ea, #ede2ef, #e4e3f3, #d9e4f5);
+}
+
+.login-grid-container {
+    padding: 1.5rem;
+    width: 100%;
+    height: 100%;
+}
+
+.login-content-container {
+    padding: 5rem;
+    background-color: #fefefe;
+}
+
+.art-container {
+    padding: 3.5rem;
+    background-color: #006aff;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.white-text {
+    color: #fff;
 }

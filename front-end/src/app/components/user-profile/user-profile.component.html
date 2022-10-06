@@ -1,0 +1,107 @@
+<div class="user-profile-container">
+    <div nz-row nzGutter="24" class="full-height">
+        <div nz-col nzMd="24" nzLg="7" class="full-height">
+            <nz-spin [nzSpinning]="loading" nzTip="Loading...">
+                <nz-card [nzBordered]="false" [nzCover]="coverTemplate" [nzActions]="[extraTemplate, logoutTemplate]">
+                    <nz-space nzDirection="vertical" nzAlign="center" class="full-width">
+                        <nz-avatar *nzSpaceItem [nzSize]="64" nzIcon="user" [nzSrc]="user.avatar"></nz-avatar>
+                        <h4 nz-typography *nzSpaceItem>{{ user.name }}</h4>
+                        <h5 nz-typography *nzSpaceItem nzType="secondary">{{ user.type }}</h5>
+                        <span *nzSpaceItem nz-typography>{{ user.aboutme }}</span>
+                    </nz-space>
+                    <ng-template #coverTemplate>
+                        <img nz-image [nzSrc]="user.cover" />
+                    </ng-template>
+
+                    <ng-template #extraTemplate>
+                        <a *ngIf="(isAdmin | async) == true || (userInfo | async)!.id == user.id" nz-button nzType="text" routerLink="edit">
+                            <span nz-icon nzType="edit"></span> Edit Profile
+                        </a>
+                    </ng-template>
+                    <ng-template #logoutTemplate>
+                        <a *ngIf="(userInfo | async)!.id == user.id" nz-button nzType="text" routerLink="edit" nzDanger (click)="onLogout()">
+                            Logout
+                        </a>
+                    </ng-template>
+                </nz-card>
+            </nz-spin>
+        </div>
+        <div nz-col nzMd="24" nzLg="17" class="full-height">
+            <nz-spin [nzSpinning]="loading" nzTip="Loading..." class="full-width">
+                <nz-card [nzBordered]="false">
+                    <nz-space nzDirection="vertical" class="full-width">
+                        <h3 *nzSpaceItem nz-typography>Comments by other users</h3>
+
+                        <div *nzSpaceItem>
+                            <nz-alert
+                                *ngIf="!(isUserLogged | async)"
+                                nzType="warning"
+                                [nzMessage]="'Consider login first to comment'"
+                                nzShowIcon
+                            ></nz-alert>
+                        </div>
+
+                        <div *nzSpaceItem class="full-width">
+                            <nz-comment *ngIf="user.id != (userInfo | async)!.id" class="full-width">
+                                <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="(userInfo | async)!.avatar"></nz-avatar>
+                                <nz-comment-content>
+                                    <nz-form-item>
+                                        <nz-tabset nzType="card" class="full-width">
+                                            <nz-tab [nzTitle]="'Markdown'">
+                                                <textarea [(ngModel)]="commentContent" nz-input rows="4"></textarea>
+                                            </nz-tab>
+                                            <nz-tab [nzTitle]="'Preview'">
+                                                <markdown ngPreserveWhitespaces [data]="commentContent"></markdown>
+                                            </nz-tab>
+                                        </nz-tabset>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <button
+                                            nz-button
+                                            nzType="primary"
+                                            [disabled]="commentContent == '' || !(isUserLogged | async)"
+                                            (click)="addComment()"
+                                        >
+                                            Add Comment
+                                        </button>
+                                    </nz-form-item>
+                                </nz-comment-content>
+                            </nz-comment>
+                        </div>
+
+                        <div *nzSpaceItem>
+                            <div *ngIf="user.profileComments.length > 0; else elseBlock">
+                                <div *ngFor="let comment of user.profileComments; index as i">
+                                    <nz-card class="news-page-container" [nzBodyStyle]="{ padding: '1rem' }">
+                                        <nz-comment [nzAuthor]="comment.authorInfo.name">
+                                            <nz-avatar
+                                                nz-comment-avatar
+                                                nzIcon="user"
+                                                [nzSrc]="comment.authorInfo.avatar"
+                                                [nzSize]="'large'"
+                                            ></nz-avatar>
+                                            <nz-comment-content>
+                                                <markdown ngPreserveWhitespaces>{{ comment.content }}</markdown>
+                                                <nz-space *ngIf="(isAdmin | async) || user.id == (userInfo | async)!.id" nzAlign="center">
+                                                    <div *nzSpaceItem>
+                                                        <nz-space nzAlign="center" style="cursor: pointer" (click)="removeComment(comment.id)">
+                                                            <span *nzSpaceItem nz-icon nzType="delete"></span>
+                                                            <span *nzSpaceItem> Delete </span>
+                                                        </nz-space>
+                                                    </div>
+                                                </nz-space>
+                                            </nz-comment-content>
+                                        </nz-comment>
+                                    </nz-card>
+                                </div>
+                            </div>
+                            <ng-template #elseBlock>
+                                <nz-empty nzNotFoundContent="No comments yet, be the first one ;)"></nz-empty>
+                            </ng-template>
+                        </div>
+                    </nz-space>
+                </nz-card>
+            </nz-spin>
+        </div>
+    </div>
+</div>

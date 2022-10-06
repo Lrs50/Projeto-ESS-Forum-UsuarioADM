@@ -1,0 +1,34 @@
+<div class="singup-background">
+    <div class="singup-grid-container">
+        <div nz-row nzJustify="center" class="full-height full-width">
+            <div nz-col nzMd="12" class="full-height full-width">
+                <nz-space class="art-container full-width full-height" nzDirection="vertical" nzAlign="center">
+                    <nz-avatar *nzSpaceItem [nzSize]="128" nzIcon="user" [nzSrc]="avatar"></nz-avatar>
+                    <h4 *nzSpaceItem nz-typography class="white-text">{{ name == '' ? 'Your name' : name }}</h4>
+                    <h3 *nzSpaceItem nz-typography class="white-text">
+                        You're our {{ (userCount | async)! + 1 }}th member, we're glad to have you here!
+                    </h3>
+                </nz-space>
+            </div>
+            <div nz-col nzMd="12" class="full-height full-width">
+                <nz-space class="singup-content-container full-width full-height" nzDirection="vertical">
+                    <h1 *nzSpaceItem nz-typography>Sing up</h1>
+                    <span *nzSpaceItem nz-typography nzType="secondary">Please insert your user information.</span>
+                    <span *nzSpaceItem nz-typography>Username</span>
+                    <nz-input-group *nzSpaceItem nzPrefixIcon="user" [nzStatus]="usernameInputStatus">
+                        <input type="text" nz-input placeholder="Username" [(ngModel)]="username" />
+                    </nz-input-group>
+                    <span *nzSpaceItem nz-typography>Name</span>
+                    <input *nzSpaceItem type="text" nz-input placeholder="Your presentation name" [(ngModel)]="name" [nzStatus]="nameInputStatus" />
+                    <span *nzSpaceItem nz-typography>Avatar</span>
+                    <input *nzSpaceItem type="text" nz-input placeholder="Avatar url to use as profile picture!" [(ngModel)]="avatar" />
+                    <span *nzSpaceItem nz-typography>Password</span>
+                    <nz-input-group *nzSpaceItem nzPrefixIcon="lock" [nzStatus]="passwordInputStatus">
+                        <input type="password" nz-input placeholder="Password" [(ngModel)]="password" />
+                    </nz-input-group>
+                    <button *nzSpaceItem nz-button nzType="primary" nzBlock (click)="singup()">Sign up</button>
+                </nz-space>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+.news-grid-container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: minmax(500px, 4.7fr) minmax(30px, 0.3fr);
+    grid-template-areas:
+        'main'
+        'footer';
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+section {
+    width: 100%;
+}
+
+section.news-content {
+    grid-area: main;
+}
+
+section.news-footer {
+    grid-area: footer;
+    background: #f4f7f9;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.5rem;
+}
+
+.text-ellipsis {
+    width: calc(80%);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.icon-size {
+    font-size: 1.125rem;
+}

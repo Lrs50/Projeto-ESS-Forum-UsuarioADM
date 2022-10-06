@@ -13,7 +13,7 @@
     height: 100%;
     width: 100%;
     grid-area: main;
-    background: #fff;
+    background: #f4f7f9;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -22,9 +22,13 @@
     height: 100%;
     width: 100%;
     grid-area: right;
-    background: pink;
+    background: #ffffff;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.statistic-icon-size {
+    font-size: 2rem;
 }
 
 .space-center {
@@ -40,4 +44,75 @@
     .lg-text-hide {
         display: none;
     }
+}
+
+.bg-blue {
+    background-color: #1890ff;
+}
+
+.bg-green {
+    background-color: #52c41a;
+}
+
+.bg-orange {
+    background-color: #fa8c16;
+}
+
+.bg-primary-orange {
+    background-color: #cc5e14;
+}
+
+.bg-secondary-orange {
+    background-color: #ffa840;
+}
+
+.bg-base-blue {
+    background-color: #006aff;
+}
+
+.bg-secondary-purple {
+    background-color: #483d99;
+}
+
+.bg-primary-purple {
+    background-color: #2914cc;
+}
+
+.bg-white {
+    background-color: #fff;
+}
+
+.text-nowrap {
+    white-space: nowrap;
+}
+
+.white-text {
+    color: #fff;
+}
+
+.lg-icon-size {
+    font-size: 1.5rem;
+}
+
+.md-text-size {
+    font-size: 1.1rem;
+}
+
+.statistic-box {
+    padding: 1rem;
+}
+
+.button-box {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.centred-items {
+    display: flex;
+    justify-items: center;
+}
+
+.center-button-content {
+    display: flex;
+    justify-content: center;
 }

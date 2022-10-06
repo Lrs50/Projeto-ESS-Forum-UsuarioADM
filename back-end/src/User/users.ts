@@ -1,41 +1,142 @@
-import { User } from "../types";
-import { promises } from "fs";
-import Data from "./data.json";
+import { Comment, User } from '../../../common/types'
+import { readFileSync, promises } from 'fs'
+import Path from 'path'
+import AppConfig from '../app.config.json'
+
+// Definição da classe da database que vai ler e escrever no arquivo data.json
+// Cada função é responsável por uma tarefa especifica
+
+import Logger from '@ptkdev/logger'
+import { ArrayToMap, MapToArray, MapValuesToArray } from '../utils'
+
+const log = new Logger()
 
 class UsersDB {
-  db: User[] = [];
+    db: Map<string, User>
+    path: string
 
-  constructor() {
-    this.db = Data;
-  }
+    constructor() {
+        if (AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD') {
+            this.path = './data.json'
+        } else {
+            this.path = './data.test.json'
+        }
 
-  getUsers(id: string): User | undefined {
-    return this.db.find((User) => User.id == id);
-  }
+        let content: string = readFileSync(Path.resolve(__dirname, this.path), { encoding: 'utf8', flag: 'r' })
 
-  createUsers(User: User): void {
-    this.db.push(User);
-  }
+        let tempArr: any[] = JSON.parse(content)
 
-  deleteUsers(id: string): void {
-    this.db = this.db.filter((User) => User.id == id);
-  }
+        if (!Array.isArray(tempArr)) {
+            log.error('Failed to parse data file!')
+            throw new Error()
+        }
 
-  editUsers(id: string, User: User): void {
-    this.deleteUsers(id);
-
-    this.createUsers(User);
-  }
-
-  async saveUsers(): Promise<void> {
-    try {
-      await promises.writeFile("./data.json", this.db.toString(), {
-        flag: "w",
-      });
-    } catch (err) {
-      console.log(err);
+        this.db = ArrayToMap(tempArr)
     }
-  }
+
+    getSize(): number {
+        return this.db.size
+    }
+
+    login(username: string, password: string): User | undefined {
+        let find: User | undefined = undefined
+
+        this.db.forEach((user: User) => {
+            if (find != undefined) return
+
+            if (user.username == username && user.password == password) {
+                find = user
+            }
+        })
+
+        return find
+    }
+
+    getUser(id: string): User | undefined {
+        return this.db.get(id)
+    }
+
+    getAllUsers(): User[] {
+        return MapValuesToArray(this.db)
+    }
+
+    createUser(user: User): Promise<Boolean> {
+        this.db.set(user.id, user)
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
+    }
+
+    editUser(user: User): Promise<Boolean> {
+        let find: User | undefined = this.db.get(user.id)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, user)
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
+    }
+
+    addComment(newsId: string, comment: Comment): Promise<Boolean> {
+        let find: User | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            profileComments: [...find.profileComments, comment],
+        })
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
+    }
+
+    removeComment(newsId: string, commentId: string): Promise<Boolean> {
+        let find: User | undefined = this.db.get(newsId)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            profileComments: find.profileComments.filter((value: Comment) => {
+                return value.id != commentId
+            }),
+        })
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
+    }
+
+    async saveUsers(): Promise<Boolean> {
+        try {
+            await promises.writeFile(Path.resolve(__dirname, this.path), JSON.stringify(MapToArray(this.db)), {
+                flag: 'w',
+            })
+
+            return true
+        } catch (err: any) {
+            log.error(err)
+
+            return false
+        }
+    }
 }
 
-export default UsersDB;
+export default UsersDB
