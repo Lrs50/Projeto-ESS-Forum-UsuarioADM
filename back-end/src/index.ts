@@ -55,7 +55,7 @@ app.get('/artistall', ArtistsController.getAllArtists)
 app.get('/artistsize', ArtistsController.getArtistsSize)
 app.post('/artist', ArtistsController.createArtist)
 app.put('/artist', ArtistsController.editArtist)
-app.delete('/artist', ArtistsController.deleteArtist)
+app.delete('/artist/:id', ArtistsController.deleteArtist)
 
 //Featura deletar usuario common
 app.get('/commonUser/:id', UsersController.getUserCommon)
