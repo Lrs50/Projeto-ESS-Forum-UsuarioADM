@@ -56,6 +56,11 @@ app.get('/artistsize', ArtistsController.getArtistsSize)
 app.post('/artist', ArtistsController.createArtist)
 app.put('/artist', ArtistsController.editArtist)
 
+//Featura deletar usuario common
+app.get('/commonUser/:id', UsersController.getUserCommon)
+app.get('/commonAll', UsersController.getAllCommonUser)
+app.delete('/commonUser/:id', UsersController.deleteCommonUser)
+
 app.listen(port, () => {
     log.info('Backend listening on port 3000')
 })
