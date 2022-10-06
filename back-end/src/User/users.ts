@@ -70,7 +70,7 @@ class UsersDB {
         
     }
    // removeComment(newsId: string, commentId: string): Promise<Boolean>
-    removeCommonUser(id: string): Promise<Boolean>{
+    deleteCommonUser(id: string): Promise<Boolean>{
         let find: Boolean = this.db.delete(id)
 
         if (find == false) {

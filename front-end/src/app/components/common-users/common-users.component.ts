@@ -119,14 +119,11 @@ export class CommonUsersComponent implements OnInit {
       return i
   }
 
-  onDeleteNews(id: string): void {
+  deleteCommonUser(id: string): void {
       let find: number = this.findIndexFromFilteredList(id)
 
-      this.newsManagementService.delete(id).subscribe((res: ApiResponse) => {
+      this.UserService.removeCommonUser(id).subscribe((res: ApiResponse) => {
           if (res.status == 200) {
-              this.newsList.splice(find, 1)
-              this.totalNews -= 1
-              this.store.dispatch(addToNewsCount({ payload: -1 }))
               this.message.create('success', `News deleted successfully!`)
           } else {
               this.message.create('error', `Failed to delete the news!`)

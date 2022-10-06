@@ -91,7 +91,7 @@ export function getUser(request: Request, response: Response): void {
 
     return
 }
-export function removeCommonUser(request: Request, response: Response): void {
+export function deleteCommonUser(request: Request, response: Response): void {
     log.info('Remove common user profile request received')
 
     const valid = validator(['id'], request.params)
@@ -104,7 +104,7 @@ export function removeCommonUser(request: Request, response: Response): void {
 
     let db: UsersDB = new UsersDB()
 
-    let removeComment: Promise<Boolean> = db.removeCommonUser(request.params.id)
+    let removeComment: Promise<Boolean> = db.deleteCommonUser(request.params.id)
 
     removeComment.then((result: Boolean) => {
         if (result) {
