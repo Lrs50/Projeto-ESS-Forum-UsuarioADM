@@ -46,6 +46,22 @@ class ArtistDB {
         return this.db.size
     }
 
+    deleteArtist(id: string): Promise<Boolean>{
+        let find: Boolean = this.db.delete(id)
+
+        if (find == false) {
+            return new Promise<Boolean>((resolve, reject) => {
+                resolve(false)
+            })
+        }
+
+        let result: Promise<Boolean> = this.saveArtists()
+
+        return result
+             
+       
+    }
+
     createArtist(artist: Artist): Promise<Boolean> {
         this.db.set(artist.id, artist)
 
