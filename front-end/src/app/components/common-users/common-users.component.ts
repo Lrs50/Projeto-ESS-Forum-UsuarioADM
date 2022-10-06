@@ -75,18 +75,19 @@ export class CommonUsersComponent implements OnInit {
 
       this.getNewsPage()
   }
-
+//refactoring
   getNewsPage() {
       this.tableLoading = true
 
-      this.getNewsSize()
+      //this.getNewsSize()
 
       this.UserService.getcommonAll().subscribe((res: ApiResponse) => {
           if (res.status == 200) {
               this.newsList = res.result as User[]
-              for (let i = 0; i < this.newsList.length; i++) {
-                  let tempList: string[] = []
-                  console.log(this.newsList[i].name)
+              this.newsList = this.newsList.filter(a => a.username.includes(this.filterText)) 
+              //for (let i = 0; i < this.newsList.length; i++) {
+                //  let tempList: string[] = []
+                 // console.log(this.newsList[i].name)
                  // for (let j = 0; j < this.newsList[i].mention.length; j++) {
                   //    this.artistService.get(this.newsList[i].mention[j]).subscribe((res: ApiResponse) => {
                    //       if (res.status == 200) {
@@ -97,8 +98,8 @@ export class CommonUsersComponent implements OnInit {
                       //})
                   //}
 
-                  this.mentionedArtistsNamesInNews.push(tempList)
-              }
+              //    this.mentionedArtistsNamesInNews.push(tempList)
+             // }
           } else {
               this.router.navigateByUrl('/error')
           }
