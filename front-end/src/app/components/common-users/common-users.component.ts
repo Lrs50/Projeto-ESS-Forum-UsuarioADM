@@ -101,7 +101,8 @@ export class CommonUsersComponent implements OnInit {
               //    this.mentionedArtistsNamesInNews.push(tempList)
              // }
           } else {
-              this.router.navigateByUrl('/error')
+            this.newsList =[]  
+            //this.router.navigateByUrl('/error')
           }
 
           this.tableLoading = false
