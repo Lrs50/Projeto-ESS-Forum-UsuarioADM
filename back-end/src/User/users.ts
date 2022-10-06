@@ -1,6 +1,6 @@
 import { Comment, User } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
-import Path from 'path'
+import Path, { resolve } from 'path'
 import AppConfig from '../app.config.json'
 
 // Definição da classe da database que vai ler e escrever no arquivo data.json
@@ -50,6 +50,40 @@ class UsersDB {
         })
 
         return find
+    }
+    //USUARIO COMUM
+    getUserCommon(id: string): User | undefined {
+        var a: User[] = MapValuesToArray(this.db)
+        const result = a.filter(a => a.id == id && a.type == 'User')
+        if(result.length == 1){
+            return result[0]
+        }else{
+            return undefined
+        }
+        
+    }
+
+    getAllCommonUser(): User[] {
+        var a: User[] = MapValuesToArray(this.db)
+        const result = a.filter(a => a.type == 'User')
+        return result  
+        
+    }
+   // removeComment(newsId: string, commentId: string): Promise<Boolean>
+    deleteCommonUser(id: string): Promise<Boolean>{
+        let find: Boolean = this.db.delete(id)
+
+        if (find == false) {
+            return new Promise<Boolean>((resolve, reject) => {
+                resolve(false)
+            })
+        }
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
+             
+       
     }
 
     getUser(id: string): User | undefined {

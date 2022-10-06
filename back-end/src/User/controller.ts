@@ -14,6 +14,58 @@ export function validator(fields: string[], params: Object): Boolean {
     return true
 }
 
+export function getUserCommon(request: Request, response: Response): void {
+    log.info('GetUserCommon request received')
+
+    const valid = validator(['id'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: User | undefined = db.getUserCommon(request.params.id)
+
+    if (result == undefined) {
+        response.send(HTTP_NOT_FOUND)
+    } else {
+        let httpResponse: ApiResponse = HTTP_SUCCESS
+        httpResponse.result = result
+
+        response.send(httpResponse)
+    }
+
+    return
+}
+//METODOS COMMON USERS
+export function getAllCommonUser(request: Request, response: Response): void {
+    log.info('GetAllCommonUser request received')
+
+    const valid = validator([], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: User[] = db.getAllCommonUser()
+
+    if (result.length == 0) {
+        response.send(HTTP_NOT_FOUND)
+    } else {
+        let httpResponse: ApiResponse = HTTP_SUCCESS
+        httpResponse.result = result
+
+        response.send(httpResponse)
+    }
+
+    return
+}
+
 export function getUser(request: Request, response: Response): void {
     log.info('GetUser request received')
 
@@ -36,6 +88,31 @@ export function getUser(request: Request, response: Response): void {
 
         response.send(httpResponse)
     }
+
+    return
+}
+export function deleteCommonUser(request: Request, response: Response): void {
+    log.info('Remove common user profile request received')
+
+    const valid = validator(['id'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+
+    let removeComment: Promise<Boolean> = db.deleteCommonUser(request.params.id)
+
+    removeComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
 
     return
 }

@@ -79,7 +79,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserProfileEditComponent } from './components/user-profile-edit/user-profile-edit.component'
 import { SingupComponent } from './components/singup/singup.component'
 import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config'
-import { ArtistPageComponent } from './components/artist-page/artist-page.component'
+import { ArtistPageComponent } from './components/artist-page/artist-page.component';
+import { CommonUsersComponent } from './components/common-users/common-users.component'
 
 const ngZorroConfig: NzConfig = {
     theme: {
@@ -126,6 +127,7 @@ const icons: IconDefinition[] = [
         UserProfileEditComponent,
         SingupComponent,
         ArtistPageComponent,
+        CommonUsersComponent,
     ],
     imports: [
         BrowserModule,
