@@ -30,4 +30,8 @@ export class ArtistService {
     getArtistsSize(): Observable<ApiResponse> {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
     }
+
+    delete(id: string): Observable<ApiResponse>{
+        return this.httpClient.delete<ApiResponse>(`http://localhost:3000/artist/${id}`)
+    }
 }
