@@ -64,9 +64,9 @@ fdescribe('NewsManagementService', () => {
     it('Service should be able to GETPAGE of news', async () => {
         let spy = spyOn(http, 'get').and.callThrough()
 
-        let response: ApiResponse = await firstValueFrom(service.getPage(1, 5))
+        let response: ApiResponse = await firstValueFrom(service.getPage(1, 5, 'Popular', 'test'))
 
-        expect(spy).toHaveBeenCalledWith('http://localhost:3000/newspage/1/5')
+        expect(spy).toHaveBeenCalledWith('http://localhost:3000/newspage/1/5/Popular/test')
         expect(response.status).toBe(200)
         expect(response.result).not.toBeUndefined()
     })
