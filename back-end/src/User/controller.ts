@@ -103,7 +103,7 @@ export function deleteCommonUser(request: Request, response: Response): void {
     }
 
     let db: UsersDB = new UsersDB()
-
+    //refactioring
     let removeComment: Promise<Boolean> = db.deleteCommonUser(request.params.id)
 
     removeComment.then((result: Boolean) => {

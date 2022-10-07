@@ -19,6 +19,7 @@ class UsersDB {
         if (AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD') {
             this.path = './data.json'
         } else {
+            //eh necessario apagar tudo dentro do arquivo e colocar pra o conteudo ser apenas []
             this.path = './data.test.json'
         }
 
