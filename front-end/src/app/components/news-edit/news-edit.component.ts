@@ -114,8 +114,6 @@ export class NewsEditComponent implements OnInit {
         this.news.date = date + ' ' + hour.slice(0, -3)
         this.news.edited = true
 
-        this.news.tags = []
-
         this.newsManagementService.edit(this.news).subscribe(async (res: ApiResponse) => {
             if (res.status == 200) {
                 for (let i = 0; i < this.artistsBackup.length; i++) {
