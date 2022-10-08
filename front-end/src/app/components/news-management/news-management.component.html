@@ -1,4 +1,7 @@
-<nz-card class="base-card" nzTitle="News Management" [nzExtra]="extraContentTemplate">
+<nz-card class="base-card" [nzTitle]="titleTemplate" [nzExtra]="extraContentTemplate">
+    <ng-template #titleTemplate>
+        <h2 nz-typography>News Management</h2>
+    </ng-template>
     <ng-template #extraContentTemplate>
         <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
             <i nz-icon nzType="plus-square"></i>
@@ -74,7 +77,9 @@
                                         </nz-tag>
                                     </nz-badge>
                                     <ng-template #renderMultipleTagsBlock>
-                                        <nz-tag *ngFor="let tag of news.tags">{{ tag }}</nz-tag>
+                                        <nz-tag *ngFor="let tag of news.tags">
+                                            <strong>{{ tag }}</strong>
+                                        </nz-tag>
                                     </ng-template>
                                 </ng-template>
                             </ng-template>
