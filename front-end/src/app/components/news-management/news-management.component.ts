@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store'
 import { AppState, addToNewsCount } from 'src/app/app.store'
 import { Router } from '@angular/router'
 import { ArtistService } from 'src/app/services/artist.service'
+import { firstValueFrom } from 'rxjs'
 
 @Component({
     selector: 'app-news-management',
@@ -104,7 +105,7 @@ export class NewsManagementComponent implements OnInit {
         })
     }
 
-    findIndexFromFilteredList(id: string): number {
+    findIndexFromNewsList(id: string): number {
         let i: number = 0
 
         for (; i < this.newsList.length; i++) {
@@ -117,13 +118,19 @@ export class NewsManagementComponent implements OnInit {
     }
 
     onDeleteNews(id: string): void {
-        let find: number = this.findIndexFromFilteredList(id)
+        let find: number = this.findIndexFromNewsList(id)
 
-        this.newsManagementService.delete(id).subscribe((res: ApiResponse) => {
+        this.newsManagementService.delete(id).subscribe(async (res: ApiResponse) => {
             if (res.status == 200) {
+                for (let i = 0; i < this.newsList[find].mention.length; i++) {
+                    await firstValueFrom(this.artistService.addMention(this.newsList[find].mention[i], -1))
+                }
+
+                this.mentionedArtistsNamesInNews.splice(find, 1)
                 this.newsList.splice(find, 1)
                 this.totalNews -= 1
                 this.store.dispatch(addToNewsCount({ payload: -1 }))
+
                 this.message.create('success', `News deleted successfully!`)
             } else {
                 this.message.create('error', `Failed to delete the news!`)

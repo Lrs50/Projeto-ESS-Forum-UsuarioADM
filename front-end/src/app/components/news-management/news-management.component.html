@@ -69,9 +69,9 @@
                                 </div>
                                 <ng-template #multipleTagsBlock>
                                     <nz-badge [nzCount]="news.tags.length">
-                                        <nz-tag nz-popover nzPopoverTitle="Tags" [nzPopoverContent]="renderMultipleTagsBlock"
-                                            ><strong>ALL TAGS</strong></nz-tag
-                                        >
+                                        <nz-tag nz-popover nzPopoverTitle="Tags" [nzPopoverContent]="renderMultipleTagsBlock">
+                                            <strong>ALL TAGS</strong>
+                                        </nz-tag>
                                     </nz-badge>
                                     <ng-template #renderMultipleTagsBlock>
                                         <nz-tag *ngFor="let tag of news.tags">{{ tag }}</nz-tag>
@@ -96,9 +96,9 @@
                                         </nz-tag>
                                     </nz-badge>
                                     <ng-template #renderMultipleMentionsBlock>
-                                        <nz-tag *ngFor="let mention of mentionedArtistsNamesInNews[i]" nzColor="#483d99">{{
-                                            mention | uppercase
-                                        }}</nz-tag>
+                                        <nz-tag *ngFor="let mention of mentionedArtistsNamesInNews[i]" nzColor="#483d99">
+                                            {{ mention | uppercase }}
+                                        </nz-tag>
                                     </ng-template>
                                 </ng-template>
                             </ng-template>

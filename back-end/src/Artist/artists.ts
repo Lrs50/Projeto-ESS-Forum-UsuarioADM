@@ -70,6 +70,25 @@ class ArtistDB {
         return result
     }
 
+    addMention(id: string, mentions: number): Promise<Boolean> {
+        let find: Artist | undefined = this.db.get(id)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            mentions: find.mentions + mentions,
+        })
+
+        let result: Promise<Boolean> = this.saveArtists()
+
+        return result
+    }
+
     async saveArtists(): Promise<Boolean> {
         try {
             await promises.writeFile(Path.resolve(__dirname, this.path), JSON.stringify(MapToArray(this.db)), {

@@ -55,6 +55,7 @@ app.get('/artistall', ArtistsController.getAllArtists)
 app.get('/artistsize', ArtistsController.getArtistsSize)
 app.post('/artist', ArtistsController.createArtist)
 app.put('/artist', ArtistsController.editArtist)
+app.put('/artistadd/mention', ArtistsController.addMention)
 
 app.listen(port, () => {
     log.info('Backend listening on port 3000')

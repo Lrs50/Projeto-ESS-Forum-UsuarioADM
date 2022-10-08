@@ -7,6 +7,7 @@ import { ApiResponse, News, User, emptyUser, emptyNews, Artist, defaultTags } fr
 import { imageFallBack } from 'src/util'
 import { UsersService } from 'src/app/services/users.service'
 import { ArtistService } from 'src/app/services/artist.service'
+import { firstValueFrom } from 'rxjs'
 
 @Component({
     selector: 'app-news-edit',
@@ -27,6 +28,8 @@ export class NewsEditComponent implements OnInit {
     artists: Artist[] = []
     artistsNames: string[] = []
 
+    artistsBackup: string[] = []
+
     avaliableTags: string[] = [...defaultTags]
 
     constructor(
@@ -43,6 +46,7 @@ export class NewsEditComponent implements OnInit {
             this.newsManagementService.get(id).subscribe((res: ApiResponse) => {
                 if (res.status == 200) {
                     this.news = res.result as News
+                    this.artistsBackup = (res.result as News).mention
 
                     this.userService.get(this.news.authorId).subscribe((res: ApiResponse) => {
                         if (res.status == 200) {
@@ -112,8 +116,20 @@ export class NewsEditComponent implements OnInit {
 
         this.news.tags = []
 
-        this.newsManagementService.edit(this.news).subscribe((res: ApiResponse) => {
+        this.newsManagementService.edit(this.news).subscribe(async (res: ApiResponse) => {
             if (res.status == 200) {
+                for (let i = 0; i < this.artistsBackup.length; i++) {
+                    if (this.news.mention.includes(this.artistsBackup[i]) == false) {
+                        await firstValueFrom(this.artistService.addMention(this.artistsBackup[i], -1))
+                    }
+                }
+
+                for (let i = 0; i < this.news.mention.length; i++) {
+                    if (this.artistsBackup.includes(this.news.mention[i]) == false) {
+                        await firstValueFrom(this.artistService.addMention(this.news.mention[i], 1))
+                    }
+                }
+
                 this.message.create('success', `Saved!`)
             } else {
                 this.message.create('error', `Failed to save the news!`)

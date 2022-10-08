@@ -30,4 +30,8 @@ export class ArtistService {
     getArtistsSize(): Observable<ApiResponse> {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
     }
+
+    addMention(id: string, mentions: number): Observable<ApiResponse> {
+        return this.httpClient.put<ApiResponse>(this.baseUrl + 'add/mention', { id, mentions })
+    }
 }
