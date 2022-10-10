@@ -38,6 +38,11 @@ class UsersDB {
     getSize(): number {
         return this.db.size
     }
+    getCommonSize(): number {
+        var a: User[] = MapValuesToArray(this.db)
+        a = a.filter(a => a.type == 'User')
+        return a.length
+    }
 
     login(username: string, password: string): User | undefined {
         let find: User | undefined = undefined

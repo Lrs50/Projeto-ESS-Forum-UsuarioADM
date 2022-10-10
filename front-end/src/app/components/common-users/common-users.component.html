@@ -20,8 +20,8 @@
                 nzBordered
                 nzTableLayout="fixed"
                 [nzFrontPagination]="false"
-                [nzTotal]="totalNews"
-                [nzData]="newsList"
+                [nzTotal]="totalCommonUser"
+                [nzData]="commonUserList"
                 [nzPageSize]="pageSize"
                 [nzPageIndex]="pageIndex"
                 [nzNoResult]="emptyDataTemplate"
@@ -44,7 +44,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of newsList; index as i">
+                    <tr *ngFor="let user of commonUserList; index as i">
                         <td nzEllipsis>
                             <h5 nz-typography nzEllipsis>{{ user.username }}</h5>
                         </td>
