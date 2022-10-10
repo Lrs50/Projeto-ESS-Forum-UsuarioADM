@@ -17,7 +17,7 @@ import { ArtistService } from 'src/app/services/artist.service'
 export class ArtistsManagementComponent implements OnInit {
 
     imageFall: string = imageFallBack
-    newsList: Artist[] = []
+    artistList: Artist[] = []
 
     tableLoading: boolean = false
 
@@ -81,10 +81,10 @@ export class ArtistsManagementComponent implements OnInit {
 
         this.artistService.getAll().subscribe((res: ApiResponse) => {
             if (res.status == 200) {
-                this.newsList = res.result as Artist[]
+                this.artistList = res.result as Artist[]
 
             } else {
-                this.newsList = []
+                this.artistList = []
             }
 
             this.tableLoading = false
@@ -94,8 +94,8 @@ export class ArtistsManagementComponent implements OnInit {
     findIndexFromFilteredList(id: string): number {
         let i: number = 0
 
-        for (; i < this.newsList.length; i++) {
-            if (this.newsList[i].id == id) {
+        for (; i < this.artistList.length; i++) {
+            if (this.artistList[i].id == id) {
                 return i
             }
         }
@@ -104,7 +104,7 @@ export class ArtistsManagementComponent implements OnInit {
     }
 
     onDeleteArtist(id: string): void {
-        this.newsList = this.newsList.filter(a => a.id != id)
+        this.artistList = this.artistList.filter(a => a.id != id)
         this.artistService.delete(id).subscribe((res: ApiResponse) => {
             if (res.status == 200) {
                 this.message.create('success', `Artist deleted successfully!`)
