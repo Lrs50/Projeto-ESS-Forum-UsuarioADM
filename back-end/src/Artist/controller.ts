@@ -40,6 +40,32 @@ export function getArtist(request: Request, response: Response): void {
     return
 }
 
+export function deleteArtist(request: Request, response: Response): void {
+    log.info('Delete artist request received')
+
+    const valid = validator(['id'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: ArtistsDB = new ArtistsDB()
+
+    let deleteArtist: Promise<Boolean> = db.deleteArtist(request.params.id)
+
+    deleteArtist.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
 export function getAllArtists(request: Request, response: Response): void {
     log.info('GetAllArtist request received')
 
