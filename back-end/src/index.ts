@@ -40,6 +40,7 @@ app.post('/news/commentsadd/like', NewsController.addLikeInComment)
 app.delete('/news/commentsremove/like', NewsController.removeLikeInComment)
 app.post('/news/commentsadd/dislike', NewsController.addDislikeInComment)
 app.delete('/news/commentsremove/dislike', NewsController.removeDislikeInComment)
+app.put('/newsupdate/lastactivity', NewsController.updateLastActivity)
 
 app.get('/user/:id', UsersController.getUser)
 app.get('/userall', UsersController.getAllUsers)

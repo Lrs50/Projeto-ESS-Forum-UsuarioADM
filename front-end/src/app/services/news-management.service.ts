@@ -74,4 +74,9 @@ export class NewsManagementService {
     addView(newsId: string): Observable<ApiResponse> {
         return this.httpClient.post<ApiResponse>(this.baseUrl + 'add/view', { newsId })
     }
+
+    updateLastActivity(newsId: string): Observable<ApiResponse> {
+        let lastActivity = +new Date()
+        return this.httpClient.put<ApiResponse>(this.baseUrl + 'update/lastactivity', { newsId, lastActivity })
+    }
 }

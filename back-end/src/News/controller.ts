@@ -119,7 +119,7 @@ export function createNews(request: Request, response: Response): void {
     log.info('CreateNews request received')
 
     const valid = validator(
-        ['id', 'authorId', 'title', 'description', 'date', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags', 'mention'],
+        ['id', 'authorId', 'title', 'description', 'date', 'lastActivity', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags', 'mention'],
         request.body
     )
 
@@ -174,7 +174,7 @@ export function editNews(request: Request, response: Response): void {
     log.info('EditNews request received')
 
     const valid = validator(
-        ['id', 'authorId', 'title', 'description', 'date', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags', 'mention'],
+        ['id', 'authorId', 'title', 'description', 'date', 'lastActivity', 'markdownText', 'edited', 'views', 'likes', 'comments', 'tags', 'mention'],
         request.body
     )
 
@@ -424,6 +424,32 @@ export function removeDislikeInComment(request: Request, response: Response): vo
     let removeDislikeInComment: Promise<Boolean> = db.removeDislikeInComment(request.body.newsId, request.body.commentId, request.body.authorLikeId)
 
     removeDislikeInComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+export function updateLastActivity(request: Request, response: Response): void {
+    log.info('UpdateLastActivity request received')
+
+    const valid = validator(['newsId', 'lastActivity'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: NewsDB = new NewsDB()
+
+    let updateLastActivity: Promise<Boolean> = db.updateLastActivity(request.body.newsId, request.body.lastActivity)
+
+    updateLastActivity.then((result: Boolean) => {
         if (result) {
             response.send(HTTP_SUCCESS)
         } else {

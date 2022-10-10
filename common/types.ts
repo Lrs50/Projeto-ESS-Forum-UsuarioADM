@@ -83,6 +83,7 @@ export interface News {
     cover: string;
     title: string;
     date: number;
+    lastActivity: number;
     mention: string[];
     description: string;
     markdownText: string;
@@ -101,6 +102,7 @@ export function emptyNews(id: CommentId, authorId: string): News {
         cover: "",
         title: "Change the title!",
         date: 0,
+        lastActivity: 0,
         description: "Change the description!",
         markdownText: "",
         edited: false,

@@ -99,6 +99,7 @@ export class NewsCreateComponent implements OnInit {
             id: nanoid(),
             authorId: authorId,
             date: +new Date(),
+            lastActivity: +new Date(),
         }
 
         for (let i = 0; i < this.news.mention.length; i++) {
