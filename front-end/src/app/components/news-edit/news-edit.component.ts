@@ -107,11 +107,7 @@ export class NewsEditComponent implements OnInit {
             return
         }
 
-        let currentDate = new Date()
-        let date = currentDate.toLocaleDateString()
-        let hour = currentDate.toLocaleTimeString()
-
-        this.news.date = date + ' ' + hour.slice(0, -3)
+        this.news.date = +new Date()
         this.news.edited = true
 
         this.newsManagementService.edit(this.news).subscribe(async (res: ApiResponse) => {

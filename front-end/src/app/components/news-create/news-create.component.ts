@@ -92,18 +92,13 @@ export class NewsCreateComponent implements OnInit {
             return
         }
 
-        let currentDate = new Date()
-
-        let date = currentDate.toLocaleDateString()
-        let hour = currentDate.toLocaleTimeString()
-
         let authorId: string = (await firstValueFrom(this.userInfo)).id
 
         let temp: News = {
             ...this.news,
             id: nanoid(),
             authorId: authorId,
-            date: date + ' ' + hour.slice(0, -3),
+            date: +new Date(),
         }
 
         for (let i = 0; i < this.news.mention.length; i++) {

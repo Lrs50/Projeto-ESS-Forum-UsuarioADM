@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { ApiResponse, Artist, News } from '../../../../../common/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { imageFallBack } from 'src/util'
+import { imageFallBack, ParseDate } from 'src/util'
 import { Store } from '@ngrx/store'
 import { AppState, addToNewsCount } from 'src/app/app.store'
 import { Router } from '@angular/router'
@@ -17,6 +17,8 @@ import { firstValueFrom } from 'rxjs'
 export class NewsManagementComponent implements OnInit {
     imageFall: string = imageFallBack
     newsList: News[] = []
+
+    parseDate = ParseDate
 
     tableLoading: boolean = false
 

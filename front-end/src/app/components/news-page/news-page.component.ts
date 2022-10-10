@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { News, ApiResponse, User, Like, Comment, emptyUser, emptyNews, Artist } from '../../../../../common/types'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ActivatedRoute, Router } from '@angular/router'
-import { imageFallBack } from '../../../util'
+import { imageFallBack, ParseDate } from '../../../util'
 import { firstValueFrom, map, Observable, Subscription, take } from 'rxjs'
 import { Store } from '@ngrx/store'
 import { AppState } from 'src/app/app.store'
@@ -18,6 +18,7 @@ import { ArtistService } from 'src/app/services/artist.service'
 })
 export class NewsPageComponent implements OnInit {
     imgFall: string = imageFallBack
+    parseDate = ParseDate
 
     hasUserLikedTheNews: boolean = false
 

@@ -53,7 +53,7 @@
                             <h5 nz-typography nzEllipsis>{{ news.title }}</h5>
                         </td>
                         <td nzEllipsis>
-                            <span nz-typography nzType="secondary">{{ news.date }}</span>
+                            <span nz-typography nzType="secondary">{{ parseDate(news.date) }}</span>
                         </td>
                         <td nzEllipsis>
                             <nz-tag [nzColor]="news.edited == false ? 'green' : 'blue'">

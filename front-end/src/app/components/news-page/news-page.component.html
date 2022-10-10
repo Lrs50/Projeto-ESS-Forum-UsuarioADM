@@ -26,7 +26,7 @@
         </nz-space>
 
         <span *nzSpaceItem nz-typography nzType="secondary">
-            {{ news.edited ? 'Edited' : 'Created' }} at {{ news.date }} written by
+            {{ news.edited ? 'Edited' : 'Created' }} at {{ parseDate(news.date) }} written by
             <span
                 nz-typography
                 style="cursor: pointer"
@@ -49,12 +49,12 @@
                 <span *nzSpaceItem> {{ news.likes.length }} Likes </span>
             </nz-space>
             <nz-divider *nzSpaceItem nzDirection="vertical"></nz-divider>
-            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
+            <nz-space *nzSpaceItem nzAlign="center">
                 <span *nzSpaceItem nz-icon nzType="eye"></span>
                 <span *nzSpaceItem> {{ news.views }} Views </span>
             </nz-space>
             <nz-divider *nzSpaceItem nzDirection="vertical"></nz-divider>
-            <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer">
+            <nz-space *nzSpaceItem nzAlign="center">
                 <span *nzSpaceItem nz-icon nzType="comment"></span>
                 <span *nzSpaceItem> {{ news.comments.length }} Comments </span>
             </nz-space>
