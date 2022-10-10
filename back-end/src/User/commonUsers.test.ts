@@ -116,7 +116,7 @@ describe('News backend', () => {
         expect(database.db.size).toBe(1)
     })
 
-    test('The database shouldnt be able to delete News that doenst exists', async () => {
+    test('The database shouldnt be able to delete Common Users that doenst exists', async () => {
         const spy = jest.spyOn(database, 'saveUsers')
 
         let result: Boolean = await database.deleteCommonUser('fake-id-not-existent')
@@ -126,7 +126,8 @@ describe('News backend', () => {
         expect(database.db.size).toBe(1)
     })
 
-    test('The database should be able to delete a News', async () => {
+
+    test('The database should be able to delete a Common User', async () => {
         const spy = jest.spyOn(database, 'saveUsers')
 
         let result: Boolean = await database.deleteCommonUser('fake-id')
@@ -135,6 +136,33 @@ describe('News backend', () => {
         expect(result).toBeTruthy()
         expect(database.db.size).toBe(0)
     })
+
+    //when the deleteAdmUser is ready, uncomment this
+    // test('The database shouldnt be able to delete a admin Users', async () => {
+    //     const spy = jest.spyOn(database, 'saveUsers')
+        
+    //     let tempUser: User = {
+    //         id: 'fake-id',
+    //         username: 'fake-username',
+    //         name: 'fake-name',
+    //         aboutme:'fake-aboutme',
+    //         password:'fake-password',
+    //         type:'Admin',
+    //         cover:'fake-cover',
+    //         avatar:'fake-avatar',
+    //         profileComments:[],
+    //     }
+
+    //     await database.createUser(tempUser)
+
+    //     let result = await database.deleteCommonUser('fake-id')
+        
+    //     expect(spy).not.toBeCalled()
+    //     expect(result).not.toBeTruthy()
+    //     expect(database.db.size).toBe(1)
+    //     await database.deleteUser('fake-id')
+    // })
+
 
     test('Http Validator should work properly', () => {
         let params: Object = {
