@@ -219,6 +219,32 @@ export function editUser(request: Request, response: Response): void {
 
 //MÉTODOS ADMIN USERS
 
+export function getUserAdmin(request: Request, response: Response): void {
+    log.info('GetUserAdmin request received')
+
+    const valid = validator(['id'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: User | undefined = db.getUserAdmin(request.params.id)
+
+    if (result == undefined) {
+        response.send(HTTP_NOT_FOUND)
+    } else {
+        let httpResponse: ApiResponse = HTTP_SUCCESS
+        httpResponse.result = result
+
+        response.send(httpResponse)
+    }
+
+    return
+}
+
 export function getAllAdminUsers(request: Request, response: Response): void {
     log.info('GetAllAdminUsers request received')
 

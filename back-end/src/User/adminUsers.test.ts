@@ -1,12 +1,12 @@
 import { User } from '../../../common/types'
-import { validator } from './controller'
+import { deleteCommonUser, validator } from './controller'
 import UsersDB from './users'
 
 // Testes devem ser criados como [instancia].test.ts */
 // Estude JEST e a sua linguagem
 // Estude JASMINE para o front-end
 
-describe('News backend', () => {
+describe('Admin Users backend', () => {
     let database: UsersDB
 
     beforeAll(() => {
@@ -53,7 +53,7 @@ describe('News backend', () => {
     test('The database should be able to get an Admin', async () => {
         const spy = jest.spyOn(database, 'getUserAdmin')
 
-        let result: User | undefined = database.getUserCommon('fake-id')
+        let result: User | undefined = database.getUserAdmin('fake-id')
 
         expect(spy).toBeCalled()
         expect(result).not.toBeUndefined()
@@ -116,7 +116,7 @@ describe('News backend', () => {
         expect(spy).toBeCalled()
         expect(result).toBeTruthy()
         expect(database.db.size).toBe(1)
-        expect(findUser).toBe('fake-username-number3')
+        expect(findUser?.username).toBe('fake-username-number3')
     })
 
     test('The database shouldn\'t be able to edit an existent common User utilizing editAdminUser', async () => {
@@ -151,6 +151,8 @@ describe('News backend', () => {
         expect(spy).toBeCalled()
         expect(result).toBeFalsy()
         expect(database.db.size).toBe(2)
+
+        database.deleteCommonUser('fake-id2') //Remover o usuário comum, depois de utilizado para o teste
     })
 
     test('The database shouldn\'t be able to edit an existent Admin into a common User utilizing editAdminUser', async () => {
@@ -168,25 +170,15 @@ describe('News backend', () => {
             profileComments:[],
         })
 
-        expect(spy).toBeCalled()
-        expect(result).toBeFalsy()
-        expect(database.db.size).toBe(2)
-    })
-
-    test('The database shouldn\'t be able to delete News that don\'t exist', async () => {
-        const spy = jest.spyOn(database, 'saveUsers')
-
-        let result: Boolean = await database.deleteCommonUser('fake-id-not-existent')
-
         expect(spy).not.toBeCalled()
-        expect(result).not.toBeTruthy()
+        expect(result).toBeFalsy()
         expect(database.db.size).toBe(1)
     })
 
-    test('The database should be able to delete a News', async () => {
+    test('The database should be able to delete an existent Admin', async () => {
         const spy = jest.spyOn(database, 'saveUsers')
 
-        let result: Boolean = await database.deleteCommonUser('fake-id')
+        let result: Boolean = await database.deleteAdminUser('fake-id')
 
         expect(spy).toBeCalled()
         expect(result).toBeTruthy()
@@ -207,4 +199,5 @@ describe('News backend', () => {
 
         expect(result).toBeFalsy()
     })
+
 })
