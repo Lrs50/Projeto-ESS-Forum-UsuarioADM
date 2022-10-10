@@ -1,25 +1,34 @@
 <div class="news-content-grid">
-    <section class="news-content-img">
+    <section class="news-content-img" style="cursor: pointer" [routerLink]="id">
         <img nz-image width="180px" height="130px" [nzSrc]="cover" [nzFallback]="imageFall" style="border-radius: 10%" />
     </section>
     <section class="news-content-content">
         <nz-space nzDirection="vertical" class="news-text-container">
             <h3 *nzSpaceItem class="text-content" nz-typography style="cursor: pointer" [routerLink]="id">{{ title }}</h3>
-            <span *nzSpaceItem nz-typography class="text-content" nzType="secondary">
+            <span *nzSpaceItem nz-typography class="text-content" nzType="secondary" style="cursor: pointer" [routerLink]="id">
                 {{ description }}
             </span>
         </nz-space>
     </section>
     <section class="news-content-views">
-        <app-news-shower-statistic [value]="views" [subtitle]="'views'"></app-news-shower-statistic>
+        <nz-space nzDirection="vertical" nzAlign="center" class="full-width full-height">
+            <span *nzSpaceItem nz-icon nzType="eye" style="font-size: 3rem" [nzTheme]="'twotone'" [nzTwotoneColor]="'#709efe'"></span>
+            <span *nzSpaceItem nz-typography style="color: #709efe"><strong>312</strong></span>
+        </nz-space>
     </section>
     <section class="news-content-likes">
-        <app-news-shower-statistic [value]="likes" [subtitle]="'likes'"></app-news-shower-statistic>
+        <nz-space nzDirection="vertical" nzAlign="center" class="full-width full-height">
+            <span *nzSpaceItem nz-icon nzType="like" style="font-size: 3rem" [nzTheme]="'twotone'" [nzTwotoneColor]="'#fc6c6d'"></span>
+            <span *nzSpaceItem nz-typography style="color: #fc6c6d"><strong>2</strong></span>
+        </nz-space>
     </section>
     <section class="news-content-comments">
-        <app-news-shower-statistic [value]="comments" [subtitle]="'comments'"></app-news-shower-statistic>
+        <nz-space nzDirection="vertical" nzAlign="center" class="full-width full-height">
+            <span *nzSpaceItem nz-icon nzType="comment" style="font-size: 3rem; color: #6bdd87"></span>
+            <span *nzSpaceItem nz-typography style="color: #6bdd87"><strong>2</strong></span>
+        </nz-space>
     </section>
-    <section class="news-content-tags">
+    <section class="news-content-tags" style="cursor: pointer" [routerLink]="id">
         <div *ngIf="artistsMentioned.length > 0">
             <nz-tag *ngFor="let mention of artistsMentioned" nzColor="#483d99">
                 <strong>{{ mention }}</strong>
@@ -29,5 +38,8 @@
         <nz-tag *ngFor="let tag of tags">
             <strong>{{ tag }}</strong>
         </nz-tag>
+    </section>
+    <section class="news-content-activity">
+        <span nz-typography> <span>Last activity </span><strong>30 minutes ago</strong> </span>
     </section>
 </div>

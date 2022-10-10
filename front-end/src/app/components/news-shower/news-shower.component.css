@@ -4,8 +4,8 @@
     grid-template-columns: minmax(200px, 1fr) minmax(500px, 4fr) minmax(100px, 1fr) minmax(100px, 1fr) minmax(100px, 1fr);
     grid-template-rows: 100px 50px;
     grid-template-areas:
-        'img content views likes comments'
-        'img tags    views likes comments';
+        'img content likes comments views'
+        'img tags    actv  actv     actv';
     margin-bottom: 5px;
 }
 
@@ -37,11 +37,26 @@ section.news-content-comments {
     background: #fefefe;
 }
 
+section.news-content-activity {
+    grid-area: actv;
+    display: flex;
+    align-items: center;
+    background: #fefefe;
+}
+
 section.news-content-tags {
     grid-area: tags;
     display: flex;
     align-items: center;
     background: #fefefe;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.full-height {
+    height: 100%;
 }
 
 .news-text-container {

@@ -56,6 +56,8 @@ import {
     SmileOutline,
     TrophyOutline,
     AimOutline,
+    LikeFill,
+    EyeTwoTone,
 } from '@ant-design/icons-angular/icons'
 import { HomeComponent } from './components/home/home.component'
 import { LoginComponent } from './components/login/login.component'
@@ -63,7 +65,6 @@ import { NewsManagementComponent } from './components/news-management/news-manag
 import { appReducer } from './app.store'
 import { NewsComponent } from './components/news/news.component'
 import { NewsShowerComponent } from './components/news-shower/news-shower.component'
-import { NewsShowerStatisticComponent } from './components/news-shower-statistic/news-shower-statistic.component'
 import { NewsPageComponent } from './components/news-page/news-page.component'
 import { NewsEditComponent } from './components/news-edit/news-edit.component'
 import { NewsCreateComponent } from './components/news-create/news-create.component'
@@ -101,6 +102,7 @@ const icons: IconDefinition[] = [
     EyeOutline,
     LikeOutline,
     LikeTwoTone,
+    EyeTwoTone,
     CommentOutline,
     DislikeOutline,
     DislikeTwoTone,
@@ -116,7 +118,6 @@ const icons: IconDefinition[] = [
         NewsManagementComponent,
         NewsComponent,
         NewsShowerComponent,
-        NewsShowerStatisticComponent,
         NewsPageComponent,
         NewsEditComponent,
         NewsCreateComponent,
