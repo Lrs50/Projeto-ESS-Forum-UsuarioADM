@@ -16,24 +16,36 @@
             </ng-template>
         </div>
         <div *nzSpaceItem>
-            <nz-table #borderedTable nzBordered nzTableLayout="fixed" [nzFrontPagination]="false" [nzTotal]="totalNews"
-                [nzData]="newsList" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex" [nzNoResult]="emptyDataTemplate"
-                [nzPageSizeOptions]="pageSizeOptions" [nzShowSizeChanger]="true" [nzLoading]="tableLoading"
-                (nzPageIndexChange)="updatePageIndex($event)" (nzPageSizeChange)="updatePageSize($event)">
+            <nz-table 
+                #borderedTable 
+                nzBordered 
+                nzTableLayout="fixed" 
+                [nzFrontPagination]="false" 
+                [nzTotal]="totalNews"
+                [nzData]="artistList" 
+                [nzPageSize]="pageSize" 
+                [nzPageIndex]="pageIndex" 
+                [nzNoResult]="emptyDataTemplate"
+                [nzPageSizeOptions]="pageSizeOptions" 
+                [nzShowSizeChanger]="true" 
+                [nzLoading]="tableLoading"
+                (nzPageIndexChange)="updatePageIndex($event)" 
+                (nzPageSizeChange)="updatePageSize($event)">
+                
                 <ng-template #emptyDataTemplate>
                     <nz-empty></nz-empty>
                 </ng-template>
                 <thead>
                     <tr>
                         <th nzEllipsis>Name</th>
-                        <th nzWidth="150px">ID</th>
+                        <th nzWidth="250px">ID</th>
                         <th nzWidth="150px">Type</th>
                         <th nzWidth="150px">Mentions</th>
                         <th nzWidth="200px">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let artist of newsList; index as i">
+                    <tr *ngFor="let artist of artistList; index as i">
                         <td nzEllipsis>
                             <h5 nz-typography nzEllipsis>{{ artist.name }}</h5>
                         </td>

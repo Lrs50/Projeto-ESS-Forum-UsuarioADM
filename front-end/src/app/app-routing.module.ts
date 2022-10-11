@@ -17,6 +17,7 @@ import { SingupComponent } from './components/singup/singup.component'
 import { NotLoggedGuard } from './guards/not-logged.guard'
 import { ArtistPageComponent } from './components/artist-page/artist-page.component'
 import { ArtistsManagementComponent } from './components/artists-management/artists-management.component'
+import { ArtistsCreateComponent } from './components/artists-create/artists-create.component'
 import { CommonUsersComponent } from './components/common-users/common-users.component'
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
             { path: 'user/:id', component: UserProfileComponent },
             { path: 'artist/:id', component: ArtistPageComponent },
             { path: 'management/artist', component: ArtistsManagementComponent, canActivate: [NotLoggedGuard, AdminUserGuard]},
+            { path: 'management/artist/create', component: ArtistsCreateComponent, canActivate: [NotLoggedGuard, AdminUserGuard]},
             { path: 'user/:id/edit', component: UserProfileEditComponent, canActivate: [NotLoggedGuard] },
             
         

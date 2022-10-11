@@ -81,7 +81,8 @@ import { SingupComponent } from './components/singup/singup.component'
 import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config'
 import { ArtistPageComponent } from './components/artist-page/artist-page.component';
 import { CommonUsersComponent } from './components/common-users/common-users.component';
-import { ArtistsManagementComponent } from './components/artists-management/artists-management.component'
+import { ArtistsManagementComponent } from './components/artists-management/artists-management.component';
+import { ArtistsCreateComponent } from './components/artists-create/artists-create.component'
 
 const ngZorroConfig: NzConfig = {
     theme: {
@@ -130,6 +131,7 @@ const icons: IconDefinition[] = [
         ArtistPageComponent,
         CommonUsersComponent,
         ArtistsManagementComponent,
+        ArtistsCreateComponent,
     ],
     imports: [
         BrowserModule,

@@ -1,0 +1,53 @@
+<div class="full-width">
+    <nz-space class="full-width" nzDirection="vertical" style="padding: 2rem" nzSize="large">
+        <h1
+            *nzSpaceItem
+            class="main-title-text-size"
+            nz-typography
+            nzEditable
+            [(nzContent)]="artist.name"
+            [nzType]="statusInputTitle"
+            nzEditTooltip="Click to edit the name!"
+        ></h1>
+        <nz-input-group *nzSpaceItem [nzSize]="'large'" nzAddOnBeforeIcon="link" nz-tooltip nzTooltipTitle="Artist cover URL">
+            <input type="text" nz-input [(ngModel)]="artist.cover" [nzSize]="'large'" [placeholder]="'Url to use as new cover'" />
+        </nz-input-group>
+        <div *nzSpaceItem class="full-width" style="display: flex; align-content: center; justify-content: center; background: #000">
+            <img nz-image style="object-fit: contain" [nzSrc]="artist.cover" [nzFallback]="imgFall" />
+        </div>
+        
+        <h3 *nzSpaceItem nz-typography><strong>Types</strong></h3>
+        <nz-select
+            *nzSpaceItem
+            [nzMaxTagCount]="5"
+            [nzMaxTagPlaceholder]="tagPlaceHolder"
+            nzMode="tags"
+            nzPlaceHolder="Select the types"
+            [(ngModel)]="artist.type"
+            style="width: 70%"
+        >
+            <nz-option *ngFor="let tag of avaliableTypes" [nzLabel]="tag" [nzValue]="tag"></nz-option>
+        </nz-select>
+
+        <ng-template #tagPlaceHolder let-selectedList>and {{ artist.type.length }} more selected</ng-template>
+
+        <span
+            *nzSpaceItem
+            nz-typography
+            nzEditable
+            [(nzContent)]="artist.description"
+            [nzType]="statusInputTitle"
+            nzEditTooltip="Click to edit the description!"
+            class="descrition-text-size"
+        ></span>
+
+        <div *nzSpaceItem style="float: right">
+            <nz-space>
+                <button *nzSpaceItem nz-button nzType="primary" [nzSize]="'large'" (click)="onCreateArtist()">
+                    <span nz-icon nzType="plus-square"></span>
+                    Create
+                </button>
+            </nz-space>
+        </div>
+    </nz-space>
+</div>

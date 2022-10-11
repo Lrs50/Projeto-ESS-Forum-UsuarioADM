@@ -111,11 +111,11 @@ export function emptyNews(id: CommentId, authorId: string): News {
   } as News;
 }
 
-export declare type ArtistType = "Singer" | "Illustrator" | "Actor" | "Voice Actor" | "Writer";
+export const ArtistTypes: string[] = ["Singer", "Illustrator", "Actor", "Voice Actor", "Writer"]
 
 export interface Artist {
   readonly id: string;
-  type: ArtistType;
+  type: string[];
   name: string;
   description: string;
   mentions: number;
@@ -125,9 +125,9 @@ export interface Artist {
 export function emptyArtist(id: string): Artist {
   return {
     id: id,
-    type: "Actor",
-    description: "",
-    name: "",
+    type: [],
+    description: "Change the description!",
+    name: "Change the name!",
     mentions: 0,
     cover: "",
   } as Artist;
