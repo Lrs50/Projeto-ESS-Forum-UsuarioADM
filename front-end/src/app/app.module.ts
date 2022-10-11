@@ -84,7 +84,8 @@ import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config'
 import { ArtistPageComponent } from './components/artist-page/artist-page.component';
 import { CommonUsersComponent } from './components/common-users/common-users.component';
 import { ArtistsManagementComponent } from './components/artists-management/artists-management.component';
-import { ArtistsCreateComponent } from './components/artists-create/artists-create.component'
+import { ArtistsCreateComponent } from './components/artists-create/artists-create.component';
+import { ArtistComponent } from './components/artist/artist.component'
 
 const ngZorroConfig: NzConfig = {
     theme: {
@@ -135,6 +136,7 @@ const icons: IconDefinition[] = [
         CommonUsersComponent,
         ArtistsManagementComponent,
         ArtistsCreateComponent,
+        ArtistComponent,
     ],
     imports: [
         BrowserModule,

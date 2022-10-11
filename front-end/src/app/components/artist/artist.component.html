@@ -1,0 +1,46 @@
+<nz-card class="base-card" nzTitle="Artists">
+    <nz-space class="wfull" nzDirection="vertical">
+        <div *nzSpaceItem>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" nz-input placeholder="Search by name, type..." [(ngModel)]="filterText"
+                    (input)="debouncedHTTPRequest()" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" nzSearch>Search</button>
+            </ng-template>
+        </div>
+        <div *nzSpaceItem>
+            <nz-table #borderedTable nzBordered nzTableLayout="fixed" [nzFrontPagination]="false"
+                [nzTotal]="totalArtist" [nzData]="artistList" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
+                [nzNoResult]="emptyDataTemplate" [nzPageSizeOptions]="pageSizeOptions" [nzShowSizeChanger]="true"
+                [nzLoading]="tableLoading" (nzPageIndexChange)="updatePageIndex($event)"
+                (nzPageSizeChange)="updatePageSize($event)">
+
+                <ng-template #emptyDataTemplate>
+                    <nz-empty></nz-empty>
+                </ng-template>
+                <thead>
+                    <tr>
+                        <th nzEllipsis>Name</th>
+                        <th nzWidth="150px">Type</th>
+                        <th nzWidth="150px">Mentions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let artist of artistList; index as i">
+                        <td nzEllipsis>
+                            <h5 nz-typography nzEllipsis style="cursor: pointer;"
+                                [routerLink]="'/home/artist/' + artist.id">{{ artist.name }}</h5>
+                        </td>
+                        <td nzEllipsis>
+                            <span nz-typography nzType="secondary">{{ artist.type }}</span>
+                        </td>
+                        <td nzEllipsis>
+                            <span nz-typography nzType="secondary">{{ artist.mentions }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </nz-space>
+</nz-card>
