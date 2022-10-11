@@ -46,6 +46,30 @@ class ArtistDB {
         return this.db.size
     }
 
+    getArtistPage(pageId: number, ArtistPerPage: number, filterTerm: string | undefined): Artist[] {
+        let tempArr: Artist[] = MapValuesToArray(this.db)
+
+        if (filterTerm != '' && filterTerm != undefined) {
+            let term: string = filterTerm.toLowerCase()
+
+            tempArr = tempArr.filter((artist: Artist) => {
+                if (artist.name.toLowerCase().includes(term)) {
+                    return true
+                }
+
+                if (artist.type.toLowerCase().includes(term)) {
+                    return true
+                }
+
+                return false
+            })
+        }
+
+        tempArr = tempArr.slice((pageId - 1) * ArtistPerPage, Math.min(pageId * ArtistPerPage, this.db.size))
+
+        return tempArr
+    }
+
     deleteArtist(id: string): Promise<Boolean>{
         let find: Boolean = this.db.delete(id)
 

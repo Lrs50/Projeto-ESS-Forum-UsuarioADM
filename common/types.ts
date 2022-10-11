@@ -117,7 +117,7 @@ export const ArtistTypes: string[] = ["Singer", "Illustrator", "Actor", "Voice A
 
 export interface Artist {
   readonly id: string;
-  type: string[];
+  type: string;
   name: string;
   description: string;
   mentions: number;
@@ -127,7 +127,7 @@ export interface Artist {
 export function emptyArtist(id: string): Artist {
   return {
     id: id,
-    type: [],
+    type: "",
     description: "Change the description!",
     name: "Change the name!",
     mentions: 0,
