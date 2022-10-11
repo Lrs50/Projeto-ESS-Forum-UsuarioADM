@@ -4,7 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd/message'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { imageFallBack } from 'src/util'
 import { Store } from '@ngrx/store'
-import { AppState, addToNewsCount } from 'src/app/app.store'
+import { AppState, addToArtistCount } from 'src/app/app.store'
 import { Router } from '@angular/router'
 import { ArtistService } from 'src/app/services/artist.service'
 
@@ -107,6 +107,7 @@ export class ArtistsManagementComponent implements OnInit {
         this.artistList = this.artistList.filter(a => a.id != id)
         this.artistService.delete(id).subscribe((res: ApiResponse) => {
             if (res.status == 200) {
+                this.store.dispatch(addToArtistCount({ payload: -1 }))
                 this.message.create('success', `Artist deleted successfully!`)
             } else {
                 this.message.create('error', `Failed to delete the artist!`)

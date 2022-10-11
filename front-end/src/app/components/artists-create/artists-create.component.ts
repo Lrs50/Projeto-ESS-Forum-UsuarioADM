@@ -9,7 +9,7 @@ import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ApiResponse, Artist, emptyNews, News, User, defaultTags, emptyArtist, ArtistTypes } from '../../../../../common/types'
 import { imageFallBack } from 'src/util'
 import { map, Observable, Subscription, take } from 'rxjs'
-import { addToNewsCount } from '../../app.store'
+import { addToArtistCount } from '../../app.store'
 import { ArtistService } from 'src/app/services/artist.service'
 
 @Component({
@@ -71,7 +71,7 @@ export class ArtistsCreateComponent implements OnInit {
         result = false
     }
 
-    if (this.artist.type.length == 0) {
+    if (this.artist.type == "") {
         this.statusInputDescription = 'danger'
         result = false
     }
@@ -100,7 +100,7 @@ export class ArtistsCreateComponent implements OnInit {
     this.artistService.create(temp).subscribe((res: ApiResponse) => {
         if (res.status == 200) {
             this.message.create('success', `New news created successfully!`)
-            this.store.dispatch(addToNewsCount({ payload: 1 }))
+            this.store.dispatch(addToArtistCount({ payload: 1 }))
             this.router.navigateByUrl('/home/artist/' + temp.id)
         } else {
             this.message.create('error', `Failed to create the artist!`)
