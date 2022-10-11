@@ -18,7 +18,7 @@
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
-                        "assets": ["src/favicon.ico", "src/assets"],
+                        "assets": ["src/favicon.ico", "src/new_favicon.ico", "src/assets"],
                         "styles": [
                             "src/styles.css",
                             "node_modules/ng-zorro-antd/ng-zorro-antd.variable.min.css",
@@ -91,7 +91,7 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.spec.json",
                         "karmaConfig": "karma.conf.js",
-                        "assets": ["src/favicon.ico", "src/assets"],
+                        "assets": ["src/favicon.ico", "src/new_favicon.ico", "src/assets"],
                         "styles": ["src/styles.css"],
                         "scripts": []
                     }

@@ -58,6 +58,7 @@ import {
     AimOutline,
     LikeFill,
     EyeTwoTone,
+    FieldTimeOutline,
 } from '@ant-design/icons-angular/icons'
 import { HomeComponent } from './components/home/home.component'
 import { LoginComponent } from './components/login/login.component'
@@ -108,6 +109,7 @@ const icons: IconDefinition[] = [
     DislikeTwoTone,
     LinkOutline,
     AimOutline,
+    FieldTimeOutline,
 ]
 
 @NgModule({

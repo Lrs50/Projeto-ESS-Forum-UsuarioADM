@@ -1,6 +1,6 @@
 <div class="news-content-grid">
     <section class="news-content-img" style="cursor: pointer" [routerLink]="id">
-        <img nz-image width="180px" height="130px" [nzSrc]="cover" [nzFallback]="imageFall" style="border-radius: 10%" />
+        <img nz-image width="180px" height="130px" [nzSrc]="cover" [nzFallback]="imageFall" style="border-radius: 10%" class="lg-image-hide" />
     </section>
     <section class="news-content-content">
         <nz-space nzDirection="vertical" class="news-text-container">
@@ -47,7 +47,8 @@
     </section>
     <section class="news-content-activity">
         <span nz-typography>
-            <span>Last activity </span><strong>{{ timeAgo.format(lastActivity) }}</strong>
+            <span nz-icon [nzType]="'field-time'"></span>
+            <span> Last activity </span><strong>{{ timeAgo.format(lastActivity) }}</strong>
         </span>
     </section>
 </div>
