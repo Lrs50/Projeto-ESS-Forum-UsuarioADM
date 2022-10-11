@@ -1,4 +1,7 @@
-<nz-card class="base-card" nzTitle="News Management" [nzExtra]="extraContentTemplate">
+<nz-card class="base-card" [nzTitle]="titleTemplate" [nzExtra]="extraContentTemplate">
+    <ng-template #titleTemplate>
+        <h2 nz-typography>News Management</h2>
+    </ng-template>
     <ng-template #extraContentTemplate>
         <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
             <i nz-icon nzType="plus-square"></i>
@@ -50,7 +53,7 @@
                             <h5 nz-typography nzEllipsis>{{ news.title }}</h5>
                         </td>
                         <td nzEllipsis>
-                            <span nz-typography nzType="secondary">{{ news.date }}</span>
+                            <span nz-typography nzType="secondary">{{ parseDate(news.date) }}</span>
                         </td>
                         <td nzEllipsis>
                             <nz-tag [nzColor]="news.edited == false ? 'green' : 'blue'">
@@ -69,12 +72,14 @@
                                 </div>
                                 <ng-template #multipleTagsBlock>
                                     <nz-badge [nzCount]="news.tags.length">
-                                        <nz-tag nz-popover nzPopoverTitle="Tags" [nzPopoverContent]="renderMultipleTagsBlock"
-                                            ><strong>ALL TAGS</strong></nz-tag
-                                        >
+                                        <nz-tag nz-popover nzPopoverTitle="Tags" [nzPopoverContent]="renderMultipleTagsBlock">
+                                            <strong>ALL TAGS</strong>
+                                        </nz-tag>
                                     </nz-badge>
                                     <ng-template #renderMultipleTagsBlock>
-                                        <nz-tag *ngFor="let tag of news.tags">{{ tag }}</nz-tag>
+                                        <nz-tag *ngFor="let tag of news.tags">
+                                            <strong>{{ tag }}</strong>
+                                        </nz-tag>
                                     </ng-template>
                                 </ng-template>
                             </ng-template>
@@ -96,9 +101,9 @@
                                         </nz-tag>
                                     </nz-badge>
                                     <ng-template #renderMultipleMentionsBlock>
-                                        <nz-tag *ngFor="let mention of mentionedArtistsNamesInNews[i]" nzColor="#483d99">{{
-                                            mention | uppercase
-                                        }}</nz-tag>
+                                        <nz-tag *ngFor="let mention of mentionedArtistsNamesInNews[i]" nzColor="#483d99">
+                                            {{ mention | uppercase }}
+                                        </nz-tag>
                                     </ng-template>
                                 </ng-template>
                             </ng-template>

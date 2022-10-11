@@ -3,6 +3,8 @@ import { Router } from '@angular/router'
 import { ArtistService } from 'src/app/services/artist.service'
 import { imageFallBack } from 'src/util'
 import { ApiResponse, Artist } from '../../../../../common/types'
+import en from 'javascript-time-ago/locale/en'
+import TimeAgo from 'javascript-time-ago'
 
 @Component({
     selector: 'app-news-shower',
@@ -22,12 +24,18 @@ export class NewsShowerComponent implements OnInit {
     @Input() cover: string = ''
     @Input() tags: string[] = []
     @Input() mention: string[] = []
+    @Input() lastActivity: number = 0
 
     imageFall: string = imageFallBack
 
     artistsMentioned: string[] = []
 
-    constructor(private artistService: ArtistService, private router: Router) {}
+    timeAgo: any
+
+    constructor(private artistService: ArtistService, private router: Router) {
+        TimeAgo.addDefaultLocale(en)
+        this.timeAgo = new TimeAgo('en-US')
+    }
 
     ngOnInit(): void {
         for (let i = 0; i < this.mention.length; i++) {

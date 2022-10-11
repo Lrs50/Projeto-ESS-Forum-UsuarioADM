@@ -18,14 +18,14 @@ import { ArtistService } from 'src/app/services/artist.service'
 export class CommonUsersComponent implements OnInit {
 
   imageFall: string = imageFallBack
-  newsList: User[] = []
+  commonUserList: User[] = []
 
   tableLoading: boolean = false
 
   pageSizeOptions: number[] = [10, 20, 30, 40]
   pageSize: number = 10
   pageIndex: number = 1
-  totalNews: number = 1
+  totalCommonUser: number = 1
 
   filterText: string = ''
 
@@ -41,17 +41,17 @@ export class CommonUsersComponent implements OnInit {
       private router: Router,
       private artistService: ArtistService
   ) {
-      this.getNewsPage()
+      this.getCommonUserPage()
   }
 
   ngOnInit(): void {}
 
-  getNewsSize() {
+  getCommonUserSize() {
       this.newsManagementService.getNewsSize().subscribe((res: ApiResponse) => {
           if (res.status == 200) {
-              this.totalNews = res.result as number
+              this.totalCommonUser = res.result as number
           } else {
-              this.totalNews = 1
+              this.totalCommonUser = 1
           }
       })
   }
@@ -59,37 +59,37 @@ export class CommonUsersComponent implements OnInit {
   updatePageIndex(event: number) {
       this.pageIndex = event
 
-      this.getNewsPage()
+      this.getCommonUserPage()
   }
 
   debouncedHTTPRequest() {
       clearTimeout(this.debounceTimer)
 
       this.debounceTimer = setTimeout(() => {
-          this.getNewsPage()
+          this.getCommonUserPage()
       }, 1000)
   }
 
   updatePageSize(event: number) {
       this.pageSize = event
 
-      this.getNewsPage()
+      this.getCommonUserPage()
   }
 //refactoring
-  getNewsPage() {
+  getCommonUserPage() {
       this.tableLoading = true
 
-      //this.getNewsSize()
+      //this.getCommonUserSize()
 
       this.UserService.getcommonAll().subscribe((res: ApiResponse) => {
           if (res.status == 200) {
-              this.newsList = res.result as User[]
-              this.newsList = this.newsList.filter(a => a.username.includes(this.filterText)) 
-              //for (let i = 0; i < this.newsList.length; i++) {
+              this.commonUserList = res.result as User[]
+              this.commonUserList = this.commonUserList.filter(a => a.username.includes(this.filterText)) 
+              //for (let i = 0; i < this.commonUserList.length; i++) {
                 //  let tempList: string[] = []
-                 // console.log(this.newsList[i].name)
-                 // for (let j = 0; j < this.newsList[i].mention.length; j++) {
-                  //    this.artistService.get(this.newsList[i].mention[j]).subscribe((res: ApiResponse) => {
+                 // console.log(this.commonUserList[i].name)
+                 // for (let j = 0; j < this.commonUserList[i].mention.length; j++) {
+                  //    this.artistService.get(this.commonUserList[i].mention[j]).subscribe((res: ApiResponse) => {
                    //       if (res.status == 200) {
                     //          tempList.push((res.result as Artist).name)
                      //     } else {
@@ -101,7 +101,7 @@ export class CommonUsersComponent implements OnInit {
               //    this.mentionedArtistsNamesInNews.push(tempList)
              // }
           } else {
-            this.newsList =[]  
+            this.commonUserList =[]  
             //this.router.navigateByUrl('/error')
           }
 
@@ -112,8 +112,8 @@ export class CommonUsersComponent implements OnInit {
   findIndexFromFilteredList(id: string): number {
       let i: number = 0
 
-      for (; i < this.newsList.length; i++) {
-          if (this.newsList[i].id == id) {
+      for (; i < this.commonUserList.length; i++) {
+          if (this.commonUserList[i].id == id) {
               return i
           }
       }
@@ -122,7 +122,7 @@ export class CommonUsersComponent implements OnInit {
   }
 
   deleteCommonUser(id: string): void {
-      this.newsList = this.newsList.filter(a => a.id != id)
+      this.commonUserList = this.commonUserList.filter(a => a.id != id)
       this.UserService.removeCommonUser(id).subscribe((res: ApiResponse) => {
           if (res.status == 200) {
               this.message.create('success', `News deleted successfully!`)

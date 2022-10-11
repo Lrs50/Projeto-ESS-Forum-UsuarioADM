@@ -21,6 +21,7 @@ export class UserProfileEditComponent implements OnInit {
     loading: boolean = false
 
     showModalEditAvatar: boolean = false
+    showModalEditCover: boolean = false
 
     userInfo: Observable<User> = this.store.select('app').pipe(
         map((state: AppState) => {
@@ -63,6 +64,10 @@ export class UserProfileEditComponent implements OnInit {
 
     toggleModalEditAvatar() {
         this.showModalEditAvatar = !this.showModalEditAvatar
+    }
+
+    toggleModalEditCover() {
+        this.showModalEditCover = !this.showModalEditCover
     }
 
     onSaveUser() {

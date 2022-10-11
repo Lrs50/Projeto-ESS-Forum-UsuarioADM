@@ -8,7 +8,7 @@ import { AppState } from 'src/app/app.store'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ApiResponse, Artist, emptyNews, News, User, defaultTags } from '../../../../../common/types'
 import { imageFallBack } from 'src/util'
-import { map, Observable, Subscription, take } from 'rxjs'
+import { first, firstValueFrom, map, Observable, Subscription, take } from 'rxjs'
 import { addToNewsCount } from '../../app.store'
 import { ArtistService } from 'src/app/services/artist.service'
 
@@ -84,7 +84,7 @@ export class NewsCreateComponent implements OnInit {
         return result
     }
 
-    onCreateNews(): void {
+    async onCreateNews(): Promise<void> {
         var result: boolean = this.validateEditInfo()
 
         if (result == false) {
@@ -92,21 +92,18 @@ export class NewsCreateComponent implements OnInit {
             return
         }
 
-        let currentDate = new Date()
-
-        let date = currentDate.toLocaleDateString()
-        let hour = currentDate.toLocaleTimeString()
-
-        let authorId: string = ''
-
-        let userIdSubscription: Subscription = this.userInfo.pipe(take(1)).subscribe((user: User) => (authorId = user.id))
-        userIdSubscription.unsubscribe()
+        let authorId: string = (await firstValueFrom(this.userInfo)).id
 
         let temp: News = {
             ...this.news,
             id: nanoid(),
             authorId: authorId,
-            date: date + ' ' + hour.slice(0, -3),
+            date: +new Date(),
+            lastActivity: +new Date(),
+        }
+
+        for (let i = 0; i < this.news.mention.length; i++) {
+            await firstValueFrom(this.artistService.addMention(this.news.mention[i], 1))
         }
 
         this.newsManagementService.create(temp).subscribe((res: ApiResponse) => {
