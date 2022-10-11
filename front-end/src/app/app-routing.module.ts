@@ -16,6 +16,9 @@ import { AdminUserGuard } from './guards/admin-user.guard'
 import { SingupComponent } from './components/singup/singup.component'
 import { NotLoggedGuard } from './guards/not-logged.guard'
 import { ArtistPageComponent } from './components/artist-page/artist-page.component'
+import { ArtistsManagementComponent } from './components/artists-management/artists-management.component'
+import { ArtistsCreateComponent } from './components/artists-create/artists-create.component'
+import { CommonUsersComponent } from './components/common-users/common-users.component'
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -23,15 +26,20 @@ const routes: Routes = [
         path: 'home',
         component: HomeComponent,
         children: [
-            { path: '', redirectTo: 'news', pathMatch: 'full' },
-            { path: 'news', component: NewsComponent },
+            { path: '', redirectTo: 'news', pathMatch: 'full' },   
+            { path: 'news', component: NewsComponent, canActivate: [NotLoggedGuard, AdminUserGuard]},
+            { path: 'common', component: CommonUsersComponent},
             { path: 'news/:id', component: NewsPageComponent },
             { path: 'management/news/edit/:id', component: NewsEditComponent, canActivate: [NotLoggedGuard, AdminUserGuard] },
             { path: 'management/news/create', component: NewsCreateComponent, canActivate: [NotLoggedGuard, AdminUserGuard] },
             { path: 'management/news', component: NewsManagementComponent, canActivate: [NotLoggedGuard, AdminUserGuard] },
             { path: 'user/:id', component: UserProfileComponent },
             { path: 'artist/:id', component: ArtistPageComponent },
+            { path: 'management/artist', component: ArtistsManagementComponent, canActivate: [NotLoggedGuard, AdminUserGuard]},
+            { path: 'management/artist/create', component: ArtistsCreateComponent, canActivate: [NotLoggedGuard, AdminUserGuard]},
             { path: 'user/:id/edit', component: UserProfileEditComponent, canActivate: [NotLoggedGuard] },
+            
+        
         ],
     },
     { path: 'login', component: LoginComponent, canActivate: [LoggedUserGuard] },

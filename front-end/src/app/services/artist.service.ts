@@ -33,5 +33,7 @@ export class ArtistService {
 
     addMention(id: string, mentions: number): Observable<ApiResponse> {
         return this.httpClient.put<ApiResponse>(this.baseUrl + 'add/mention', { id, mentions })
+    delete(id: string): Observable<ApiResponse>{
+        return this.httpClient.delete<ApiResponse>(`http://localhost:3000/artist/${id}`)
     }
 }

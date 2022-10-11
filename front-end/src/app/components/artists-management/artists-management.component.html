@@ -1,0 +1,81 @@
+<nz-card class="base-card" nzTitle="Artists Management" [nzExtra]="extraContentTemplate">
+    <ng-template #extraContentTemplate>
+        <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
+            <i nz-icon nzType="plus-square"></i>
+            Create
+        </button>
+    </ng-template>
+    <nz-space class="wfull" nzDirection="vertical">
+        <div *nzSpaceItem>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" nz-input placeholder="Search by title, author..." [(ngModel)]="filterText"
+                    (input)="debouncedHTTPRequest()" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" nzSearch>Search</button>
+            </ng-template>
+        </div>
+        <div *nzSpaceItem>
+            <nz-table 
+                #borderedTable 
+                nzBordered 
+                nzTableLayout="fixed" 
+                [nzFrontPagination]="false" 
+                [nzTotal]="totalNews"
+                [nzData]="artistList" 
+                [nzPageSize]="pageSize" 
+                [nzPageIndex]="pageIndex" 
+                [nzNoResult]="emptyDataTemplate"
+                [nzPageSizeOptions]="pageSizeOptions" 
+                [nzShowSizeChanger]="true" 
+                [nzLoading]="tableLoading"
+                (nzPageIndexChange)="updatePageIndex($event)" 
+                (nzPageSizeChange)="updatePageSize($event)">
+                
+                <ng-template #emptyDataTemplate>
+                    <nz-empty></nz-empty>
+                </ng-template>
+                <thead>
+                    <tr>
+                        <th nzEllipsis>Name</th>
+                        <th nzWidth="250px">ID</th>
+                        <th nzWidth="150px">Type</th>
+                        <th nzWidth="150px">Mentions</th>
+                        <th nzWidth="200px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let artist of artistList; index as i">
+                        <td nzEllipsis>
+                            <h5 nz-typography nzEllipsis>{{ artist.name }}</h5>
+                        </td>
+                        <td nzEllipsis>
+                            <span nz-typography nzType="secondary">{{ artist.id }}</span>
+                        </td>
+                        <td nzEllipsis>
+                            <span nz-typography nzType="secondary">{{ artist.type }}</span>
+                        </td>
+                        <td nzEllipsis>
+                            <span nz-typography nzType="secondary">{{ artist.mentions }}</span>
+                        </td>
+                        <td>
+                            <nz-space>
+                                <button *nzSpaceItem nz-button nzType="primary" [routerLink]="'edit/' + artist.id"
+                                    [nzSize]="'small'">
+                                    <span nz-icon nzType="edit"></span>
+                                    Edit
+                                </button>
+                                <button *nzSpaceItem nz-button nzType="primary" nzDanger nz-popconfirm
+                                    nzPopconfirmTitle="Are you sure to delete this artist?"
+                                    (nzOnConfirm)="onDeleteArtist(artist.id)" [nzSize]="'small'">
+                                    <i nz-icon nzType="delete"></i>
+                                    Delete
+                                </button>
+                            </nz-space>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </nz-space>
+</nz-card>

@@ -27,9 +27,19 @@ export class UsersService {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'all')
     }
 
+    //services common user
+    getcommonAll(): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>('http://localhost:3000/commonAll')
+    }
+    removeCommonUser(userId: string): Observable<ApiResponse>{
+        return this.httpClient.delete<ApiResponse>(`http://localhost:3000/commonUser/${userId}`)
+    }
+    
     getUsersSize(): Observable<ApiResponse> {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
     }
+
+    
 
     login(username: string, password: string) {
         return this.httpClient.post<ApiResponse>(this.baseUrl + `login`, { username, password })
@@ -42,4 +52,6 @@ export class UsersService {
     removeComment(userId: string, commentId: string): Observable<ApiResponse> {
         return this.httpClient.delete<ApiResponse>(this.baseUrl + `remove/comment`, { body: { userId, commentId } })
     }
+
+
 }

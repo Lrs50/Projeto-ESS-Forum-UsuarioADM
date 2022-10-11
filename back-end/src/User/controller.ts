@@ -14,6 +14,58 @@ export function validator(fields: string[], params: Object): Boolean {
     return true
 }
 
+export function getUserCommon(request: Request, response: Response): void {
+    log.info('GetUserCommon request received')
+
+    const valid = validator(['id'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: User | undefined = db.getUserCommon(request.params.id)
+
+    if (result == undefined) {
+        response.send(HTTP_NOT_FOUND)
+    } else {
+        let httpResponse: ApiResponse = HTTP_SUCCESS
+        httpResponse.result = result
+
+        response.send(httpResponse)
+    }
+
+    return
+}
+//METODOS COMMON USERS
+export function getAllCommonUser(request: Request, response: Response): void {
+    log.info('GetAllCommonUser request received')
+
+    const valid = validator([], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: User[] = db.getAllCommonUser()
+
+    if (result.length == 0) {
+        response.send(HTTP_NOT_FOUND)
+    } else {
+        let httpResponse: ApiResponse = HTTP_SUCCESS
+        httpResponse.result = result
+
+        response.send(httpResponse)
+    }
+
+    return
+}
+
 export function getUser(request: Request, response: Response): void {
     log.info('GetUser request received')
 
@@ -36,6 +88,52 @@ export function getUser(request: Request, response: Response): void {
 
         response.send(httpResponse)
     }
+
+    return
+}
+export function deleteCommonUser(request: Request, response: Response): void {
+    log.info('Remove common user profile request received')
+
+    const valid = validator(['id'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let removeComment: Promise<Boolean> = db.deleteCommonUser(request.params.id)
+
+    removeComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+export function getCommonUsersSize(request: Request, response: Response): void {
+    log.info('GetCommonUsersSize request received')
+    
+    const valid = validator([], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: number = db.getCommonSize()
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
 
     return
 }
@@ -128,6 +226,133 @@ export function editUser(request: Request, response: Response): void {
     let db: UsersDB = new UsersDB()
 
     let editUser: Promise<Boolean> = db.editUser(request.body as User)
+
+    editUser.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+//MÉTODOS ADMIN USERS
+
+export function getUserAdmin(request: Request, response: Response): void {
+    log.info('GetUserAdmin request received')
+
+    const valid = validator(['id'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: User | undefined = db.getUserAdmin(request.params.id)
+
+    if (result == undefined) {
+        response.send(HTTP_NOT_FOUND)
+    } else {
+        let httpResponse: ApiResponse = HTTP_SUCCESS
+        httpResponse.result = result
+
+        response.send(httpResponse)
+    }
+
+    return
+}
+
+export function getAllAdminUsers(request: Request, response: Response): void {
+    log.info('GetAllAdminUsers request received')
+
+    const valid = validator([], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: User[] = db.getAllAdminUsers()
+
+    if (result.length == 0) {
+        response.send(HTTP_NOT_FOUND)
+    } else {
+        let httpResponse: ApiResponse = HTTP_SUCCESS
+        httpResponse.result = result
+
+        response.send(httpResponse)
+    }
+
+    return
+}
+
+export function getAdminUsersSize(request: Request, response: Response): void {
+    log.info('GetAdminUsersSize request received')
+
+    const valid = validator([], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: number = db.getAdminSize()
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
+
+    return
+}
+
+export function deleteAdminUser(request: Request, response: Response): void {
+    log.info('DeleteAdminUser request received')
+
+    const valid = validator(['id'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let removeComment: Promise<Boolean> = db.deleteAdminUser(request.params.id)
+
+    removeComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+export function editAdminUser(request: Request, response: Response): void {
+    log.info('EditUser request received')
+
+    const valid = validator(['id', 'name', 'username', 'password', 'aboutme', 'type', 'cover', 'avatar', 'profileComments'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+
+    let editUser: Promise<Boolean> = db.editAdminUser(request.body as User)
 
     editUser.then((result: Boolean) => {
         if (result) {

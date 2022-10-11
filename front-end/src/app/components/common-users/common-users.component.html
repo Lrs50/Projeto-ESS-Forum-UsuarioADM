@@ -1,0 +1,82 @@
+<nz-card class="base-card" nzTitle="Common User Management" [nzExtra]="extraContentTemplate">
+    <ng-template #extraContentTemplate>
+        <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
+            <i nz-icon nzType="plus-square"></i>
+            Create
+        </button>
+    </ng-template>
+    <nz-space class="wfull" nzDirection="vertical">
+        <div *nzSpaceItem>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" nz-input placeholder="Search by title, author..." [(ngModel)]="filterText" (input)="debouncedHTTPRequest()" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" nzSearch>Search</button>
+            </ng-template>
+        </div>
+        <div *nzSpaceItem>
+            <nz-table
+                #borderedTable
+                nzBordered
+                nzTableLayout="fixed"
+                [nzFrontPagination]="false"
+                [nzTotal]="totalCommonUser"
+                [nzData]="commonUserList"
+                [nzPageSize]="pageSize"
+                [nzPageIndex]="pageIndex"
+                [nzNoResult]="emptyDataTemplate"
+                [nzPageSizeOptions]="pageSizeOptions"
+                [nzShowSizeChanger]="true"
+                [nzLoading]="tableLoading"
+                (nzPageIndexChange)="updatePageIndex($event)"
+                (nzPageSizeChange)="updatePageSize($event)"
+            >
+                <ng-template #emptyDataTemplate>
+                    <nz-empty></nz-empty>
+                </ng-template>
+                <thead>
+                    <tr>
+                        <th nzEllipsis>Username</th>
+                        <th nzWidth="150px">Name</th>
+                        <th nzWidth="130px">Comments number</th>
+                        <th nzWidth="150px">Id</th>
+                        <th nzWidth="200px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of commonUserList; index as i">
+                        <td nzEllipsis>
+                            <h5 nz-typography nzEllipsis>{{ user.username }}</h5>
+                        </td>
+                        <td nzEllipsis>
+                            <span nz-typography nzType="secondary">{{ user.name }}</span>
+                        </td>
+                        <td nzEllipsis>
+                            <span nz-typography nzType="secondary">{{ user.profileComments.length }}</span>
+                        </td>
+                        <td nzEllipsis>
+                            <span nz-typography nzType="secondary">{{ user.id }}</span>
+                        </td>
+                        <td>
+                            <nz-space>
+                                <button
+                                    *nzSpaceItem
+                                    nz-button
+                                    nzType="primary"
+                                    nzDanger
+                                    nz-popconfirm
+                                    nzPopconfirmTitle="Are you sure to delete this common User?"
+                                    (nzOnConfirm)="deleteCommonUser(user.id)"
+                                    [nzSize]="'small'"
+                                >
+                                    <i nz-icon nzType="delete"></i>
+                                    Delete
+                                </button>
+                            </nz-space>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </nz-space>
+</nz-card>

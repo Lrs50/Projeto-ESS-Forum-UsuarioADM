@@ -1,6 +1,6 @@
 import { Comment, User } from '../../../common/types'
 import { readFileSync, promises } from 'fs'
-import Path from 'path'
+import Path, { resolve } from 'path'
 import AppConfig from '../app.config.json'
 
 // Definição da classe da database que vai ler e escrever no arquivo data.json
@@ -19,6 +19,7 @@ class UsersDB {
         if (AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD') {
             this.path = './data.json'
         } else {
+            //eh necessario apagar tudo dentro do arquivo e colocar pra o conteudo ser apenas []
             this.path = './data.test.json'
         }
 
@@ -37,6 +38,18 @@ class UsersDB {
     getSize(): number {
         return this.db.size
     }
+    getCommonSize(): number {
+        var a: User[] = MapValuesToArray(this.db)
+        a = a.filter(a => a.type == 'User')
+        return a.length
+    }
+
+    getAdminSize(): number{
+        var users: User[] = MapValuesToArray(this.db)
+        const result = users.filter(user => user.type == 'Admin')
+
+        return result.length
+    }
 
     login(username: string, password: string): User | undefined {
         let find: User | undefined = undefined
@@ -50,6 +63,104 @@ class UsersDB {
         })
 
         return find
+    }
+    //USUARIO COMUM
+    getUserCommon(id: string): User | undefined {
+        var a: User[] = MapValuesToArray(this.db)
+        const result = a.filter(a => a.id == id && a.type == 'User')
+        if(result.length == 1){
+            return result[0]
+        }else{
+            return undefined
+        }
+        
+    }
+
+    getAllCommonUser(): User[] {
+        var a: User[] = MapValuesToArray(this.db)
+        const result = a.filter(a => a.type == 'User')
+        return result  
+        
+    }
+   
+    deleteCommonUser(id: string): Promise<Boolean>{
+        var a: User[] = MapValuesToArray(this.db)
+        const commonUser = a.filter(a => a.id == id)
+        if(commonUser.length == 1){
+            if(commonUser[0].type == 'User'){
+                let find: Boolean = this.db.delete(id)
+
+                if (find == false) {
+                    return new Promise<Boolean>((resolve, reject) => {
+                    resolve(false)
+                    })
+                }
+            }
+        }
+        
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
+             
+       
+    }
+
+    getUserAdmin(id: string): User | undefined {
+        var users: User[] = MapValuesToArray(this.db)
+        const result = users.filter(user => user.id == id && user.type == 'Admin')
+        if(result.length == 1){
+            return result[0]
+        }else{
+            return undefined
+        }
+        
+    }
+
+    getAllAdminUsers(): User[] {
+        var users: User[] = MapValuesToArray(this.db)
+        const result = users.filter(user => user.type == 'Admin')
+        return result  
+        
+    }
+
+    deleteAdminUser(id: string): Promise<Boolean>{
+        let find: User | undefined = this.db.get(id)
+    
+        if (find == undefined || find.type != 'Admin'){
+            return new Promise<Boolean>((resolve, reject) => {
+                resolve(false)
+            })
+        }
+
+        let remove: Boolean = this.db.delete(id)
+
+        if (remove == false) {
+            return new Promise<Boolean>((resolve, reject) => {
+                resolve(false)
+            })
+        }
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
+             
+    }
+
+    editAdminUser(user: User): Promise<Boolean> {
+        let find: User | undefined = this.db.get(user.id)
+
+        if (user.type != 'Admin' || find == undefined || find.type != 'Admin') {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, user)
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result
     }
 
     getUser(id: string): User | undefined {
