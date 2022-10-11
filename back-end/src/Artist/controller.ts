@@ -165,3 +165,29 @@ export function editArtist(request: Request, response: Response): void {
 
     return
 }
+
+export function addMention(request: Request, response: Response): void {
+    log.info('AddMention request received')
+
+    const valid = validator(['id', 'mentions'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: ArtistsDB = new ArtistsDB()
+
+    let addMention: Promise<Boolean> = db.addMention(request.body.id, request.body.mentions)
+
+    addMention.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}

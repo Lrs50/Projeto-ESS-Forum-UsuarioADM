@@ -1,13 +1,1 @@
-[
-    [
-        "joaogomes",
-        {
-            "id": "joaogomes",
-            "name": "João Gomes",
-            "mentions": 0,
-            "type": "Singer",
-            "cover": "https://diariodonordeste.verdesmares.com.br/image/contentid/policy:1.3107311:1625752444/Primeira-apresentac-o-de-Jo-o-Gomes.jpg?f=16x9&h=720&q=0.8&w=1280&$p$f$h$q$w=2aef40a",
-            "description": "Leonino, João Gomes nasceu em 31 de julho de 2002, na cidade de Serrita, no interior do Pernambuco, porém cresceu em Petrolina, uma das principais cidades do estado, onde desde os sete anos já participava do coral da igreja."
-        }
-    ]
-]
+[["joaogomes",{"id":"joaogomes","name":"João Gomes","mentions":1,"type":"Singer","cover":"https://diariodonordeste.verdesmares.com.br/image/contentid/policy:1.3107311:1625752444/Primeira-apresentac-o-de-Jo-o-Gomes.jpg?f=16x9&h=720&q=0.8&w=1280&$p$f$h$q$w=2aef40a","description":"Leonino, João Gomes nasceu em 31 de julho de 2002, na cidade de Serrita, no interior do Pernambuco, porém cresceu em Petrolina, uma das principais cidades do estado, onde desde os sete anos já participava do coral da igreja."}]]

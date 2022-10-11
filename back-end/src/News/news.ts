@@ -108,27 +108,7 @@ class NewsDB {
         }
 
         function compareNewest(a: News, b: News): number {
-            function computeScore(timeStr: string): number {
-                let match: string[] = timeStr.split(' ')
-
-                let score: number = 0
-
-                let date: string[] = match[0].split('/')
-                let hour: string[] = match[1].split(':')
-
-                score += parseFloat(hour[1]) / 60
-                score += parseFloat(hour[0])
-                score += parseFloat(date[0]) * 24
-                score += parseFloat(date[1]) * 24 * 30
-                score += parseFloat(date[2]) * 24 * 30 * 12
-
-                return score
-            }
-
-            let scoreA: number = computeScore(a.date)
-            let scoreB: number = computeScore(b.date)
-
-            if (scoreA > scoreB) {
+            if (a.date > b.date) {
                 return -1
             } else {
                 return 1
@@ -373,6 +353,25 @@ class NewsDB {
         this.db.set(find.id, {
             ...find,
         })
+
+        let result: Promise<Boolean> = this.saveNews()
+
+        return result
+    }
+
+    updateLastActivity(id: string, lastActivity: number): Promise<Boolean> {
+        let find: News | undefined = this.db.get(id)
+
+        if (find == undefined) {
+            return new Promise<Boolean>((resolve) => {
+                resolve(false)
+            })
+        }
+
+        this.db.set(find.id, {
+            ...find,
+            lastActivity: lastActivity,
+        } as News)
 
         let result: Promise<Boolean> = this.saveNews()
 

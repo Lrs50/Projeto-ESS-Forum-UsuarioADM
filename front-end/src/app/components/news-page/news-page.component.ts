@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { News, ApiResponse, User, Like, Comment, emptyUser, emptyNews, Artist } from '../../../../../common/types'
 import { NewsManagementService } from 'src/app/services/news-management.service'
 import { ActivatedRoute, Router } from '@angular/router'
-import { imageFallBack } from '../../../util'
+import { imageFallBack, ParseDate } from '../../../util'
 import { firstValueFrom, map, Observable, Subscription, take } from 'rxjs'
 import { Store } from '@ngrx/store'
 import { AppState } from 'src/app/app.store'
@@ -18,6 +18,7 @@ import { ArtistService } from 'src/app/services/artist.service'
 })
 export class NewsPageComponent implements OnInit {
     imgFall: string = imageFallBack
+    parseDate = ParseDate
 
     hasUserLikedTheNews: boolean = false
 
@@ -150,7 +151,7 @@ export class NewsPageComponent implements OnInit {
         if (liked) {
             this.hasUserLikedTheNews = false
 
-            this.newsManagementService.removeLike(this.news.id, userId).subscribe((res: ApiResponse) => {
+            this.newsManagementService.removeLike(this.news.id, userId).subscribe(async (res: ApiResponse) => {
                 if (res.status != 200) {
                     this.message.create('error', `Something went wrong!`)
                 } else {
@@ -161,16 +162,20 @@ export class NewsPageComponent implements OnInit {
                         }
                     }
                 }
+
+                await firstValueFrom(this.newsManagementService.updateLastActivity(this.news.id))
             })
         } else {
             this.hasUserLikedTheNews = true
 
-            this.newsManagementService.addLike(this.news.id, userId).subscribe((res: ApiResponse) => {
+            this.newsManagementService.addLike(this.news.id, userId).subscribe(async (res: ApiResponse) => {
                 if (res.status != 200) {
                     this.message.create('error', `Something went wrong!`)
                 } else {
                     this.news.likes.push(userId)
                 }
+
+                await firstValueFrom(this.newsManagementService.updateLastActivity(this.news.id))
             })
         }
     }
@@ -189,11 +194,13 @@ export class NewsPageComponent implements OnInit {
                 dislikes: [],
             }
 
-            this.newsManagementService.addComment(this.news.id, temp).subscribe((res: ApiResponse) => {
+            this.newsManagementService.addComment(this.news.id, temp).subscribe(async (res: ApiResponse) => {
                 if (res.status == 200) {
                     this.news.comments.unshift(temp)
                     this.commentContent = ''
                     this.message.create('success', `Comment added!`)
+
+                    await firstValueFrom(this.newsManagementService.updateLastActivity(this.news.id))
                 } else {
                     this.message.create('error', `Something went wrong!`)
                 }
@@ -202,7 +209,7 @@ export class NewsPageComponent implements OnInit {
     }
 
     removeComment(id: string): void {
-        this.newsManagementService.removeComment(this.news.id, id).subscribe((res: ApiResponse) => {
+        this.newsManagementService.removeComment(this.news.id, id).subscribe(async (res: ApiResponse) => {
             if (res.status == 200) {
                 for (let i = 0; i < this.news.comments.length; i++) {
                     if (this.news.comments[i].id == id) {
@@ -210,6 +217,8 @@ export class NewsPageComponent implements OnInit {
                         break
                     }
                 }
+
+                await firstValueFrom(this.newsManagementService.updateLastActivity(this.news.id))
 
                 this.message.create('success', `Comment removed!`)
             } else {
@@ -242,10 +251,11 @@ export class NewsPageComponent implements OnInit {
 
             this.newsManagementService
                 .removeLikeInComment(this.news.id, this.news.comments[commentIndex].id, userId)
-                .subscribe((res: ApiResponse) => {
+                .subscribe(async (res: ApiResponse) => {
                     if (res.status != 200) {
                         this.message.create('error', `Something went wrong!`)
                     } else {
+                        await firstValueFrom(this.newsManagementService.updateLastActivity(this.news.id))
                         this.news.comments[commentIndex].likes.splice(findIndex, 1)
                     }
                 })
@@ -256,13 +266,16 @@ export class NewsPageComponent implements OnInit {
 
             this.hasUserLikedIComment[commentIndex] = true
 
-            this.newsManagementService.addLikeInComment(this.news.id, this.news.comments[commentIndex].id, userId).subscribe((res: ApiResponse) => {
-                if (res.status != 200) {
-                    this.message.create('error', `Something went wrong!`)
-                } else {
-                    this.news.comments[commentIndex].likes.push(userId)
-                }
-            })
+            this.newsManagementService
+                .addLikeInComment(this.news.id, this.news.comments[commentIndex].id, userId)
+                .subscribe(async (res: ApiResponse) => {
+                    if (res.status != 200) {
+                        this.message.create('error', `Something went wrong!`)
+                    } else {
+                        await firstValueFrom(this.newsManagementService.updateLastActivity(this.news.id))
+                        this.news.comments[commentIndex].likes.push(userId)
+                    }
+                })
         }
     }
 
@@ -290,11 +303,12 @@ export class NewsPageComponent implements OnInit {
 
             this.newsManagementService
                 .removeDislikeInComment(this.news.id, this.news.comments[commentIndex].id, userId)
-                .subscribe((res: ApiResponse) => {
+                .subscribe(async (res: ApiResponse) => {
                     if (res.status != 200) {
                         this.message.create('error', `Something went wrong!`)
                     } else {
                         this.news.comments[commentIndex].dislikes.splice(findIndex, 1)
+                        await firstValueFrom(this.newsManagementService.updateLastActivity(this.news.id))
                     }
                 })
         } else {
@@ -306,11 +320,12 @@ export class NewsPageComponent implements OnInit {
 
             this.newsManagementService
                 .addDislikeInComment(this.news.id, this.news.comments[commentIndex].id, userId)
-                .subscribe((res: ApiResponse) => {
+                .subscribe(async (res: ApiResponse) => {
                     if (res.status != 200) {
                         this.message.create('error', `Something went wrong!`)
                     } else {
                         this.news.comments[commentIndex].dislikes.push(userId)
+                        await firstValueFrom(this.newsManagementService.updateLastActivity(this.news.id))
                     }
                 })
         }
