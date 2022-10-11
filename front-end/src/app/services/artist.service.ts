@@ -27,6 +27,10 @@ export class ArtistService {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'all')
     }
 
+    getPage(pageId: number, ArtistPerPage: number, filterTerm: string): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>(this.baseUrl + `page/${pageId}/${ArtistPerPage}/${filterTerm}`)
+    }
+
     getArtistsSize(): Observable<ApiResponse> {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
     }

@@ -8,7 +8,7 @@
     <nz-space class="wfull" nzDirection="vertical">
         <div *nzSpaceItem>
             <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                <input type="text" nz-input placeholder="Search by title, author..." [(ngModel)]="filterText"
+                <input type="text" nz-input placeholder="Search by name, type..." [(ngModel)]="filterText"
                     (input)="debouncedHTTPRequest()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
@@ -21,7 +21,7 @@
                 nzBordered 
                 nzTableLayout="fixed" 
                 [nzFrontPagination]="false" 
-                [nzTotal]="totalNews"
+                [nzTotal]="totalArtist"
                 [nzData]="artistList" 
                 [nzPageSize]="pageSize" 
                 [nzPageIndex]="pageIndex" 

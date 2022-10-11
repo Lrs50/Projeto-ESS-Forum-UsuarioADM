@@ -53,6 +53,7 @@ app.delete('/userremove/comment', UsersController.removeComment)
 
 app.get('/artist/:id', ArtistsController.getArtist)
 app.get('/artistall', ArtistsController.getAllArtists)
+app.get('/artistpage/:pageId/:artistPerPage/:filterTerm?', ArtistsController.getArtistPage)
 app.get('/artistsize', ArtistsController.getArtistsSize)
 app.post('/artist', ArtistsController.createArtist)
 app.put('/artist', ArtistsController.editArtist)
