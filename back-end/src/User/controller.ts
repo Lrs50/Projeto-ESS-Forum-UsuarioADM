@@ -103,7 +103,6 @@ export function deleteCommonUser(request: Request, response: Response): void {
     }
 
     let db: UsersDB = new UsersDB()
-    //refactioring
     let removeComment: Promise<Boolean> = db.deleteCommonUser(request.params.id)
 
     removeComment.then((result: Boolean) => {
@@ -113,6 +112,28 @@ export function deleteCommonUser(request: Request, response: Response): void {
             response.send(HTTP_ERROR)
         }
     })
+
+    return
+}
+
+export function getCommonUsersSize(request: Request, response: Response): void {
+    log.info('GetCommonUsersSize request received')
+    
+    const valid = validator([], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: number = db.getCommonSize()
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
 
     return
 }

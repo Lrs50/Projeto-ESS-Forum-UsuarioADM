@@ -38,6 +38,11 @@ class UsersDB {
     getSize(): number {
         return this.db.size
     }
+    getCommonSize(): number {
+        var a: User[] = MapValuesToArray(this.db)
+        a = a.filter(a => a.type == 'User')
+        return a.length
+    }
 
     login(username: string, password: string): User | undefined {
         let find: User | undefined = undefined
@@ -70,15 +75,22 @@ class UsersDB {
         return result  
         
     }
-   // removeComment(newsId: string, commentId: string): Promise<Boolean>
+   
     deleteCommonUser(id: string): Promise<Boolean>{
-        let find: Boolean = this.db.delete(id)
+        var a: User[] = MapValuesToArray(this.db)
+        const commonUser = a.filter(a => a.id == id)
+        if(commonUser.length == 1){
+            if(commonUser[0].type == 'User'){
+                let find: Boolean = this.db.delete(id)
 
-        if (find == false) {
-            return new Promise<Boolean>((resolve, reject) => {
-                resolve(false)
-            })
+                if (find == false) {
+                    return new Promise<Boolean>((resolve, reject) => {
+                    resolve(false)
+                    })
+                }
+            }
         }
+        
 
         let result: Promise<Boolean> = this.saveUsers()
 
