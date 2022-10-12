@@ -57,13 +57,6 @@ defineSupportCode(function ({ Given, When, Then }) {
         await element(by.buttonText("OK")).click();
     });
 
-    Then(/^Nao consigo ver o usuário "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
-        browser.driver.sleep(1000);
-        browser.waitForAngular();
-        await expect(browser.getTitle()).to.eventually.equal('ReviReli');
-        var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
-        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
-        await assertTamanhoEqual(samecpfsandname,0)
-    });
+    
 
 })

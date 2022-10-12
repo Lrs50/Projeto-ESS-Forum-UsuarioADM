@@ -9,4 +9,3 @@ Scenario: Remoção bem sucedida de um usuário comum existente no sistema.
 	Given O Usuário comum "marcelo" com id "marcelo" está cadastrado no sistema
 	When Eu removo o usuário comum "marcelo" com id "marcelo" 
 	Then Nao consigo ver o usuário "marcelo" com id "marcelo"
-

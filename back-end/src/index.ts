@@ -62,11 +62,9 @@ app.put('/artistadd/mention', ArtistsController.addMention)
 
 app.delete('/artist/:id', ArtistsController.deleteArtist)
 
-//Featura deletar usuario common
 app.get('/commonUser/:id', UsersController.getUserCommon)
 app.get('/commonAll', UsersController.getAllCommonUser)
 app.delete('/commonUser/:id', UsersController.deleteCommonUser)
-
 app.get('/adminUser/:id', UsersController.getUserAdmin)
 app.get('/adminAll', UsersController.getAllAdminUsers)
 app.put('/adminUser', UsersController.editAdminUser)
