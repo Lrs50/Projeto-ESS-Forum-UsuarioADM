@@ -44,9 +44,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of commonUserList; index as i">
+                    <tr *ngFor="let user of commonUserList" name="commonUserList">
                         <td nzEllipsis>
-                            <h5 nz-typography nzEllipsis>{{ user.username }}</h5>
+                            <h5 nz-typography nzEllipsis name="nomelist">{{ user.username }}</h5>
                         </td>
                         <td nzEllipsis>
                             <span nz-typography nzType="secondary">{{ user.name }}</span>
@@ -55,11 +55,12 @@
                             <span nz-typography nzType="secondary">{{ user.profileComments.length }}</span>
                         </td>
                         <td nzEllipsis>
-                            <span nz-typography nzType="secondary">{{ user.id }}</span>
+                            <span nz-typography nzType="secondary" name="cpflist">{{ user.id }}</span>
                         </td>
                         <td>
                             <nz-space>
                                 <button
+                                    name = delete1
                                     *nzSpaceItem
                                     nz-button
                                     nzType="primary"

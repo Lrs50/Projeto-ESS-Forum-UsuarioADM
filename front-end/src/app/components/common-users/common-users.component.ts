@@ -75,7 +75,7 @@ export class CommonUsersComponent implements OnInit {
 
       this.getCommonUserPage()
   }
-//refactoring
+
   getCommonUserPage() {
       this.tableLoading = true
 
