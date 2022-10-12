@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiResponse, Artist, News } from '../../../../../common/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
-import { NewsManagementService } from 'src/app/services/news-management.service'
 import { imageFallBack } from 'src/util'
 import { Store } from '@ngrx/store'
 import { AppState, addToArtistCount } from 'src/app/app.store'
