@@ -108,9 +108,9 @@ export class ArtistsManagementComponent implements OnInit {
                 this.getArtistPage()
                 this.store.dispatch(addToArtistCount({ payload: -1 }))
 
-                this.message.create('success', `News deleted successfully!`)
+                this.message.create('success', `Artist deleted successfully!`)
             } else {
-                this.message.create('error', `Failed to delete the news!`)
+                this.message.create('error', `Failed to delete the artist!`)
             }
         })
     }

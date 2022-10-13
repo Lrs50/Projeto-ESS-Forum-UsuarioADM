@@ -99,7 +99,7 @@ export class ArtistsCreateComponent implements OnInit {
 
     this.artistService.create(temp).subscribe((res: ApiResponse) => {
         if (res.status == 200) {
-            this.message.create('success', `New news created successfully!`)
+            this.message.create('success', `New artist created successfully!`)
             this.store.dispatch(addToArtistCount({ payload: 1 }))
             this.router.navigateByUrl('/home/artist/' + temp.id)
         } else {
