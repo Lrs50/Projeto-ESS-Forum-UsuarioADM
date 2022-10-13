@@ -103,7 +103,8 @@ export class ArtistsManagementComponent implements OnInit {
     onDeleteArtist(id: string): void {
         let find: number = this.findIndexFromArtistList(id)
 
-        this.artistService.delete(id).subscribe(async (res: ApiResponse) => {
+        if(this.artistList[find].mentions == 0){
+            this.artistService.delete(id).subscribe(async (res: ApiResponse) => {
             if (res.status == 200) {
                 this.getArtistPage()
                 this.store.dispatch(addToArtistCount({ payload: -1 }))
@@ -112,7 +113,12 @@ export class ArtistsManagementComponent implements OnInit {
             } else {
                 this.message.create('error', `Failed to delete the artist!`)
             }
-        })
+            })
+        } else {
+            this.message.create('error', `Failed to delete the artist due to a news mentioning him!`)
+        }
+
+        
     }
 
 }
