@@ -25,13 +25,15 @@ async function assertTamanhoEqual(set,n) {
 
 
 defineSupportCode(function ({ Given, When, Then }) {
-    Given(/^Eu estou logado como usuário "([^\"]*)" com senha "([^\"]*)"$/, async (user,passw) => {
+    Given(/^Eu estou logado como usuário adm "([^\"]*)" com senha "([^\"]*)"$/, async (user,passw) => {
         await browser.get("http://localhost:4200/home/news");
         await expect(browser.getTitle()).to.eventually.equal('ReviReli');
-        await element(by.id("login")).click();
-        await $("input[name='UserSpace']").sendKeys(<string> user);
-        await $("input[name='CpfBox']").sendKeys(<string> passw);
-        await element(by.id("logButton")).click();
+        if(await element(by.id("login")).isPresent()){
+            await element(by.id("login")).click();
+            await $("input[name='UserSpace']").sendKeys(<string> user);
+            await $("input[name='CpfBox']").sendKeys(<string> passw);
+            await element(by.id("logButton")).click();
+        }
     })
     
     Given(/^Eu estou na pagina UsersManagement$/, async () => {
@@ -43,11 +45,11 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     Given(/^O Usuário comum "([^\"]*)" com id "([^\"]*)" está cadastrado no sistema$/, async (user, id) => {
+        await element(by.id("create2")).click();
         var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
         var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
         await assertTamanhoEqual(samecpfsandname,1);   
     });
-
     When(/^Eu removo o usuário comum "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
         browser.driver.sleep(1000);
         browser.waitForAngular();
@@ -57,6 +59,27 @@ defineSupportCode(function ({ Given, When, Then }) {
         await element(by.buttonText("OK")).click();
     });
 
+    Then(/^Nao consigo ver o usuário "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
+        var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
+        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
+        await assertTamanhoEqual(samecpfsandname,0);  
+    });
+
+    //scenario 2
+    Given(/^O Usuário comum "([^\"]*)" com id "([^\"]*)" não está cadastrado no sistema$/, async (user, id) => {
+        var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
+        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
+        await assertTamanhoEqual(samecpfsandname,0);   
+    });
+    
+    When(/^Eu tento remover o usuário comum "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
+        browser.driver.sleep(1000);
+        browser.waitForAngular();
+        var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
+        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)))
+        await samecpfsandname.map(elem => expect(elem.element(by.name('delete1')).isPresent()).to.equal(false))
+        
+    });
     
 
 })
