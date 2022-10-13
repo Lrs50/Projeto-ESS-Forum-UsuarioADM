@@ -43,12 +43,13 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     Given(/^O Usuário comum "([^\"]*)" com id "([^\"]*)" está cadastrado no sistema$/, async (user, id) => {
+        await element(by.id("create2")).click();
         var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
         var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
         await assertTamanhoEqual(samecpfsandname,1);   
     });
 
-    When(/^Eu removo o usuário comum "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
+    Then(/^Eu removo o usuário comum "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
         browser.driver.sleep(1000);
         browser.waitForAngular();
         var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
