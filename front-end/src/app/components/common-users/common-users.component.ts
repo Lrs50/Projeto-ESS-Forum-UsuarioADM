@@ -112,6 +112,31 @@ export class CommonUsersComponent implements OnInit {
   createFakeUser(){
     
     var fakeUser: User= {
+        id: 'fake-id',
+        username: 'fake-username',
+        name: 'fake-name',
+        aboutme:'fake-aboutme',
+        password:'fake-password',
+        type:'User',
+        cover:'fake-cover',
+        avatar:'fake-avatar',
+        profileComments:[],
+    }
+    
+    this.UserService.create(fakeUser).subscribe((res: ApiResponse) =>{
+        if (res.status == 200) {
+            this.getCommonUserPage()
+        }else {
+            //this.commonUserList =[]  
+            this.router.navigateByUrl('/error')
+          }
+    })
+    
+
+  }
+  createFakeUserGenericaly(){
+    
+    var fakeUser: User= {
         id: 'fake-id' + this.counter,
         username: 'fake-username' + this.counter,
         name: 'fake-name' + this.counter,
@@ -133,7 +158,6 @@ export class CommonUsersComponent implements OnInit {
           }
     })
     
-
   }
 
   findIndexFromFilteredList(id: string): number {
