@@ -19,17 +19,15 @@
         <h3 *nzSpaceItem nz-typography><strong>Types</strong></h3>
         <nz-select
             *nzSpaceItem
-            [nzMaxTagCount]="5"
-            [nzMaxTagPlaceholder]="tagPlaceHolder"
-            nzMode="tags"
-            nzPlaceHolder="Select the types"
             [(ngModel)]="artist.type"
             style="width: 70%"
+            nzPlaceHolder="Select the type!"
+            nzAllowClear
+            [nzDropdownRender]="renderTemplate"
         >
-            <nz-option *ngFor="let tag of avaliableTypes" [nzLabel]="tag" [nzValue]="tag"></nz-option>
+            <nz-option *ngFor="let type of avaliableTypes" [nzLabel]="type" [nzValue]="type"></nz-option>
         </nz-select>
-
-        <ng-template #tagPlaceHolder let-selectedList>and {{ artist.type.length }} more selected</ng-template>
+            <ng-template #renderTemplate></ng-template>
 
         <span
             *nzSpaceItem

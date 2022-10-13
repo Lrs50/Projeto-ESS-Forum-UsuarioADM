@@ -40,6 +40,54 @@ export function getArtist(request: Request, response: Response): void {
     return
 }
 
+export function getArtistPage(request: Request, response: Response): void {
+    log.info('GetArtistPage request received')
+
+    const valid = validator(['pageId', 'artistPerPage', 'filterTerm'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let pageId: number = parseInt(request.params.pageId)
+    let artistPerPage: number = parseInt(request.params.artistPerPage)
+    let filterTerm: string = request.params.filterTerm
+
+    let db: ArtistsDB = new ArtistsDB()
+    let result: Artist[] = db.getArtistPage(pageId, artistPerPage, filterTerm)
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
+
+    return
+}
+
+export function getArtistSize(request: Request, response: Response): void {
+    log.info('GetArtistSize request received')
+
+    const valid = validator([], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: ArtistsDB = new ArtistsDB()
+    let result: number = db.getSize()
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
+
+    return
+}
+
 export function deleteArtist(request: Request, response: Response): void {
     log.info('Delete artist request received')
 

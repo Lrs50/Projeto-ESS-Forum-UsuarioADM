@@ -18,15 +18,16 @@ import { ArtistService } from 'src/app/services/artist.service'
 export class CommonUsersComponent implements OnInit {
 
   imageFall: string = imageFallBack
+  
   commonUserList: User[] = []
-
+    
   tableLoading: boolean = false
 
   pageSizeOptions: number[] = [10, 20, 30, 40]
   pageSize: number = 10
   pageIndex: number = 1
   totalCommonUser: number = 1
-
+  counter: number= 0
   filterText: string = ''
 
   mentionedArtistsNamesInNews: string[][] = []
@@ -37,9 +38,7 @@ export class CommonUsersComponent implements OnInit {
       private message: NzMessageService,
       private newsManagementService: NewsManagementService,
       private UserService: UsersService,
-      private store: Store<{ app: AppState }>,
       private router: Router,
-      private artistService: ArtistService
   ) {
       this.getCommonUserPage()
   }
@@ -75,7 +74,8 @@ export class CommonUsersComponent implements OnInit {
 
       this.getCommonUserPage()
   }
-//refactoring
+
+  
   getCommonUserPage() {
       this.tableLoading = true
 
@@ -107,6 +107,57 @@ export class CommonUsersComponent implements OnInit {
 
           this.tableLoading = false
       })
+  }
+
+  createFakeUser(){
+    
+    var fakeUser: User= {
+        id: 'fake-id',
+        username: 'fake-username',
+        name: 'fake-name',
+        aboutme:'fake-aboutme',
+        password:'fake-password',
+        type:'User',
+        cover:'fake-cover',
+        avatar:'fake-avatar',
+        profileComments:[],
+    }
+    
+    this.UserService.create(fakeUser).subscribe((res: ApiResponse) =>{
+        if (res.status == 200) {
+            this.getCommonUserPage()
+        }else {
+            //this.commonUserList =[]  
+            this.router.navigateByUrl('/error')
+          }
+    })
+    
+
+  }
+  createFakeUserGenericaly(){
+    
+    var fakeUser: User= {
+        id: 'fake-id' + this.counter,
+        username: 'fake-username' + this.counter,
+        name: 'fake-name' + this.counter,
+        aboutme:'fake-aboutme',
+        password:'fake-password',
+        type:'User',
+        cover:'fake-cover',
+        avatar:'fake-avatar',
+        profileComments:[],
+    }
+    this.counter +=1
+    
+    this.UserService.create(fakeUser).subscribe((res: ApiResponse) =>{
+        if (res.status == 200) {
+            this.getCommonUserPage()
+        }else {
+            //this.commonUserList =[]  
+            this.router.navigateByUrl('/error')
+          }
+    })
+    
   }
 
   findIndexFromFilteredList(id: string): number {
