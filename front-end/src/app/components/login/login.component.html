@@ -7,13 +7,13 @@
                     <span *nzSpaceItem nz-typography nzType="secondary">Please insert your user information.</span>
                     <span *nzSpaceItem nz-typography>Username</span>
                     <nz-input-group *nzSpaceItem nzPrefixIcon="user" [nzStatus]="usernameInputStatus">
-                        <input type="text" nz-input placeholder="Username" [(ngModel)]="username" />
+                        <input name=UserSpace type="text" nz-input placeholder="Username" [(ngModel)]="username" />
                     </nz-input-group>
                     <span *nzSpaceItem nz-typography>Password</span>
                     <nz-input-group *nzSpaceItem nzPrefixIcon="lock" [nzStatus]="passwordInputStatus">
-                        <input type="password" nz-input placeholder="Password" [(ngModel)]="password" />
+                        <input name=CpfBox type="password" nz-input placeholder="Password" [(ngModel)]="password" />
                     </nz-input-group>
-                    <button *nzSpaceItem nz-button nzType="primary" nzBlock (click)="login()">Log in</button>
+                    <button id=logButton *nzSpaceItem nz-button nzType="primary" nzBlock (click)="login()">Log in</button>
                     <span *nzSpaceItem nz-typography nzType="secondary">
                         Don't have an account? consider to
                         <span nz-typography>
