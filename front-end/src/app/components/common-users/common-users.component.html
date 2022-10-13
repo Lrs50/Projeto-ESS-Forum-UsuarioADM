@@ -1,6 +1,6 @@
 <nz-card class="base-card" nzTitle="Common User Management" [nzExtra]="extraContentTemplate">
     <ng-template #extraContentTemplate>
-        <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
+        <button nz-button nzType="primary" (click)="createFakeUser()" [nzSize]="'large'">
             <i nz-icon nzType="plus-square"></i>
             Create
         </button>

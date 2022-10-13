@@ -18,8 +18,9 @@ import { ArtistService } from 'src/app/services/artist.service'
 export class CommonUsersComponent implements OnInit {
 
   imageFall: string = imageFallBack
+  
   commonUserList: User[] = []
-
+    
   tableLoading: boolean = false
 
   pageSizeOptions: number[] = [10, 20, 30, 40]
@@ -76,6 +77,7 @@ export class CommonUsersComponent implements OnInit {
       this.getCommonUserPage()
   }
 
+  
   getCommonUserPage() {
       this.tableLoading = true
 
@@ -107,6 +109,31 @@ export class CommonUsersComponent implements OnInit {
 
           this.tableLoading = false
       })
+  }
+
+  createFakeUser(){
+    
+    var fakeUser: User= {
+        id: 'fake-id',
+        username: 'fake-username',
+        name: 'fake-name',
+        aboutme:'fake-aboutme',
+        password:'fake-password',
+        type:'User',
+        cover:'fake-cover',
+        avatar:'fake-avatar',
+        profileComments:[],
+    }
+    this.UserService.create(fakeUser).subscribe((res: ApiResponse) =>{
+        if (res.status == 200) {
+            this.getCommonUserPage()
+        }else {
+            //this.commonUserList =[]  
+            this.router.navigateByUrl('/error')
+          }
+    })
+    
+
   }
 
   findIndexFromFilteredList(id: string): number {
