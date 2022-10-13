@@ -27,7 +27,7 @@ export class CommonUsersComponent implements OnInit {
   pageSize: number = 10
   pageIndex: number = 1
   totalCommonUser: number = 1
-
+  counter: number= 0
   filterText: string = ''
 
   mentionedArtistsNamesInNews: string[][] = []
@@ -38,9 +38,7 @@ export class CommonUsersComponent implements OnInit {
       private message: NzMessageService,
       private newsManagementService: NewsManagementService,
       private UserService: UsersService,
-      private store: Store<{ app: AppState }>,
       private router: Router,
-      private artistService: ArtistService
   ) {
       this.getCommonUserPage()
   }
@@ -114,9 +112,9 @@ export class CommonUsersComponent implements OnInit {
   createFakeUser(){
     
     var fakeUser: User= {
-        id: 'fake-id',
-        username: 'fake-username',
-        name: 'fake-name',
+        id: 'fake-id' + this.counter,
+        username: 'fake-username' + this.counter,
+        name: 'fake-name' + this.counter,
         aboutme:'fake-aboutme',
         password:'fake-password',
         type:'User',
@@ -124,6 +122,8 @@ export class CommonUsersComponent implements OnInit {
         avatar:'fake-avatar',
         profileComments:[],
     }
+    this.counter +=1
+    
     this.UserService.create(fakeUser).subscribe((res: ApiResponse) =>{
         if (res.status == 200) {
             this.getCommonUserPage()
