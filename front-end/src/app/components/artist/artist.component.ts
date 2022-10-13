@@ -86,32 +86,5 @@ export class ArtistComponent implements OnInit {
           this.tableLoading = false
       })
   }
-
-  findIndexFromArtistList(id: string): number {
-      let i: number = 0
-
-      for (; i < this.artistList.length; i++) {
-          if (this.artistList[i].id == id) {
-              return i
-          }
-      }
-
-      return i
-  }
-
-  onDeleteArtist(id: string): void {
-      let find: number = this.findIndexFromArtistList(id)
-
-      this.artistService.delete(id).subscribe(async (res: ApiResponse) => {
-          if (res.status == 200) {
-              this.getArtistPage()
-              this.store.dispatch(addToArtistCount({ payload: -1 }))
-
-              this.message.create('success', `News deleted successfully!`)
-          } else {
-              this.message.create('error', `Failed to delete the news!`)
-          }
-      })
-  }
-
+  
 }
