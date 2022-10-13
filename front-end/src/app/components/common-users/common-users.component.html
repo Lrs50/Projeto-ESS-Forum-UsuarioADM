@@ -1,6 +1,11 @@
 <nz-card class="base-card" nzTitle="Common User Management" [nzExtra]="extraContentTemplate">
     <ng-template #extraContentTemplate>
-        <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
+        <button nz-button nzType="primary" id=create1 (click)="createFakeUserGenericaly()" [nzSize]="'large'">
+            <i nz-icon nzType="plus-square"></i>
+            Create Generic
+        </button>
+        &nbsp;&nbsp;&nbsp;
+        <button nz-button nzType="primary" id=create2 (click)="createFakeUser()" [nzSize]="'large'">
             <i nz-icon nzType="plus-square"></i>
             Create
         </button>
@@ -44,9 +49,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of commonUserList; index as i">
+                    <tr *ngFor="let user of commonUserList" name="commonUserList">
                         <td nzEllipsis>
-                            <h5 nz-typography nzEllipsis>{{ user.username }}</h5>
+                            <h5 nz-typography nzEllipsis name="nomelist">{{ user.username }}</h5>
                         </td>
                         <td nzEllipsis>
                             <span nz-typography nzType="secondary">{{ user.name }}</span>
@@ -55,11 +60,12 @@
                             <span nz-typography nzType="secondary">{{ user.profileComments.length }}</span>
                         </td>
                         <td nzEllipsis>
-                            <span nz-typography nzType="secondary">{{ user.id }}</span>
+                            <span nz-typography nzType="secondary" name="cpflist">{{ user.id }}</span>
                         </td>
                         <td>
                             <nz-space>
                                 <button
+                                    name = delete1
                                     *nzSpaceItem
                                     nz-button
                                     nzType="primary"

@@ -27,11 +27,19 @@ export class ArtistService {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'all')
     }
 
+    getPage(pageId: number, ArtistPerPage: number, filterTerm: string): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>(this.baseUrl + `page/${pageId}/${ArtistPerPage}/${filterTerm}`)
+    }
+
     getArtistsSize(): Observable<ApiResponse> {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
     }
 
     delete(id: string): Observable<ApiResponse>{
-        return this.httpClient.delete<ApiResponse>(`http://localhost:3000/artist/${id}`)
+        return this.httpClient.delete<ApiResponse>(this.baseUrl + `/${id}`)
+    }
+
+    addMention(id: string, mentions: number): Observable<ApiResponse> {
+        return this.httpClient.put<ApiResponse>(this.baseUrl + 'add/mention', { id, mentions })
     }
 }
