@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiResponse, Artist, News } from '../../../../../common/types'
-import { NzMessageService } from 'ng-zorro-antd/message'
+import { ApiResponse, Artist } from '../../../../../common/types'
 import { imageFallBack } from 'src/util'
-import { Store } from '@ngrx/store'
-import { AppState, addToArtistCount } from 'src/app/app.store'
 import { Router } from '@angular/router'
 import { ArtistService } from 'src/app/services/artist.service'
 
@@ -31,8 +28,6 @@ export class ArtistComponent implements OnInit {
   debounceTimer: any
 
   constructor(
-      private message: NzMessageService,
-      private store: Store<{ app: AppState }>,
       private router: Router,
       private artistService: ArtistService
   ) {

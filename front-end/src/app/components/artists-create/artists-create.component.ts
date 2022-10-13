@@ -6,9 +6,9 @@ import { NzStatus } from 'ng-zorro-antd/core/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { AppState } from 'src/app/app.store'
 import { NewsManagementService } from 'src/app/services/news-management.service'
-import { ApiResponse, Artist, emptyNews, News, User, defaultTags, emptyArtist, ArtistTypes } from '../../../../../common/types'
+import { ApiResponse, Artist, User, emptyArtist, ArtistTypes } from '../../../../../common/types'
 import { imageFallBack } from 'src/util'
-import { map, Observable, Subscription, take } from 'rxjs'
+import { map, Observable } from 'rxjs'
 import { addToArtistCount } from '../../app.store'
 import { ArtistService } from 'src/app/services/artist.service'
 
@@ -38,7 +38,6 @@ export class ArtistsCreateComponent implements OnInit {
   avaliableTypes: string[] = [...ArtistTypes]
 
   constructor(
-      private newsManagementService: NewsManagementService,
       private message: NzMessageService,
       private router: Router,
       private store: Store<{ app: AppState }>,
