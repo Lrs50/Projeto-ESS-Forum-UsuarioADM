@@ -57,6 +57,10 @@ class ArtistDB {
                     return true
                 }
 
+                if (artist.id.toLowerCase().includes(term)) {
+                    return true
+                }
+                
                 if (artist.type.toLowerCase().includes(term)) {
                     return true
                 }

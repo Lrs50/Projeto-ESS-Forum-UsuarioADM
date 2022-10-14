@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiResponse, Artist, News } from '../../../../../common/types'
-import { NzMessageService } from 'ng-zorro-antd/message'
+import { ApiResponse, Artist } from '../../../../../common/types'
 import { imageFallBack } from 'src/util'
-import { Store } from '@ngrx/store'
-import { AppState, addToArtistCount } from 'src/app/app.store'
 import { Router } from '@angular/router'
 import { ArtistService } from 'src/app/services/artist.service'
 
@@ -31,8 +28,6 @@ export class ArtistComponent implements OnInit {
   debounceTimer: any
 
   constructor(
-      private message: NzMessageService,
-      private store: Store<{ app: AppState }>,
       private router: Router,
       private artistService: ArtistService
   ) {
@@ -86,32 +81,5 @@ export class ArtistComponent implements OnInit {
           this.tableLoading = false
       })
   }
-
-  findIndexFromArtistList(id: string): number {
-      let i: number = 0
-
-      for (; i < this.artistList.length; i++) {
-          if (this.artistList[i].id == id) {
-              return i
-          }
-      }
-
-      return i
-  }
-
-  onDeleteArtist(id: string): void {
-      let find: number = this.findIndexFromArtistList(id)
-
-      this.artistService.delete(id).subscribe(async (res: ApiResponse) => {
-          if (res.status == 200) {
-              this.getArtistPage()
-              this.store.dispatch(addToArtistCount({ payload: -1 }))
-
-              this.message.create('success', `News deleted successfully!`)
-          } else {
-              this.message.create('error', `Failed to delete the news!`)
-          }
-      })
-  }
-
+  
 }
