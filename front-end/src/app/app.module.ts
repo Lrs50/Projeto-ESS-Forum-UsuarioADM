@@ -59,6 +59,7 @@ import {
     LikeFill,
     EyeTwoTone,
     FieldTimeOutline,
+    ToolOutline,
 } from '@ant-design/icons-angular/icons'
 import { HomeComponent } from './components/home/home.component'
 import { LoginComponent } from './components/login/login.component'
@@ -85,7 +86,9 @@ import { ArtistPageComponent } from './components/artist-page/artist-page.compon
 import { CommonUsersComponent } from './components/common-users/common-users.component'
 import { ArtistsManagementComponent } from './components/artists-management/artists-management.component'
 import { ArtistsCreateComponent } from './components/artists-create/artists-create.component'
-import { ArtistComponent } from './components/artist/artist.component'
+import { ArtistComponent } from './components/artist/artist.component';
+import { AdminManagementComponent } from './components/admin-management/admin-management.component';
+import { AdminCreateComponent } from './components/admin-create/admin-create.component'
 
 const ngZorroConfig: NzConfig = {
     theme: {
@@ -114,6 +117,7 @@ const icons: IconDefinition[] = [
     LinkOutline,
     AimOutline,
     FieldTimeOutline,
+    ToolOutline,
 ]
 
 @NgModule({
@@ -137,6 +141,8 @@ const icons: IconDefinition[] = [
         ArtistsManagementComponent,
         ArtistsCreateComponent,
         ArtistComponent,
+        AdminManagementComponent,
+        AdminCreateComponent,
     ],
     imports: [
         BrowserModule,
