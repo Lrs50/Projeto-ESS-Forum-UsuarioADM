@@ -7,21 +7,6 @@ var { setDefaultTimeout } = require("cucumber");
 setDefaultTimeout(60 * 1000);
 
 let sameId = ((elem, id) => elem.element(by.name('cpflist')).getText().then(text => text == id));
-let sameUsername = ((elem, user) => elem.element(by.name('nomelist')).getText().then(text => text == user));
-
-let pAND = ((p,q) => p.then(a => q.then(b => a && b)))
-
-async function criarAluno(name, cpf) {
-    await $("input[name='namebox']").sendKeys(<string> name);
-    await $("input[name='cpfbox']").sendKeys(<string> cpf);
-    await element(by.buttonText('Adicionar')).click();
-}
-
-
-async function assertTamanhoEqual(set,n) {
-    await set.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(n));
-}
-
 
 defineSupportCode(function ({ Given, When, Then }) {
     
@@ -33,39 +18,39 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     Given(/^O artista "([^\"]*)" com id "([^\"]*)" está cadastrado no sistema$/, async (user, id) => {
-        var allalunos : ElementArrayFinder = element.all(by.name('artistList'));
-        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
-        await assertTamanhoEqual(samecpfsandname,1);   
+        var listedArtists : ElementArrayFinder = element.all(by.name('artistList'));
+        var artist = listedArtists.filter(elem => sameId(elem,id));
+        await artist.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1)); 
     });
     
     When(/^Eu tento remover o artista "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
         browser.driver.sleep(1000);
         browser.waitForAngular();
-        var allalunos : ElementArrayFinder = element.all(by.name('artistList'));
-        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)))
-        await samecpfsandname.map(elem => elem.element(by.name('delete')).click())
+        var listedArtists : ElementArrayFinder = element.all(by.name('artistList'));
+        var artist = listedArtists.filter(elem => sameId(elem,id))
+        await artist.map(elem => elem.element(by.name('delete')).click())
         await element(by.buttonText("OK")).click();
     });
 
     When(/^Eu tento remover o artista "([^\"]*)" com id "([^\"]*)" e cancelo$/, async (user, id) => {
         browser.driver.sleep(1000);
         browser.waitForAngular();
-        var allalunos : ElementArrayFinder = element.all(by.name('artistList'));
-        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)))
-        await samecpfsandname.map(elem => elem.element(by.name('delete')).click())
+        var listedArtists : ElementArrayFinder = element.all(by.name('artistList'));
+        var artist = listedArtists.filter(elem => sameId(elem,id))
+        await artist.map(elem => elem.element(by.name('delete')).click())
         await element(by.buttonText("Cancel")).click();
     });
 
     Then(/^Consigo ver o artista "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
-        var allalunos : ElementArrayFinder = element.all(by.name('artistList'));
-        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
-        await assertTamanhoEqual(samecpfsandname,1);   
+        var listedArtists : ElementArrayFinder = element.all(by.name('artistList'));
+        var artist = listedArtists.filter(elem => sameId(elem,id));
+        await artist.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1)); 
     });
 
     Then(/^Nao consigo ver o artista "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
-        var allalunos : ElementArrayFinder = element.all(by.name('artistList'));
-        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
-        await assertTamanhoEqual(samecpfsandname,0);  
+        var listedArtists : ElementArrayFinder = element.all(by.name('artistList'));
+        var artist = listedArtists.filter(elem => sameId(elem,id));
+        await artist.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(0)); 
     });
     
 
