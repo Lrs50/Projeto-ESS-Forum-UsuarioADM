@@ -21,6 +21,7 @@ import { ArtistsManagementComponent } from './components/artists-management/arti
 import { ArtistsCreateComponent } from './components/artists-create/artists-create.component'
 import { CommonUsersComponent } from './components/common-users/common-users.component'
 import { AdminManagementComponent } from './components/admin-management/admin-management.component'
+import { AdminCreateComponent } from './components/admin-create/admin-create.component'
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -42,6 +43,7 @@ const routes: Routes = [
             { path: 'management/artist/create', component: ArtistsCreateComponent, canActivate: [NotLoggedGuard, AdminUserGuard]},
             { path: 'user/:id/edit', component: UserProfileEditComponent, canActivate: [NotLoggedGuard] },
             { path: 'management/admin', component: AdminManagementComponent, canActivate: [NotLoggedGuard, AdminUserGuard]},
+            { path: 'management/admin/create', component: AdminCreateComponent, canActivate: [NotLoggedGuard, AdminUserGuard] },
             
         
         ],

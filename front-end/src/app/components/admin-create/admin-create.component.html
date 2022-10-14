@@ -1,1 +1,23 @@
-<p>admin-create works!</p>
+<div class="singup-background">
+    <div class="singup-grid-container">
+        <div nz-row nzJustify="center" class="full-height full-width">
+            <div nz-col nzMd="24" class="full-height full-width">
+                <nz-space class="singup-content-container full-width full-height" nzDirection="vertical">
+                    <h1 *nzSpaceItem nz-typography>Create Admin User</h1>
+                    <span *nzSpaceItem nz-typography nzType="secondary">Please insert the Admin information.</span>
+                    <span *nzSpaceItem nz-typography>Username</span>
+                    <nz-input-group *nzSpaceItem nzPrefixIcon="user" [nzStatus]="statusInputUsername">
+                        <input type="text" nz-input placeholder="Username" [(ngModel)]="username" />
+                    </nz-input-group>
+                    <span *nzSpaceItem nz-typography>Name</span>
+                    <input *nzSpaceItem type="text" nz-input placeholder="Presentation name" [(ngModel)]="name" [nzStatus]="statusInputName" />
+                    <span *nzSpaceItem nz-typography>Password</span>
+                    <nz-input-group *nzSpaceItem nzPrefixIcon="lock" [nzStatus]="statusInputPassword">
+                        <input type="password" nz-input placeholder="Password" [(ngModel)]="password" />
+                    </nz-input-group>
+                    <button *nzSpaceItem nz-button nzType="primary" nzBlock (click)="onCreateAdm()">Create</button>
+                </nz-space>
+            </div>
+        </div>
+    </div>
+</div>
