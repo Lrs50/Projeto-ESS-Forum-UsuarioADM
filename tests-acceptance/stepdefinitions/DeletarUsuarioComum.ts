@@ -50,16 +50,20 @@ defineSupportCode(function ({ Given, When, Then }) {
         var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
         await assertTamanhoEqual(samecpfsandname,1);   
     });
-    When(/^Eu removo o usuário comum "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
+    When(/^Eu tento remover o usuário comum "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
         browser.driver.sleep(1000);
         browser.waitForAngular();
         var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
         var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)))
         await samecpfsandname.map(elem => elem.element(by.name('delete1')).click())
+        
+    });
+    When(/^Eu confirmo a remocao do usuário comum "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
         await element(by.buttonText("OK")).click();
     });
 
     Then(/^Nao consigo ver o usuário "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
+        //expect(await element.all(by.divText('Common user deleted successfully!')).isDisplayed()).toBe(true);
         var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
         var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
         await assertTamanhoEqual(samecpfsandname,0);  
@@ -72,7 +76,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         await assertTamanhoEqual(samecpfsandname,0);   
     });
     
-    When(/^Eu tento remover o usuário comum "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
+    When(/^Eu tento remover o usuário comum "([^\"]*)" com id "([^\"]*)" inexistente$/, async (user, id) => {
         browser.driver.sleep(1000);
         browser.waitForAngular();
         var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
@@ -80,6 +84,16 @@ defineSupportCode(function ({ Given, When, Then }) {
         await samecpfsandname.map(elem => expect(elem.element(by.name('delete1')).isPresent()).to.equal(false))
         
     });
-    
+
+    //scenario 3
+    When(/^Eu cancelo a remocao do usuário comum "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
+        await element(by.buttonText("Cancel")).click();
+    });
+    Then(/^Eu consigo ver o usuário "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
+        //expect(await element.all(by.divText('Common user deleted successfully!')).isDisplayed()).toBe(true);
+        var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
+        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
+        await assertTamanhoEqual(samecpfsandname,1);  
+    });
 
 })

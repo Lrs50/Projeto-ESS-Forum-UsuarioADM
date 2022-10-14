@@ -180,9 +180,9 @@ export class CommonUsersComponent implements OnInit {
       this.UserService.removeCommonUser(id).subscribe((res: ApiResponse) => {
           if (res.status == 200) {
             this.store.dispatch(addToUserCount({ payload: -1 }))
-            this.message.create('success', `News deleted successfully!`)
+            this.message.create('success', `Common user deleted successfully!`)
           } else {
-            this.message.create('error', `Failed to delete the news!`)
+            this.message.create('error', `Failed to delete the Common user!`)
           }
       })
   }
