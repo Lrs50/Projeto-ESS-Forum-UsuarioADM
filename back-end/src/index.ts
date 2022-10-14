@@ -70,6 +70,8 @@ app.get('/adminAll', UsersController.getAllAdminUsers)
 app.put('/adminUser', UsersController.editAdminUser)
 app.delete('/adminUser/:id', UsersController.deleteAdminUser)
 
+app.get('/getMod/:id',UsersController.getMod)
+
 app.listen(port, () => {
     log.info('Backend listening on port 3000')
 })
