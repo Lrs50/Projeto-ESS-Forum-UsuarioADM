@@ -25,10 +25,6 @@ async function assertTamanhoEqual(set,n) {
 
 
 defineSupportCode(function ({ Given, When, Then }) {
-    Given(/^Estou na página da noticia Filipe Ret é preso$/, async () => {
-        browser.waitForAngular();
-        await browser.get("http://localhost:4200/home/news/IQm_4PNXUvmikE5fmso2y")
-    })
     Given(/^Consigo ver o comentario "([^\"]*)" na noticia$/, async (comentario) => {
         var allCommits : ElementArrayFinder = element.all(by.name('allComments'));
         var sameComment = allCommits.filter(elem => expect (elem.element(by.name('content')).getText().then(text => text == comentario)).to.equal(true));
@@ -79,4 +75,5 @@ defineSupportCode(function ({ Given, When, Then }) {
         await assertTamanhoEqual(sameComment,0);
     })
     
+
 })
