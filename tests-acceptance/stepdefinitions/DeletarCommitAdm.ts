@@ -26,8 +26,6 @@ async function assertTamanhoEqual(set,n) {
 
 defineSupportCode(function ({ Given, When, Then }) {
     Given(/^Estou na página da noticia Filipe Ret é preso$/, async () => {
-        //expect(await element(by.cssContainingText('.text-content', 'Filipe Ret é preso')).isPresent()).to.equal(true)
-        //await element(by.cssContainingText('.text-content', 'Filipe Ret é preso')).click()
         browser.waitForAngular();
         await browser.get("http://localhost:4200/home/news/IQm_4PNXUvmikE5fmso2y")
     })
