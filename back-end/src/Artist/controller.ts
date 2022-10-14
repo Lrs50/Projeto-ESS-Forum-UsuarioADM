@@ -40,6 +40,54 @@ export function getArtist(request: Request, response: Response): void {
     return
 }
 
+export function getArtistPage(request: Request, response: Response): void {
+    log.info('GetArtistPage request received')
+
+    const valid = validator(['pageId', 'artistPerPage', 'filterTerm'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let pageId: number = parseInt(request.params.pageId)
+    let artistPerPage: number = parseInt(request.params.artistPerPage)
+    let filterTerm: string = request.params.filterTerm
+
+    let db: ArtistsDB = new ArtistsDB()
+    let result: Artist[] = db.getArtistPage(pageId, artistPerPage, filterTerm)
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
+
+    return
+}
+
+export function getArtistSize(request: Request, response: Response): void {
+    log.info('GetArtistSize request received')
+
+    const valid = validator([], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: ArtistsDB = new ArtistsDB()
+    let result: number = db.getSize()
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
+
+    return
+}
+
 export function deleteArtist(request: Request, response: Response): void {
     log.info('Delete artist request received')
 
@@ -156,6 +204,32 @@ export function editArtist(request: Request, response: Response): void {
     let editArtist: Promise<Boolean> = db.editArtist(request.body as Artist)
 
     editArtist.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+export function addMention(request: Request, response: Response): void {
+    log.info('AddMention request received')
+
+    const valid = validator(['id', 'mentions'], request.body)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: ArtistsDB = new ArtistsDB()
+
+    let addMention: Promise<Boolean> = db.addMention(request.body.id, request.body.mentions)
+
+    addMention.then((result: Boolean) => {
         if (result) {
             response.send(HTTP_SUCCESS)
         } else {

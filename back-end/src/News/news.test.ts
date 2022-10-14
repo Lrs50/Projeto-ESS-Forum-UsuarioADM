@@ -1,4 +1,4 @@
-import { emptyComment, News } from '../../../common/types'
+import { emptyComment, emptyNews, News } from '../../../common/types'
 import { validator } from './controller'
 import NewsDB from './news'
 
@@ -31,20 +31,7 @@ describe('News backend', () => {
     test('The database should be able to create a News', async () => {
         const spy = jest.spyOn(database, 'saveNews')
 
-        let tempNews: News = {
-            id: 'fake-id',
-            authorId: 'fake-id',
-            cover: 'fake-cover',
-            title: 'fake-title',
-            date: 'fake-date',
-            description: 'fake-description',
-            markdownText: 'fake-markdown',
-            edited: false,
-            views: 0,
-            likes: [],
-            comments: [],
-            tags: [],
-        }
+        let tempNews: News = emptyNews('fake-id', 'fake-id')
 
         let result: Boolean = await database.createNews(tempNews)
 
@@ -74,7 +61,7 @@ describe('News backend', () => {
     test('The database should support pagination', async () => {
         const spy = jest.spyOn(database, 'getNewsPage')
 
-        let result: News[] = database.getNewsPage(1, 5)
+        let result: News[] = database.getNewsPage(1, 5, '', '')
 
         expect(spy).toBeCalled()
         expect(result.length).toBe(1)
@@ -83,20 +70,7 @@ describe('News backend', () => {
     test('The database shouldnt be able to edit News that doenst exists', async () => {
         const spy = jest.spyOn(database, 'saveNews')
 
-        let result: Boolean = await database.editNews('fake-id-not-existent', {
-            id: 'fake-id',
-            authorId: 'fake-id',
-            cover: 'fake-cover',
-            title: 'fake-title',
-            date: 'fake-date',
-            description: 'fake-description',
-            markdownText: 'fake-markdown',
-            edited: false,
-            views: 0,
-            likes: [],
-            comments: [],
-            tags: [],
-        } as News)
+        let result: Boolean = await database.editNews('fake-id-not-existent', emptyNews('fake-id', 'fake-id'))
 
         expect(spy).not.toBeCalled()
         expect(result).not.toBeTruthy()
@@ -105,20 +79,7 @@ describe('News backend', () => {
     test('The database should be able to edit News', async () => {
         const spy = jest.spyOn(database, 'saveNews')
 
-        let result: Boolean = await database.editNews('fake-id', {
-            id: 'fake-id',
-            authorId: 'fake-id',
-            cover: 'fake-cover',
-            title: 'fake-title-edited',
-            date: 'fake-date',
-            description: 'fake-description',
-            markdownText: 'fake-markdown',
-            edited: false,
-            views: 0,
-            likes: [],
-            comments: [],
-            tags: [],
-        } as News)
+        let result: Boolean = await database.editNews('fake-id', emptyNews('fake-id', 'fake-id-edited'))
 
         expect(spy).toBeCalled()
         expect(result).toBeTruthy()

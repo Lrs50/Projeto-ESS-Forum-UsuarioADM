@@ -40,6 +40,7 @@ app.post('/news/commentsadd/like', NewsController.addLikeInComment)
 app.delete('/news/commentsremove/like', NewsController.removeLikeInComment)
 app.post('/news/commentsadd/dislike', NewsController.addDislikeInComment)
 app.delete('/news/commentsremove/dislike', NewsController.removeDislikeInComment)
+app.put('/newsupdate/lastactivity', NewsController.updateLastActivity)
 
 app.get('/user/:id', UsersController.getUser)
 app.get('/userall', UsersController.getAllUsers)
@@ -52,21 +53,22 @@ app.delete('/userremove/comment', UsersController.removeComment)
 
 app.get('/artist/:id', ArtistsController.getArtist)
 app.get('/artistall', ArtistsController.getAllArtists)
+app.get('/artistpage/:pageId/:artistPerPage/:filterTerm?', ArtistsController.getArtistPage)
 app.get('/artistsize', ArtistsController.getArtistsSize)
 app.post('/artist', ArtistsController.createArtist)
 app.put('/artist', ArtistsController.editArtist)
+
+app.put('/artistadd/mention', ArtistsController.addMention)
+
 app.delete('/artist/:id', ArtistsController.deleteArtist)
 
-//Featura deletar usuario common
 app.get('/commonUser/:id', UsersController.getUserCommon)
 app.get('/commonAll', UsersController.getAllCommonUser)
 app.delete('/commonUser/:id', UsersController.deleteCommonUser)
-
 app.get('/adminUser/:id', UsersController.getUserAdmin)
 app.get('/adminAll', UsersController.getAllAdminUsers)
 app.put('/adminUser', UsersController.editAdminUser)
 app.delete('/adminUser/:id', UsersController.deleteAdminUser)
-
 
 app.listen(port, () => {
     log.info('Backend listening on port 3000')

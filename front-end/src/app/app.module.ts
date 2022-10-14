@@ -56,6 +56,9 @@ import {
     SmileOutline,
     TrophyOutline,
     AimOutline,
+    LikeFill,
+    EyeTwoTone,
+    FieldTimeOutline,
 } from '@ant-design/icons-angular/icons'
 import { HomeComponent } from './components/home/home.component'
 import { LoginComponent } from './components/login/login.component'
@@ -63,7 +66,6 @@ import { NewsManagementComponent } from './components/news-management/news-manag
 import { appReducer } from './app.store'
 import { NewsComponent } from './components/news/news.component'
 import { NewsShowerComponent } from './components/news-shower/news-shower.component'
-import { NewsShowerStatisticComponent } from './components/news-shower-statistic/news-shower-statistic.component'
 import { NewsPageComponent } from './components/news-page/news-page.component'
 import { NewsEditComponent } from './components/news-edit/news-edit.component'
 import { NewsCreateComponent } from './components/news-create/news-create.component'
@@ -82,7 +84,8 @@ import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config'
 import { ArtistPageComponent } from './components/artist-page/artist-page.component';
 import { CommonUsersComponent } from './components/common-users/common-users.component';
 import { ArtistsManagementComponent } from './components/artists-management/artists-management.component';
-import { ArtistsCreateComponent } from './components/artists-create/artists-create.component'
+import { ArtistsCreateComponent } from './components/artists-create/artists-create.component';
+import { ArtistComponent } from './components/artist/artist.component'
 
 const ngZorroConfig: NzConfig = {
     theme: {
@@ -104,11 +107,13 @@ const icons: IconDefinition[] = [
     EyeOutline,
     LikeOutline,
     LikeTwoTone,
+    EyeTwoTone,
     CommentOutline,
     DislikeOutline,
     DislikeTwoTone,
     LinkOutline,
     AimOutline,
+    FieldTimeOutline,
 ]
 
 @NgModule({
@@ -119,7 +124,6 @@ const icons: IconDefinition[] = [
         NewsManagementComponent,
         NewsComponent,
         NewsShowerComponent,
-        NewsShowerStatisticComponent,
         NewsPageComponent,
         NewsEditComponent,
         NewsCreateComponent,
@@ -132,6 +136,7 @@ const icons: IconDefinition[] = [
         CommonUsersComponent,
         ArtistsManagementComponent,
         ArtistsCreateComponent,
+        ArtistComponent,
     ],
     imports: [
         BrowserModule,

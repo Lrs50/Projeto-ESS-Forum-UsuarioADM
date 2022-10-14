@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiResponse, Artist, News } from '../../../../../common/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
-import { NewsManagementService } from 'src/app/services/news-management.service'
 import { imageFallBack } from 'src/util'
 import { Store } from '@ngrx/store'
-import { AppState, addToNewsCount } from 'src/app/app.store'
+import { AppState, addToArtistCount } from 'src/app/app.store'
 import { Router } from '@angular/router'
 import { ArtistService } from 'src/app/services/artist.service'
 
@@ -21,10 +20,10 @@ export class ArtistsManagementComponent implements OnInit {
 
     tableLoading: boolean = false
 
-    pageSizeOptions: number[] = [10, 20, 30, 40]
-    pageSize: number = 10
+    pageSizeOptions: number[] = [5, 10, 20, 30, 40]
+    pageSize: number = 5
     pageIndex: number = 1
-    totalNews: number = 1
+    totalArtist: number = 1
 
     filterText: string = ''
 
@@ -34,22 +33,21 @@ export class ArtistsManagementComponent implements OnInit {
 
     constructor(
         private message: NzMessageService,
-        private newsManagementService: NewsManagementService,
         private store: Store<{ app: AppState }>,
         private router: Router,
         private artistService: ArtistService
     ) {
-        this.getNewsPage()
+        this.getArtistPage()
     }
 
     ngOnInit(): void {}
 
-    getNewsSize() {
-        this.newsManagementService.getNewsSize().subscribe((res: ApiResponse) => {
+    getArtistSize() {
+        this.artistService.getArtistsSize().subscribe((res: ApiResponse) => {
             if (res.status == 200) {
-                this.totalNews = res.result as number
+                this.totalArtist = res.result as number
             } else {
-                this.totalNews = 1
+                this.totalArtist = 1
             }
         })
     }
@@ -57,41 +55,40 @@ export class ArtistsManagementComponent implements OnInit {
     updatePageIndex(event: number) {
         this.pageIndex = event
 
-        this.getNewsPage()
+        this.getArtistPage()
     }
 
     debouncedHTTPRequest() {
         clearTimeout(this.debounceTimer)
 
         this.debounceTimer = setTimeout(() => {
-            this.getNewsPage()
+            this.getArtistPage()
         }, 1000)
     }
 
     updatePageSize(event: number) {
         this.pageSize = event
 
-        this.getNewsPage()
+        this.getArtistPage()
     }
 
-    getNewsPage() {
+    getArtistPage() {
         this.tableLoading = true
 
-        //this.getNewsSize()
+        this.getArtistSize()
 
-        this.artistService.getAll().subscribe((res: ApiResponse) => {
+        this.artistService.getPage(this.pageIndex, this.pageSize, this.filterText).subscribe((res: ApiResponse) => {
             if (res.status == 200) {
                 this.artistList = res.result as Artist[]
-
             } else {
-                this.artistList = []
+                this.router.navigateByUrl('/error')
             }
 
             this.tableLoading = false
         })
     }
 
-    findIndexFromFilteredList(id: string): number {
+    findIndexFromArtistList(id: string): number {
         let i: number = 0
 
         for (; i < this.artistList.length; i++) {
@@ -104,12 +101,16 @@ export class ArtistsManagementComponent implements OnInit {
     }
 
     onDeleteArtist(id: string): void {
-        this.artistList = this.artistList.filter(a => a.id != id)
-        this.artistService.delete(id).subscribe((res: ApiResponse) => {
+        let find: number = this.findIndexFromArtistList(id)
+
+        this.artistService.delete(id).subscribe(async (res: ApiResponse) => {
             if (res.status == 200) {
-                this.message.create('success', `Artist deleted successfully!`)
+                this.getArtistPage()
+                this.store.dispatch(addToArtistCount({ payload: -1 }))
+
+                this.message.create('success', `News deleted successfully!`)
             } else {
-                this.message.create('error', `Failed to delete the artist!`)
+                this.message.create('error', `Failed to delete the news!`)
             }
         })
     }
