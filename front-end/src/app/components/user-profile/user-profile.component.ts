@@ -78,6 +78,16 @@ export class UserProfileComponent implements OnInit {
         this.router.navigateByUrl('/home')
     }
 
+    onDeleteUser() {
+        this.store.dispatch(
+            changeUserInfo({
+                payload: emptyUser(''),
+            })
+        )
+        this.store.dispatch(changeUserLoggedStatus({ payload: false }))
+        this.router.navigateByUrl('/home')
+    }
+
     addComment(): void {
         this.userInfo.pipe(take(1)).subscribe((user: User) => {
             let temp: Comment = {
