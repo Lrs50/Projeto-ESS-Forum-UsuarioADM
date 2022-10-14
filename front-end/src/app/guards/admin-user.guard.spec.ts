@@ -11,7 +11,16 @@ describe('AdminUserGuard', () => {
     let guard: AdminUserGuard
     let store: MockStore
     let appStateSelector
-    let initialState: AppState = { logged: false, user: emptyUser(''), newsCount: 0, usersCount: 0, artistsCount: 0 }
+
+    let initialState: AppState = {
+        logged: false,
+        user: emptyUser(''),
+        newsCount: 0,
+        usersCount: 0,
+        artistsCount: 0,
+        currentURL: '/home',
+        previousURL: '/home',
+    }
 
     beforeEach(() => {
         TestBed.configureTestingModule({

@@ -18,6 +18,8 @@ class NewsDB {
     constructor() {
         if (AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD') {
             this.path = './data.json'
+        } else if (AppConfig.MODE == 'GUI_TEST') {
+            this.path = './data.test.gui.json'
         } else {
             this.path = './data.test.json'
         }

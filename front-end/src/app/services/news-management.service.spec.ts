@@ -6,7 +6,7 @@ import { firstValueFrom } from 'rxjs'
 
 jasmine.getEnv().configure({ random: false })
 
-fdescribe('NewsManagementService', () => {
+describe('NewsManagementService', () => {
     let service: NewsManagementService
     let http: HttpClient
 

@@ -8,7 +8,15 @@ import { LoggedUserGuard } from './logged-user.guard'
 
 describe('LoggedUserGuard', () => {
     let guard: LoggedUserGuard
-    let initialState: AppState = { logged: false, user: emptyUser(''), newsCount: 0, usersCount: 0, artistsCount: 0 }
+    let initialState: AppState = {
+        logged: false,
+        user: emptyUser(''),
+        newsCount: 0,
+        usersCount: 0,
+        artistsCount: 0,
+        currentURL: '/home',
+        previousURL: '/home',
+    }
     let appStateSelector
     let store: MockStore
     beforeEach(() => {
