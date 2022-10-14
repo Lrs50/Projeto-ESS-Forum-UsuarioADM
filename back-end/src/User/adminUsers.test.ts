@@ -67,15 +67,6 @@ describe('Admin Users backend', () => {
         expect(spy).toBeCalled()
         expect(result).toBeUndefined()
     })
-//refactoring
-    // test('The database should support pagination', async () => {
-    //     const spy = jest.spyOn(database, 'getNewsPage')
-
-    //     let result: News[] = database.getNewsPage(1, 5)
-
-    //     expect(spy).toBeCalled()
-    //     expect(result.length).toBe(1)
-    // })
 
     test('The database shouldn\'t be able to edit an Admin that doesn\'t exist', async () => {
         const spy = jest.spyOn(database, 'saveUsers')
@@ -185,7 +176,7 @@ describe('Admin Users backend', () => {
         expect(database.db.size).toBe(0)
     })
 
-    test('Http Validator should work properly', () => {
+    test('HTTP Validator should work properly', () => {
         let params: Object = {
             param1: 1,
             param2: 2,

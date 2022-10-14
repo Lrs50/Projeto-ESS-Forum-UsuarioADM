@@ -39,6 +39,10 @@ export class UsersService {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
     }
 
+    //services admin user
+    removeAdminUser(userId: string): Observable<ApiResponse>{
+        return this.httpClient.delete<ApiResponse>(`http://localhost:3000/adminUser/${userId}`)
+    }
     
 
     login(username: string, password: string) {

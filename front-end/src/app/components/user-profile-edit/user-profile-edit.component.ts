@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Store } from '@ngrx/store'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { map, Observable, Subscription, take } from 'rxjs'
-import { AppState } from 'src/app/app.store'
+import { AppState, changeUserInfo, changeUserLoggedStatus } from 'src/app/app.store'
 import { UsersService } from 'src/app/services/users.service'
 import { imageFallBack } from 'src/util'
 import { ApiResponse, emptyUser, User } from '../../../../../common/types'
@@ -80,6 +80,32 @@ export class UserProfileEditComponent implements OnInit {
             this.userService.edit(this.editingUser).subscribe((res: ApiResponse) => {
                 if (res.status == 200) {
                     this.message.create('success', `Saved successfully!`)
+                } else {
+                    this.router.navigateByUrl('/error')
+                }
+            })
+        } else {
+            this.message.create('error', `You don't have permission to do this!`)
+        }
+    }
+
+    onDeleteUser(){
+        let userId: string = ''
+
+        let userIdSubscription: Subscription = this.userInfo.pipe(take(1)).subscribe((user: User) => (userId = user.id))
+        userIdSubscription.unsubscribe()
+
+        if (userId == this.editingUser.id) {
+            this.userService.removeAdminUser(this.editingUser.id).subscribe((res: ApiResponse) => {
+                if (res.status == 200) {
+                    this.message.create('success', `Deleted successfully!`)
+                    this.store.dispatch(
+                        changeUserInfo({
+                            payload: emptyUser(''),
+                        })
+                    )
+                    this.store.dispatch(changeUserLoggedStatus({ payload: false }))
+                    this.router.navigateByUrl('/home')
                 } else {
                     this.router.navigateByUrl('/error')
                 }
