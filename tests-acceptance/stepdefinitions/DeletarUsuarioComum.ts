@@ -38,6 +38,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     
     Given(/^Eu estou na pagina UsersManagement$/, async () => {
         //await browser.get("http://localhost:4200/home/common");
+        //REFACTORING TO RECIEVE USERMANAGEMENT AS STRING
         await element(by.id("userTest")).click();
         browser.driver.sleep(10000);
         browser.waitForAngular();

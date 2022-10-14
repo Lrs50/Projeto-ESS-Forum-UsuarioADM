@@ -94,12 +94,12 @@
         </nz-comment>
 
         <div *nzSpaceItem>
-            <div *ngFor="let comment of news.comments; index as i">
+            <div *ngFor="let comment of news.comments; index as i" name="allComments">
                 <nz-card class="news-page-container" [nzBodyStyle]="{ padding: '5px' }">
                     <nz-comment [nzAuthor]="comment.authorInfo.name">
                         <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="comment.authorInfo.avatar" [nzSize]="'large'"></nz-avatar>
                         <nz-comment-content>
-                            <markdown ngPreserveWhitespaces>{{ comment.content }}</markdown>
+                            <markdown ngPreserveWhitespaces name="content">{{ comment.content }}</markdown>
                             <nz-space nzAlign="center">
                                 <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleLikeComment(i)">
                                     <span *nzSpaceItem nz-icon nzType="like" [nzTheme]="hasUserLikedIComment[i] ? 'twotone' : 'outline'"></span>
@@ -116,7 +116,7 @@
                                     <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer">
                                         <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
                                     </nz-space>
-                                    <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer" (click)="removeComment(comment.id)">
+                                    <nz-space id = "deleteCommentary" *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer" (click)="removeComment(comment.id)">
                                         <span *nzSpaceItem nz-icon nzType="delete"></span>
                                         <span *nzSpaceItem> Delete </span>
                                     </nz-space>

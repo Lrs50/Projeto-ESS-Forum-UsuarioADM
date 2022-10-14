@@ -26,9 +26,9 @@ async function assertTamanhoEqual(set,n) {
 
 defineSupportCode(function ({ Given, When, Then }) {
     Given(/^Estou na página da noticia Filipe Ret é preso$/, async () => {
-        // /expect(await element(by.cssContainingText('.text-content', 'Filipe Ret é preso')).isPresent()).to.equal(true)
+        //expect(await element(by.cssContainingText('.text-content', 'Filipe Ret é preso')).isPresent()).to.equal(true)
         //await element(by.cssContainingText('.text-content', 'Filipe Ret é preso')).click()
-        await browser.get("http://localhost:4200/home/news/4oxlhjcw3Wobz88tVtAgN")
+        await browser.get("http://localhost:4200/home/news/IQm_4PNXUvmikE5fmso2y")
     
     })
     Given(/^O comentario "([^\"]*)"$/, async (comentario) => {
@@ -42,7 +42,10 @@ defineSupportCode(function ({ Given, When, Then }) {
         browser.driver.sleep(10000);
         browser.waitForAngular();
         //await element(by.buttonText("Delete")).click()
-        //element(by.cssContainingText('.ant-card-body', String(comentario))).element(by.buttonText("Delete")).click()
+        var allCommits : ElementArrayFinder = element.all(by.name('allComments'));
+        var sameComment = allCommits.filter(elem => elem.element(by.name('content')).getText().then(text => text == comentario));
+        await sameComment.map(elem => elem.element(by.id("deleteCommentary")).click())
+        //expect(await element(by.cssContainingText('.ant-card-body', String(comentario)))).to.equal(true)
         //var allalunos  = element(by.cssContainingText('.ant-card-body', String(comentario)))
         //allalunos.element(by.buttonText("Delete")).click()
     })
