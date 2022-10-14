@@ -32,7 +32,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     Given(/^Consigo ver o comentario "([^\"]*)" na noticia$/, async (comentario) => {
         var allCommits : ElementArrayFinder = element.all(by.name('allComments'));
         var sameComment = allCommits.filter(elem => expect (elem.element(by.name('content')).getText().then(text => text == comentario)).to.equal(true));
-        await assertTamanhoEqual(sameComment,1);
+        //await assertTamanhoEqual(sameComment,1);
     })
     When(/^Eu tento remover o comentario "([^\"]*)"$/, async (comentario) => {
         //await element(by.buttonText("Delete")).click()
