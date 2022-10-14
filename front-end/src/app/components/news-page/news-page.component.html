@@ -114,11 +114,11 @@
                                 </nz-space>
                                 <div *nzSpaceItem>
                                     <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer">
-                                        <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
-                                    </nz-space>
-                                    <nz-space id = "deleteCommentary" *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer" (click)="removeComment(comment.id)">
+                                            <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
+                                        </nz-space>
+                                    <nz-space id = "deleteCommentary" *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer"nz-popconfirm nzPopconfirmTitle="Are you sure to delete this common User?" (nzOnConfirm)="removeComment(comment.id)">
                                         <span *nzSpaceItem nz-icon nzType="delete"></span>
-                                        <span *nzSpaceItem> Delete </span>
+                                        <span *nzSpaceItem> Delete comment </span>
                                     </nz-space>
                                 </div>
                             </nz-space>
