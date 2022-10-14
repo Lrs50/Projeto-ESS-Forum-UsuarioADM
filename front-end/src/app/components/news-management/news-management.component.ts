@@ -35,7 +35,7 @@ export class NewsManagementComponent implements OnInit {
 
     constructor(
         private message: NzMessageService,
-        private newsManagementService: NewsManagementService,
+        public newsManagementService: NewsManagementService,
         private store: Store<{ app: AppState }>,
         private router: Router,
         private artistService: ArtistService
@@ -75,36 +75,36 @@ export class NewsManagementComponent implements OnInit {
         this.getNewsPage()
     }
 
-    getNewsPage() {
+    async getNewsPage() {
         this.tableLoading = true
 
         this.getNewsSize()
 
-        this.newsManagementService.getPage(this.pageIndex, this.pageSize, 'Newest', this.filterText).subscribe((res: ApiResponse) => {
-            if (res.status == 200) {
-                this.newsList = res.result as News[]
+        let response: ApiResponse = await firstValueFrom(this.newsManagementService.getPage(this.pageIndex, this.pageSize, 'Newest', this.filterText))
 
-                for (let i = 0; i < this.newsList.length; i++) {
-                    let tempList: string[] = []
+        if (response.status == 200) {
+            this.newsList = response.result as News[]
 
-                    for (let j = 0; j < this.newsList[i].mention.length; j++) {
-                        this.artistService.get(this.newsList[i].mention[j]).subscribe((res: ApiResponse) => {
-                            if (res.status == 200) {
-                                tempList.push((res.result as Artist).name)
-                            } else {
-                                this.router.navigateByUrl('/error')
-                            }
-                        })
-                    }
+            for (let i = 0; i < this.newsList.length; i++) {
+                let tempList: string[] = []
 
-                    this.mentionedArtistsNamesInNews.push(tempList)
+                for (let j = 0; j < this.newsList[i].mention.length; j++) {
+                    this.artistService.get(this.newsList[i].mention[j]).subscribe((res: ApiResponse) => {
+                        if (res.status == 200) {
+                            tempList.push((res.result as Artist).name)
+                        } else {
+                            this.router.navigateByUrl('/error')
+                        }
+                    })
                 }
-            } else {
-                this.router.navigateByUrl('/error')
-            }
 
-            this.tableLoading = false
-        })
+                this.mentionedArtistsNamesInNews.push(tempList)
+            }
+        } else {
+            this.router.navigateByUrl('/error')
+        }
+
+        this.tableLoading = false
     }
 
     findIndexFromNewsList(id: string): number {
@@ -119,24 +119,23 @@ export class NewsManagementComponent implements OnInit {
         return i
     }
 
-    onDeleteNews(id: string): void {
+    async onDeleteNews(id: string): Promise<void> {
         let find: number = this.findIndexFromNewsList(id)
 
-        this.newsManagementService.delete(id).subscribe(async (res: ApiResponse) => {
-            if (res.status == 200) {
-                for (let i = 0; i < this.newsList[find].mention.length; i++) {
-                    await firstValueFrom(this.artistService.addMention(this.newsList[find].mention[i], -1))
-                }
+        let response: ApiResponse = await firstValueFrom(this.newsManagementService.delete(id))
 
-                this.mentionedArtistsNamesInNews.splice(find, 1)
-                this.newsList.splice(find, 1)
-                this.totalNews -= 1
-                this.store.dispatch(addToNewsCount({ payload: -1 }))
-
-                this.message.create('success', `News deleted successfully!`)
-            } else {
-                this.message.create('error', `Failed to delete the news!`)
+        if (response.status == 200) {
+            for (let i = 0; i < this.newsList[find].mention.length; i++) {
+                await firstValueFrom(this.artistService.addMention(this.newsList[find].mention[i], -1))
             }
-        })
+
+            this.mentionedArtistsNamesInNews.splice(find, 1)
+            await this.getNewsPage()
+            this.store.dispatch(addToNewsCount({ payload: -1 }))
+
+            this.message.create('success', `News deleted successfully!`)
+        } else {
+            this.message.create('error', `Failed to delete the news!`)
+        }
     }
 }

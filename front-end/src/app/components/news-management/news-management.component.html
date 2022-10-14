@@ -48,7 +48,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let news of newsList; index as i">
+                    <tr id="row" *ngFor="let news of newsList; index as i">
                         <td nzEllipsis>
                             <h5 nz-typography nzEllipsis>{{ news.title }}</h5>
                         </td>
