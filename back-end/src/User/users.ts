@@ -106,6 +106,16 @@ class UsersDB {
        
     }
 
+    getUserMod(id: string): User | undefined {
+        var users: User[] = MapValuesToArray(this.db)
+        const result = users.filter(user => user.id == id && user.type == "Mod")
+        if(result.length==1){
+            return result[0]
+        }else{
+            return undefined
+        }
+    }
+
     getUserAdmin(id: string): User | undefined {
         var users: User[] = MapValuesToArray(this.db)
         const result = users.filter(user => user.id == id && user.type == 'Admin')

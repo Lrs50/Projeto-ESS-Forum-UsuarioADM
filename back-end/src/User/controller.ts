@@ -39,6 +39,34 @@ export function getUserCommon(request: Request, response: Response): void {
 
     return
 }
+//Metodos Mod Users
+export function getMod(request: Request, response: Response): void {
+    log.info('GetMod request received')
+
+    const valid = validator(['id'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let result: User | undefined = db.getUserMod(request.params.id)
+
+    if (result == undefined) {
+        response.send(HTTP_NOT_FOUND)
+    } else {
+        let httpResponse: ApiResponse = HTTP_SUCCESS
+        httpResponse.result = result
+
+        response.send(httpResponse)
+    }
+
+    return
+}
+
+
 //METODOS COMMON USERS
 export function getAllCommonUser(request: Request, response: Response): void {
     log.info('GetAllCommonUser request received')
