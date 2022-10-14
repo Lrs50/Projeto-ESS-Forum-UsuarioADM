@@ -28,26 +28,46 @@ defineSupportCode(function ({ Given, When, Then }) {
     Given(/^Estou na página da noticia Filipe Ret é preso$/, async () => {
         //expect(await element(by.cssContainingText('.text-content', 'Filipe Ret é preso')).isPresent()).to.equal(true)
         //await element(by.cssContainingText('.text-content', 'Filipe Ret é preso')).click()
+        browser.driver.sleep(10000);
+        browser.waitForAngular();
         await browser.get("http://localhost:4200/home/news/IQm_4PNXUvmikE5fmso2y")
     
     })
-    Given(/^O comentario "([^\"]*)"$/, async (comentario) => {
+    Given(/^Consigo ver o comentario "([^\"]*)" na noticia$/, async (comentario) => {
         browser.driver.sleep(10000);
         browser.waitForAngular();
         expect(await element(by.cssContainingText('.ant-card-body', String(comentario))).isPresent()).to.equal(true)
         //var allalunos  = element(by.cssContainingText('.ant-card-body', String(comentario)))
         //allalunos.
     })
-    When(/^Eu removo o comentario "([^\"]*)"$/, async (comentario) => {
+    When(/^Eu tento remover o comentario "([^\"]*)"$/, async (comentario) => {
         browser.driver.sleep(10000);
         browser.waitForAngular();
         //await element(by.buttonText("Delete")).click()
         var allCommits : ElementArrayFinder = element.all(by.name('allComments'));
         var sameComment = allCommits.filter(elem => elem.element(by.name('content')).getText().then(text => text == comentario));
         await sameComment.map(elem => elem.element(by.id("deleteCommentary")).click())
-        //expect(await element(by.cssContainingText('.ant-card-body', String(comentario)))).to.equal(true)
-        //var allalunos  = element(by.cssContainingText('.ant-card-body', String(comentario)))
-        //allalunos.element(by.buttonText("Delete")).click()
+    })
+
+    When(/^Eu cancelo a remocao do comentairo "([^\"]*)"$/, async (comentario) => {
+        await element(by.buttonText("Cancel")).click();
+    })
+
+    Then(/^Consigo ver o comentario "([^\"]*)"$/, async (comentario) => {
+        var allCommits : ElementArrayFinder = element.all(by.name('allComments'));
+        var sameComment = allCommits.filter(elem => elem.element(by.name('content')).getText().then(text => text == comentario));
+        await assertTamanhoEqual(sameComment,1);
+    })
+    
+    //scenario 2
+    When(/^Eu confirmo a remocao do comentario "([^\"]*)"$/, async (comentario) => {
+        await element(by.buttonText("OK")).click();
+    })
+
+    Then(/^Não consigo ver o comentario "([^\"]*)"$/, async (comentario) => {
+        var allCommits : ElementArrayFinder = element.all(by.name('allComments'));
+        var sameComment = allCommits.filter(elem => elem.element(by.name('content')).getText().then(text => text == comentario));
+        await assertTamanhoEqual(sameComment,0);
     })
     
 })
