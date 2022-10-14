@@ -26,9 +26,9 @@ async function assertTamanhoEqual(set,n) {
 
 defineSupportCode(function ({ Given, When, Then }) {
     Given(/^Estou na página da noticia Filipe Ret é preso$/, async () => {
-        expect(await element(by.cssContainingText('.text-content', 'Filipe Ret é preso')).isPresent()).to.equal(true)
-        await element(by.cssContainingText('.text-content', 'Filipe Ret é preso')).click()
-        //await browser.get("http://localhost:4200/home/news/4oxlhjcw3Wobz88tVtAgN")
+        // /expect(await element(by.cssContainingText('.text-content', 'Filipe Ret é preso')).isPresent()).to.equal(true)
+        //await element(by.cssContainingText('.text-content', 'Filipe Ret é preso')).click()
+        await browser.get("http://localhost:4200/home/news/4oxlhjcw3Wobz88tVtAgN")
     
     })
     Given(/^O comentario "([^\"]*)"$/, async (comentario) => {
@@ -36,8 +36,15 @@ defineSupportCode(function ({ Given, When, Then }) {
         browser.waitForAngular();
         expect(await element(by.cssContainingText('.ant-card-body', String(comentario))).isPresent()).to.equal(true)
         //var allalunos  = element(by.cssContainingText('.ant-card-body', String(comentario)))
+        //allalunos.
+    })
+    When(/^Eu removo o comentario "([^\"]*)"$/, async (comentario) => {
+        browser.driver.sleep(10000);
+        browser.waitForAngular();
+        //await element(by.buttonText("Delete")).click()
+        //element(by.cssContainingText('.ant-card-body', String(comentario))).element(by.buttonText("Delete")).click()
+        //var allalunos  = element(by.cssContainingText('.ant-card-body', String(comentario)))
         //allalunos.element(by.buttonText("Delete")).click()
     })
-    
     
 })
