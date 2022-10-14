@@ -19,9 +19,9 @@
                         </a>
                     </ng-template>
                     <ng-template #logoutTemplate>
-                        <a *ngIf="(userInfo | async)!.id == user.id" nz-button nzType="text" routerLink="edit" nzDanger (click)="onLogout()">
+                        <button *ngIf="(userInfo | async)!.id == user.id" nz-button nzType="text" routerLink="edit" nzDanger (click)="onLogout()">
                             Logout
-                        </a>
+                        </button>
                     </ng-template>
                 </nz-card>
             </nz-spin>
