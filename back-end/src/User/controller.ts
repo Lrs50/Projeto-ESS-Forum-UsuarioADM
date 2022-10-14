@@ -320,6 +320,8 @@ export function getAllAdminUsers(request: Request, response: Response): void {
     return
 }
 
+
+
 export function getAdminUsersSize(request: Request, response: Response): void {
     log.info('GetAdminUsersSize request received')
 
@@ -355,6 +357,31 @@ export function deleteAdminUser(request: Request, response: Response): void {
 
     let db: UsersDB = new UsersDB()
     let removeComment: Promise<Boolean> = db.deleteAdminUser(request.params.id)
+
+    removeComment.then((result: Boolean) => {
+        if (result) {
+            response.send(HTTP_SUCCESS)
+        } else {
+            response.send(HTTP_ERROR)
+        }
+    })
+
+    return
+}
+
+export function deleteUser(request: Request, response: Response): void {
+    log.info('DeleteUser request received')
+
+    const valid = validator(['id'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let db: UsersDB = new UsersDB()
+    let removeComment: Promise<Boolean> = db.deleteUser(request.params.id)
 
     removeComment.then((result: Boolean) => {
         if (result) {
@@ -469,6 +496,32 @@ export function removeComment(request: Request, response: Response): void {
             response.send(HTTP_ERROR)
         }
     })
+
+    return
+}
+
+export function getAdminPage(request: Request, response: Response): void {
+    log.info('GetAdmPage request received')
+
+    const valid = validator(['pageId', 'adminPerPage', 'filterTerm'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let pageId: number = parseInt(request.params.pageId)
+    let adminPerPage: number = parseInt(request.params.adminPerPage)
+    let filterTerm: string = request.params.filterTerm
+
+    let db: UsersDB = new UsersDB()
+    let result: User[] = db.getUserAdminPage(pageId, adminPerPage, filterTerm)
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
 
     return
 }
