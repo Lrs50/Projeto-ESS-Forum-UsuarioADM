@@ -23,7 +23,6 @@ async function assertTamanhoEqual(set,n) {
 }
 
 
-
 defineSupportCode(function ({ Given, When, Then }) {
     
     Given(/^Eu estou na pagina "([^\"]*)"$/, async (page) => {
@@ -46,6 +45,21 @@ defineSupportCode(function ({ Given, When, Then }) {
         var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)))
         await samecpfsandname.map(elem => elem.element(by.name('delete')).click())
         await element(by.buttonText("OK")).click();
+    });
+
+    When(/^Eu tento remover o artista "([^\"]*)" com id "([^\"]*)" e cancelo$/, async (user, id) => {
+        browser.driver.sleep(1000);
+        browser.waitForAngular();
+        var allalunos : ElementArrayFinder = element.all(by.name('artistList'));
+        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)))
+        await samecpfsandname.map(elem => elem.element(by.name('delete')).click())
+        await element(by.buttonText("Cancel")).click();
+    });
+
+    Then(/^Consigo ver o artista "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
+        var allalunos : ElementArrayFinder = element.all(by.name('artistList'));
+        var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
+        await assertTamanhoEqual(samecpfsandname,1);   
     });
 
     Then(/^Nao consigo ver o artista "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
