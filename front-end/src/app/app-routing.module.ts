@@ -40,7 +40,7 @@ const routes: Routes = [
             { path: 'management/artist', component: ArtistsManagementComponent, canActivate: [NotLoggedGuard, AdminUserGuard]},
             { path: 'management/artist/create', component: ArtistsCreateComponent, canActivate: [NotLoggedGuard, AdminUserGuard]},
             { path: 'user/:id/edit', component: UserProfileEditComponent, canActivate: [NotLoggedGuard] },
-            { path: 'user/:id/delete', canActivate: [NotLoggedGuard] },
+            
         
         ],
     },

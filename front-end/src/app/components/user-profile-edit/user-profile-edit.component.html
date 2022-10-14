@@ -41,16 +41,15 @@
         </span>
     </nz-space>
     <div style="float: right">
+        <button style="margin-right:20px; margin-bottom:15px" *ngIf="(isAdmin | async) == true && (userInfo | async)!.id == editingUser.id" nz-button nzType="default" nzDanger [nzSize]="'large'" (click)="onDeleteUser()">
+            <span nz-icon nzType="close"></span>
+            Delete Account
+        </button>
         <button nz-button nzType="primary" [nzSize]="'large'" (click)="onSaveUser()">
             <span nz-icon nzType="check"></span>
             Save
         </button>
     </div>
-    <ng-template #deleteTemplate>
-        <a *ngIf="(userInfo | async)!.id == editingUser.id" nz-button nzType="text" routerLink="delete">
-            <span nz-icon nzType="delete"></span> Delete Account
-        </a>
-    </ng-template>
 </div>
 
 <nz-modal [(nzVisible)]="showModalEditAvatar" nzTitle="Change your avatar" (nzOnCancel)="toggleModalEditAvatar()" (nzOnOk)="toggleModalEditAvatar()">
