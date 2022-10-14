@@ -29,9 +29,9 @@ defineSupportCode(function ({ Given, When, Then }) {
         //await element(by.buttonText("Delete")).click()
         //var allCommits : ElementArrayFinder = element.all(by.name('allComments'));
         //var sameComment = allCommits.filter(elem => elem.element(by.name('content')).getText().then(text => text == comentario));
-        await browser.driver.sleep(1000);
-        await sameComment.map(elem => elem.element(by.id("deleteCommentary")).click())
-        await browser.driver.sleep(1000);
+        //await browser.driver.sleep(1000);
+        //await sameComment.map(elem => elem.element(by.id("deleteCommentary")).click())
+        //await browser.driver.sleep(1000);
     })
 
     When(/^Eu cancelo a criacao do comentairo "Mc maneirinho na NadaMal""$/, async (comentario) => {
