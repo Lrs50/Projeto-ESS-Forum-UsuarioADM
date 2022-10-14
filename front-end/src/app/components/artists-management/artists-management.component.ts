@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiResponse, Artist, News } from '../../../../../common/types'
+import { ApiResponse, Artist } from '../../../../../common/types'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { imageFallBack } from 'src/util'
 import { Store } from '@ngrx/store'
@@ -103,16 +103,22 @@ export class ArtistsManagementComponent implements OnInit {
     onDeleteArtist(id: string): void {
         let find: number = this.findIndexFromArtistList(id)
 
-        this.artistService.delete(id).subscribe(async (res: ApiResponse) => {
+        if(this.artistList[find].mentions == 0){
+            this.artistService.delete(id).subscribe(async (res: ApiResponse) => {
             if (res.status == 200) {
                 this.getArtistPage()
                 this.store.dispatch(addToArtistCount({ payload: -1 }))
 
-                this.message.create('success', `News deleted successfully!`)
+                this.message.create('success', `Artist deleted successfully!`)
             } else {
-                this.message.create('error', `Failed to delete the news!`)
+                this.message.create('error', `Failed to delete the artist!`)
             }
-        })
+            })
+        } else {
+            this.message.create('error', `Failed to delete the artist due to a news mentioning him!`)
+        }
+
+        
     }
 
 }

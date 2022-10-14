@@ -232,6 +232,7 @@
         <div *ngIf="logged | async; else elseBlock" style="width: 100%">
             <nz-space class="user-drodown-container" nzAlign="center">
                 <nz-avatar
+                    id = "profileEnter"
                     *nzSpaceItem
                     nzSize="large"
                     nzIcon="user"
@@ -266,7 +267,7 @@
                         <span *ngIf="notMod | async" nz-icon nzType="user" nz-tooltip nzTooltipTitle="Profile" (click)="onEditProfile()"></span>
                     </ng-template>
                     <ng-template #actionLogOut>
-                        <a nz-icon nzType="logout" nz-tooltip nzTooltipTitle="Logout" (click)="onLogout()" nzDanger></a>
+                        <a id="logoutButton" nz-icon nzType="logout" nz-tooltip nzTooltipTitle="Logout" (click)="onLogout()" nzDanger></a>
                     </ng-template>
                 </ng-container>
             </nz-drawer>

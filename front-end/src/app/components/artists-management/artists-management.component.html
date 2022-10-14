@@ -8,7 +8,7 @@
     <nz-space class="wfull" nzDirection="vertical">
         <div *nzSpaceItem>
             <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                <input type="text" nz-input placeholder="Search by name, type..." [(ngModel)]="filterText"
+                <input name=SearchBar type="text" nz-input placeholder="Search by name, type..." [(ngModel)]="filterText"
                     (input)="debouncedHTTPRequest()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
@@ -45,12 +45,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let artist of artistList; index as i">
+                    <tr *ngFor="let artist of artistList" name="artistList">
                         <td nzEllipsis>
-                            <h5 nz-typography nzEllipsis style="cursor: pointer;"[routerLink]="'/home/artist/' + artist.id">{{ artist.name }}</h5>
+                            <h5 nz-typography nzEllipsis style="cursor: pointer;"[routerLink]="'/home/artist/' + artist.id" name="nomelist">{{ artist.name }}</h5>
                         </td>
                         <td nzEllipsis>
-                            <span nz-typography nzType="secondary">{{ artist.id }}</span>
+                            <span nz-typography nzType="secondary" name="cpflist">{{ artist.id }}</span>
                         </td>
                         <td nzEllipsis>
                             <span nz-typography nzType="secondary">{{ artist.type }}</span>
@@ -65,7 +65,7 @@
                                     <span nz-icon nzType="edit"></span>
                                     Edit
                                 </button>
-                                <button *nzSpaceItem nz-button nzType="primary" nzDanger nz-popconfirm
+                                <button name=delete *nzSpaceItem nz-button nzType="primary" nzDanger nz-popconfirm
                                     nzPopconfirmTitle="Are you sure to delete this artist?"
                                     (nzOnConfirm)="onDeleteArtist(artist.id)" [nzSize]="'small'">
                                     <i nz-icon nzType="delete"></i>
