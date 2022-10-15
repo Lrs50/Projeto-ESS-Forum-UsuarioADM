@@ -11,7 +11,8 @@
         "test:artist": "jest src/Artist/artist.test.ts",
         "test:users": "jest src/User/users.test.ts",
         "test:commonUsers": "jest src/User/commonUsers.test.ts",
-        "test:adminUsers": "jest src/User/adminUsers.test.ts"
+        "test:adminUsers": "jest src/User/adminUsers.test.ts",
+        "test:modUsers": "jest src/User/modUsers.test.ts"
     },
     "keywords": [],
     "author": "",
