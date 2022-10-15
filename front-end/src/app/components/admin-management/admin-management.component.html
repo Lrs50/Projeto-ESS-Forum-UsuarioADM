@@ -1,0 +1,72 @@
+<nz-card class="base-card" nzTitle="Admin Management" [nzExtra]="extraContentTemplate">
+    <ng-template #extraContentTemplate>
+        <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
+            <i nz-icon nzType="plus-square"></i>
+            Create
+        </button>
+    </ng-template>
+    <nz-space class="wfull" nzDirection="vertical">
+        <div *nzSpaceItem>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" nz-input placeholder="Search by name, username" [(ngModel)]="filterText"
+                    (input)="debouncedHTTPRequest()" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" nzSearch>Search</button>
+            </ng-template>
+        </div>
+        <div *nzSpaceItem>
+            <nz-table 
+                #borderedTable 
+                nzBordered 
+                nzTableLayout="fixed" 
+                [nzFrontPagination]="false" 
+                [nzTotal]="totalAdmin"
+                [nzData]="adminList" 
+                [nzPageSize]="pageSize" 
+                [nzPageIndex]="pageIndex" 
+                [nzNoResult]="emptyDataTemplate"
+                [nzPageSizeOptions]="pageSizeOptions" 
+                [nzShowSizeChanger]="true" 
+                [nzLoading]="tableLoading"
+                (nzPageIndexChange)="updatePageIndex($event)" 
+                (nzPageSizeChange)="updatePageSize($event)">
+                
+                <ng-template #emptyDataTemplate>
+                    <nz-empty></nz-empty>
+                </ng-template>
+                <thead>
+                    <tr>
+                        <th nzEllipsis>ID</th>
+                        <th nzWidth="250px">Username</th>
+                        <th nzWidth="150px">Name</th>
+                        <th nzWidth="200px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of adminList; index as i">
+                        <td nzEllipsis>
+                            <h5 nz-typography nzEllipsis style="cursor: pointer;"[routerLink]="'/home/user/' + user.id">{{ user.id }}</h5>
+                        </td>
+                        <td nzEllipsis>
+                            <span nz-typography nzType="secondary">{{ user.username }}</span>
+                        </td>
+                        <td nzEllipsis>
+                            <span nz-typography nzType="secondary">{{ user.name }}</span>
+                        </td>
+                        <td>
+                            <nz-space>
+                                <button *nzSpaceItem nz-button nzType="primary" nzDanger nz-popconfirm
+                                    nzPopconfirmTitle="Are you sure you want to delete this admin?"
+                                    (nzOnConfirm)="onDeleteUserAdmin(user.id)" [nzSize]="'small'">
+                                    <i nz-icon nzType="delete"></i>
+                                    Delete
+                                </button>
+                            </nz-space>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </nz-space>
+</nz-card>

@@ -43,7 +43,10 @@ export class UsersService {
     removeAdminUser(userId: string): Observable<ApiResponse>{
         return this.httpClient.delete<ApiResponse>(`http://localhost:3000/adminUser/${userId}`)
     }
-    
+
+    getUsersAdminSize(): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>(`http://localhost:3000/${'adminSize'}`)
+    }
 
     login(username: string, password: string) {
         return this.httpClient.post<ApiResponse>(this.baseUrl + `login`, { username, password })
@@ -57,5 +60,12 @@ export class UsersService {
         return this.httpClient.delete<ApiResponse>(this.baseUrl + `remove/comment`, { body: { userId, commentId } })
     }
 
+    delete(id: string): Observable<ApiResponse>{
+        return this.httpClient.delete<ApiResponse>(this.baseUrl + `/${id}`)
+    }
+
+    getAdminPage(pageId: number, AdminPerPage: number, filterTerm: string): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>(`http://localhost:3000/adminpage/${pageId}/${AdminPerPage}/${filterTerm}`)
+    }
 
 }

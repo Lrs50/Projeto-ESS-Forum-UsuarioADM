@@ -35,6 +35,12 @@ export class HomeComponent implements OnInit {
         })
     )
 
+    isMod: Observable<boolean> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return (state.user.type == 'Mod') as boolean
+        })
+    )
+
     constructor(private store: Store<{ app: AppState }>) {}
 
     ngOnInit(): void {}
