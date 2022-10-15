@@ -30,9 +30,10 @@ defineSupportCode(function ({ Given, When, Then }) {
         await browser.get("http://localhost:4200/home/news/IQm_4PNXUvmikE5fmso2y")
     })
     Given(/^Consigo ver o comentario "([^\"]*)" na noticia$/, async (comentario) => {
+        await browser.driver.sleep(1000);
         var allCommits : ElementArrayFinder = element.all(by.name('allComments'));
-        var sameComment = allCommits.filter(elem => expect (elem.element(by.name('content')).getText().then(text => text == comentario)).to.equal(true));
-        //await assertTamanhoEqual(sameComment,1);
+        var sameComment = allCommits.filter(elem => elem.element(by.name('content')).getText().then(text => text == comentario));
+        await assertTamanhoEqual(sameComment,1);
     })
     When(/^Eu tento remover o comentario "([^\"]*)"$/, async (comentario) => {
         //await element(by.buttonText("Delete")).click()

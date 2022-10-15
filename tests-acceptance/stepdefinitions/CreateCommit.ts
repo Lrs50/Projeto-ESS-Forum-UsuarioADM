@@ -31,14 +31,18 @@ defineSupportCode(function ({ Given, When, Then }) {
         //var sameComment = allCommits.filter(elem => elem.element(by.name('content')).getText().then(text => text == comentario));
         //await browser.driver.sleep(1000);
         //await sameComment.map(elem => elem.element(by.id("deleteCommentary")).click())
-        //await browser.driver.sleep(1000);
+        await browser.driver.sleep(1000);
+        await $("textarea[name='commitArea']").sendKeys(<string> comentario);
+        await element(by.id("addCommentB")).click();
     })
 
-    When(/^Eu cancelo a criacao do comentairo "Mc maneirinho na NadaMal""$/, async (comentario) => {
+    When(/^Eu cancelo a criacao do comentairo "([^\"]*)"$/, async (comentario) => {
+        await browser.driver.sleep(1000);
         await element(by.buttonText("Cancel")).click();
     })
 
-    When(/^Eu confirmo a criacao do comentairo "Mc maneirinho na NadaMal""$/, async (comentario) => {
+    When(/^Eu confirmo a criacao do comentairo "([^\"]*)"$/, async (comentario) => {
+        await browser.driver.sleep(1000);
         await element(by.buttonText("OK")).click();
     })
     

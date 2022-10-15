@@ -73,7 +73,7 @@
                 <nz-form-item>
                     <nz-tabset nzType="card" class="full-width">
                         <nz-tab [nzTitle]="'Markdown'">
-                            <textarea [(ngModel)]="commentContent" nz-input rows="4"></textarea>
+                            <textarea name = "commitArea" [(ngModel)]="commentContent" nz-input rows="4"></textarea>
                         </nz-tab>
                         <nz-tab [nzTitle]="'Preview'">
                             <markdown ngPreserveWhitespaces [data]="commentContent"></markdown>
@@ -82,10 +82,13 @@
                 </nz-form-item>
                 <nz-form-item>
                     <button
+                        nz-popconfirm    
+                        nzPopconfirmTitle="Are you sure to create this comment?" 
+                        (nzOnConfirm)="addComment()"
+                        id = "addCommentB"
                         nz-button
                         nzType="primary"
                         [disabled]="commentContent == '' || (isAdmin | async) || !(isUserLogged | async)"
-                        (click)="addComment()"
                     >
                         Add Comment
                     </button>
@@ -116,7 +119,7 @@
                                     <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer">
                                             <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
                                         </nz-space>
-                                    <nz-space id = "deleteCommentary" *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer"nz-popconfirm nzPopconfirmTitle="Are you sure to delete this common User?" (nzOnConfirm)="removeComment(comment.id)">
+                                    <nz-space id = "deleteCommentary" *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer"nz-popconfirm nzPopconfirmTitle="Are you sure to delete this comment?" (nzOnConfirm)="removeComment(comment.id)">
                                         <span *nzSpaceItem nz-icon nzType="delete"></span>
                                         <span *nzSpaceItem> Delete comment </span>
                                     </nz-space>
