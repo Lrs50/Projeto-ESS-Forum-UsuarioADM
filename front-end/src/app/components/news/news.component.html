@@ -9,7 +9,7 @@
         >
             <nz-spin nzTip="Loading..." [nzSpinning]="loading">
                 <div *ngIf="weHaveNews; else elseBlock">
-                    <div *ngFor="let news of newsList" nz-card-grid [ngStyle]="gridStyle">
+                    <div *ngFor="let news of newsList" name="allNewsList" nz-card-grid [ngStyle]="gridStyle">
                         <app-news-shower
                             [id]="news.id"
                             [title]="news.title"

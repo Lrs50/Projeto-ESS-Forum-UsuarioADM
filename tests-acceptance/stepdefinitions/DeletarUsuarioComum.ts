@@ -33,7 +33,17 @@ defineSupportCode(function ({ Given, When, Then }) {
             await $("input[name='UserSpace']").sendKeys(<string> user);
             await $("input[name='CpfBox']").sendKeys(<string> passw);
             await element(by.id("logButton")).click();
+            expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
+        }else{
+            await element(by.id("profileEnter")).click();
+            await element(by.id("logoutButton")).click();
+            await element(by.id("login")).click();
+            await $("input[name='UserSpace']").sendKeys(<string> user);
+            await $("input[name='CpfBox']").sendKeys(<string> passw);
+            await element(by.id("logButton")).click();
+            expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
         }
+
     })
     
     Given(/^Eu estou na pagina UsersManagement$/, async () => {
