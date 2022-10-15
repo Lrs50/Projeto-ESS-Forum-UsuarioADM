@@ -47,6 +47,15 @@ describe('Mod User backend', () => {
         expect(result).toBeUndefined()
     })
 
+    test('The database should support pagination', async () => {
+        const spy = jest.spyOn(database, 'getUserAdminPage')
+
+        let result: User[] = database.getUserAdminPage(1, 5, '')
+
+        expect(spy).toBeCalled()
+        expect(result.length).toBe(1)
+    })
+
     test('Http Validator should work properly', () => {
         let params: Object = {
             param1: 1,
