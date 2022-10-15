@@ -36,6 +36,12 @@ export class AppComponent implements OnInit {
         })
     )
 
+    notMod: Observable<boolean> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return (state.user.type != 'Mod') as boolean
+        })
+    )
+
     constructor(
         private store: Store<{ app: AppState }>,
         private newsManagementService: NewsManagementService,

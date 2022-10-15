@@ -55,6 +55,20 @@ export function emptyUser(id: string): User {
     } as User;
 }
 
+export function emptyAdm(id: string): User {
+    return {
+        id: id,
+        username: "",
+        aboutme: "Change your about me!",
+        name: "",
+        password: "",
+        type: "Admin",
+        cover: "https://tokystorage.s3.amazonaws.com/images/default-cover.png",
+        avatar: "https://miro.medium.com/max/720/1*W35QUSvGpcLuxPo3SRTH4w.png",
+        profileComments: [],
+    } as User;
+}
+
 export interface Comment {
     readonly id: CommentId;
     readonly authorInfo: Pick<User, "avatar" | "name" | "id">;

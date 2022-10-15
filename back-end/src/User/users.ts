@@ -156,6 +156,20 @@ class UsersDB {
         return result
              
     }
+    deleteUser(id: string): Promise<Boolean>{
+
+        let remove: Boolean = this.db.delete(id)
+
+        if (remove == false) {
+            return new Promise<Boolean>((resolve, reject) => {
+                resolve(false)
+            })
+        }
+
+        let result: Promise<Boolean> = this.saveUsers()
+
+        return result  
+    }
 
     editAdminUser(user: User): Promise<Boolean> {
         let find: User | undefined = this.db.get(user.id)
@@ -257,6 +271,32 @@ class UsersDB {
 
             return false
         }
+    }
+
+    getUserAdminPage(pageId: number, AdminPerPage: number, filterTerm: string | undefined): User[] {
+        let tempArr: User[] = MapValuesToArray(this.db)
+
+        tempArr = this.getAllAdminUsers()
+
+        if (filterTerm != '' && filterTerm != undefined) {
+            let term: string = filterTerm.toLowerCase()
+
+            tempArr = tempArr.filter((user: User) => {
+            
+                if (user.name.toLowerCase().includes(term)) {
+                    return true
+                }
+                if (user.username.toLowerCase().includes(term)) {
+                    return true
+                }
+                
+                return false
+            })
+        }
+
+        tempArr = tempArr.slice((pageId - 1) * AdminPerPage, Math.min(pageId * AdminPerPage, this.db.size))
+
+        return tempArr
     }
 }
 

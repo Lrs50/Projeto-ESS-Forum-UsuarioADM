@@ -69,6 +69,9 @@ app.get('/adminUser/:id', UsersController.getUserAdmin)
 app.get('/adminAll', UsersController.getAllAdminUsers)
 app.put('/adminUser', UsersController.editAdminUser)
 app.delete('/adminUser/:id', UsersController.deleteAdminUser)
+app.get('/adminSize',UsersController.getAdminUsersSize)
+app.get('/adminpage/:pageId/:adminPerPage/:filterTerm?', UsersController.getAdminPage)
+app.delete('/user/:id', UsersController.deleteUser)
 
 app.get('/getMod/:id',UsersController.getMod)
 

@@ -1,5 +1,5 @@
 {
-    "MODE": "DEV",
+    "MODE": "PROD",
     "PORT": 3000,
     "EXPRESS_ORIGIN_ALLOW": "*"
 }

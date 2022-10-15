@@ -1,6 +1,6 @@
 <div class="grid-container">
-    <section class="header-logo-name">
-        <img nz-image height="60px" nzSrc="https://cdn.discordapp.com/attachments/999832468691632218/1024041828229582868/logo2.png" alt="" />
+    <section class="header-logo-name" >
+        <img nz-image height="60px" nzSrc="https://cdn.discordapp.com/attachments/999832468691632218/1024041828229582868/logo2.png" alt="" [nzDisablePreview]="true" [routerLink]="'home'" style="cursor: pointer"/>
     </section>
     <section class="header-menu">
         <a nz-button nzType="text" [nzSize]="'large'" routerLink="home">
@@ -263,8 +263,8 @@
                     <ng-template #coverTemplate>
                         <img nz-image [nzSrc]="(userInfo | async)!.cover" [nzFallback]="imgFall" />
                     </ng-template>
-                    <ng-template #actionEdit>
-                        <span nz-icon nzType="user" nz-tooltip nzTooltipTitle="Profile" (click)="onEditProfile()"></span>
+                    <ng-template #actionEdit >
+                        <span *ngIf="notMod | async" nz-icon nzType="user" nz-tooltip nzTooltipTitle="Profile" (click)="onEditProfile()"></span>
                     </ng-template>
                     <ng-template #actionLogOut>
                         <a id="logoutButton" nz-icon nzType="logout" nz-tooltip nzTooltipTitle="Logout" (click)="onLogout()" nzDanger></a>
