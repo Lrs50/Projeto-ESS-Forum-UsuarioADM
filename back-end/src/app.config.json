@@ -1,5 +1,5 @@
 {
-    "MODE": "TEST",
+    "MODE": "DEV",
     "PORT": 3000,
     "EXPRESS_ORIGIN_ALLOW": "*"
 }
