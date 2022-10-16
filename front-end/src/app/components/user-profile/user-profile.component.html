@@ -4,8 +4,8 @@
             <nz-spin [nzSpinning]="loading" nzTip="Loading...">
                 <nz-card [nzBordered]="false" [nzCover]="coverTemplate" [nzActions]="[extraTemplate, logoutTemplate]">
                     <nz-space nzDirection="vertical" nzAlign="center" class="full-width">
-                        <nz-avatar *nzSpaceItem [nzSize]="64" nzIcon="user" [nzSrc]="user.avatar"></nz-avatar>
-                        <h4 nz-typography *nzSpaceItem>{{ user.name }}</h4>
+                        <nz-avatar id="avatarBox" *nzSpaceItem [nzSize]="64" nzIcon="user" [nzSrc]="user.avatar"></nz-avatar>
+                        <h4 id="usernameBox" nz-typography *nzSpaceItem>{{ user.name }}</h4>
                         <h5 nz-typography *nzSpaceItem nzType="secondary">{{ user.type }}</h5>
                         <span *nzSpaceItem nz-typography>{{ user.aboutme }}</span>
                     </nz-space>
@@ -14,7 +14,7 @@
                     </ng-template>
 
                     <ng-template #extraTemplate>
-                        <a *ngIf="(isAdmin | async) == true || (userInfo | async)!.id == user.id" nz-button nzType="text" routerLink="edit">
+                        <a id="editProfileButton" *ngIf="(isAdmin | async) == true || (userInfo | async)!.id == user.id" nz-button nzType="text" routerLink="edit">
                             <span nz-icon nzType="edit"></span> Edit Profile
                         </a>
                     </ng-template>

@@ -1,6 +1,6 @@
 <nz-card class="base-card" nzTitle="Artists Management" [nzExtra]="extraContentTemplate">
     <ng-template #extraContentTemplate>
-        <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
+        <button nz-button id="Create Artist" nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
             <i nz-icon nzType="plus-square"></i>
             Create
         </button>
@@ -8,7 +8,7 @@
     <nz-space class="wfull" nzDirection="vertical">
         <div *nzSpaceItem>
             <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
-                <input name=SearchBar type="text" nz-input placeholder="Search by name, type..." [(ngModel)]="filterText"
+                <input name=SearchBarArtist type="text" nz-input placeholder="Search by name, type..." [(ngModel)]="filterText"
                     (input)="debouncedHTTPRequest()" />
             </nz-input-group>
             <ng-template #suffixIconButton>
@@ -65,7 +65,7 @@
                                     <span nz-icon nzType="edit"></span>
                                     Edit
                                 </button>
-                                <button name=delete *nzSpaceItem nz-button nzType="primary" nzDanger nz-popconfirm
+                                <button name=deleteArtist *nzSpaceItem nz-button nzType="primary" nzDanger nz-popconfirm
                                     nzPopconfirmTitle="Are you sure to delete this artist?"
                                     (nzOnConfirm)="onDeleteArtist(artist.id)" [nzSize]="'small'">
                                     <i nz-icon nzType="delete"></i>

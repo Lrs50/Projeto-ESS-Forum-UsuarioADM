@@ -14,7 +14,7 @@ Scenario: Remoção mal sucedida de um artista existente no sistema devido ao ca
 	Given Eu estou logado como usuário adm "costa" com senha "123"
 	Given Eu estou na pagina "Artist Management"
 	Given O artista "João Gomes" com id "joaogomes" está cadastrado no sistema
-	When Eu tento remover o artista "João Gomes" com id "joaogomes" e cancelo 
+	When Eu cancelo a remoção do artista "João Gomes" com id "joaogomes"
 	Then Consigo ver o artista "João Gomes" com id "joaogomes"
 
 Scenario: Remoção bem sucedida de um artista existente no sistema.
