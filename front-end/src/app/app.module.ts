@@ -89,7 +89,8 @@ import { ArtistsCreateComponent } from './components/artists-create/artists-crea
 import { ArtistComponent } from './components/artist/artist.component';
 import { AdminManagementComponent } from './components/admin-management/admin-management.component';
 import { AdminCreateComponent } from './components/admin-create/admin-create.component';
-import { ArtistEditComponent } from './components/artist-edit/artist-edit.component'
+import { ArtistEditComponent } from './components/artist-edit/artist-edit.component';
+import { UsersComponent } from './components/users/users.component'
 
 const ngZorroConfig: NzConfig = {
     theme: {
@@ -145,6 +146,7 @@ const icons: IconDefinition[] = [
         AdminManagementComponent,
         AdminCreateComponent,
         ArtistEditComponent,
+        UsersComponent,
     ],
     imports: [
         BrowserModule,
