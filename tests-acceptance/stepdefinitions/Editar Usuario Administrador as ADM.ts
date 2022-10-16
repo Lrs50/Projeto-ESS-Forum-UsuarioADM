@@ -6,11 +6,6 @@ var { setDefaultTimeout } = require("cucumber");
 
 setDefaultTimeout(60 * 1000);
 
-let sameId = ((elem, id) => elem.element(by.name('cpflist')).getText().then(text => text == id));
-let sameUsername = ((elem, user) => elem.element(by.name('nomelist')).getText().then(text => text == user));
-
-let pAND = ((p,q) => p.then(a => q.then(b => a && b)))
-
 async function assertTamanhoEqual(set,n) {
     await set.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(n));
 }
@@ -35,14 +30,15 @@ defineSupportCode(function ({ Given, When, Then }) {
             await element(by.id("logButton")).click();
             expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
         }
-    })
+    });
     
-    Given(/^Estou na página de edição de perfil$/, async () => {
+    Given(/^Estou na página de edição de perfil com ID "([^\"]*)"$/, async (id) => {
         await element(by.id("profileEnter")).click();
-        await browser.driver.sleep(1000);
+        await browser.driver.sleep(500);
         await element(by.id("profileButton")).click();
-        await browser.driver.sleep(1000);
+        await browser.driver.sleep(500);
         await element(by.id("editProfileButton")).click();
+        await expect(await browser.getCurrentUrl()).to.equal(`http://localhost:4200/home/user/${id}/edit`)
     });
 
     When(/^Eu modifico o meu campo de nome para "([^\"]*)"$/, async (name) => {
@@ -52,6 +48,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         await element(by.className("ant-input ng-star-inserted")).sendKeys(<string> name);
         await element(by.className("ant-input ng-star-inserted")).sendKeys(Key.ENTER);
     });
+
     When(/^Confirmo a modificação$/, async () => {
         await browser.driver.sleep(1000);
         await element(by.id("saveButton")).click()
@@ -64,6 +61,22 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     //Scenario 2
+    When(/^Eu modifico o meu campo de about para "([^\"]*)"$/, async (about) => {
+        await browser.driver.sleep(1000);
+        await element(by.className("ant-typography-edit ng-star-inserted")).click()
+        await element(by.className("ant-typography-edit ng-star-inserted")).click()
+        await element(by.className("ant-input ng-star-inserted")).sendKeys(Key.chord(Key.CONTROL, "a"));
+        await element(by.className("ant-input ng-star-inserted")).sendKeys(<string> about);
+        await element(by.className("ant-input ng-star-inserted")).sendKeys(Key.ENTER);
+    });
+
+    Then(/^O usuário administrador com about "([^\"]*)" é modificado no sistema para ter o seu about igual a "([^\"]*)"$/, async (oldAbout, newAbout) => {
+        await browser.driver.sleep(1000);
+        expect(await element(by.id("aboutBox")).getText()).not.to.equal(oldAbout);
+        expect(await element(by.id("aboutBox")).getText()).to.equal(newAbout);
+    });
+
+    //Scenario 3
     When(/^Eu modifico o meu campo de avatar para "([^\"]*)"$/, async (avatar) => {
         await browser.driver.sleep(1000);
         await element(by.id("avatarButton")).click()
@@ -78,5 +91,22 @@ defineSupportCode(function ({ Given, When, Then }) {
         var allImages: ElementArrayFinder = element.all(by.tagName("img"))
         var sameImage = allImages.filter(elem => elem.getAttribute('src').then(url => url == <string> newAvatar));
         await assertTamanhoEqual(sameImage, 2);
+    });
+
+    //Scenario 4
+    When(/^Eu modifico o meu campo de cover para "([^\"]*)"$/, async (cover) => {
+        await browser.driver.sleep(1000);
+        await element(by.id("coverButton")).click()
+        await browser.driver.sleep(500);
+        await $("input[name='inputCover']").sendKeys(Key.chord(Key.CONTROL, "a"));
+        await $("input[name='inputCover']").sendKeys(<string> cover);
+        await element(by.buttonText("OK")).click();
+    });
+
+    Then(/^O usuário administrador tem seu perfil modificado no sistema para ter o seu cover igual a "([^\"]*)"$/, async (newCover) => {
+        await browser.driver.sleep(1000);
+        var allImages: ElementArrayFinder = element.all(by.tagName("img"))
+        var sameImage = allImages.filter(elem => elem.getAttribute('src').then(url => url == <string> newCover));
+        await assertTamanhoEqual(sameImage, 1);
     });
 })
