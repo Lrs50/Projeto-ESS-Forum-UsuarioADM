@@ -14,6 +14,7 @@ async function clearAndSendKeys(keys: any, type: string, typeName: string){
         await $(`input[name='${typeName}']`).sendKeys(Key.chord(Key.CONTROL, "a"));
         await $(`input[name='${typeName}']`).sendKeys(keys);
     }
+    await browser.driver.sleep(1000);
 }
 
 async function checkOldAndNewByID(id: string, oldCheck: string, newCheck: string){
@@ -114,7 +115,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     When(/^Eu modifico o meu campo de cover para "([^\"]*)"$/, async (cover) => {
         await browser.driver.sleep(1000);
         await element(by.id("coverButton")).click()
-        await browser.driver.sleep(500);
+        await browser.driver.sleep(1000);
         await clearAndSendKeys(<string> cover, 'inputName', 'inputCover')
         await element(by.buttonText("OK")).click();
     });
