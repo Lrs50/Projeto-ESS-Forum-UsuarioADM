@@ -17,22 +17,22 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     Given(/^O artista "([^\"]*)" com id "([^\"]*)" está cadastrado no sistema$/, async (user, id) => {
-        await $("input[name='SearchBar']").sendKeys(<string> id);
-        await browser.driver.sleep(1000);
+        await $("input[name='SearchBarArtist']").sendKeys(<string> id);
+        await browser.driver.sleep(1500);
         var listedArtists : ElementArrayFinder = element.all(by.name('artistList'));
         await listedArtists.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(1)); 
     });
     
     When(/^Eu tento remover o artista "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
         var listedArtists : ElementArrayFinder = element.all(by.name('artistList'));
-        await listedArtists.map(elem => elem.element(by.name('delete')).click())
+        await listedArtists.map(elem => elem.element(by.name('deleteArtist')).click())
         await element(by.buttonText("OK")).click();
     });
 
     When(/^Eu cancelo a remoção do artista "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
         await browser.driver.sleep(1000);
         var listedArtists : ElementArrayFinder = element.all(by.name('artistList'));
-        await listedArtists.map(elem => elem.element(by.name('delete')).click());
+        await listedArtists.map(elem => elem.element(by.name('deleteArtist')).click());
         await element(by.buttonText("Cancel")).click();
     });
 
