@@ -30,4 +30,12 @@ defineSupportCode(function ({ Given, When, Then }) {
         expect((await url).includes('http://localhost:4200/home/artist/'));
     });
 
+    Given(/^As informações nome, type e description não estão preenchidas$/, async () => {
+    });
+
+    Then(/^Eu continuo na area de "([^\"]*)"$/, async (page) => {
+        var url = browser.getCurrentUrl();
+        expect((await url).includes('http://localhost:4200/home/management/artist/create'));
+    });
+
 })

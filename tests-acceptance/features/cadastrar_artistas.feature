@@ -3,6 +3,13 @@ As usuário administrador
 I want to cadastrar um artista
 So that um artista possa ser acessado no sistema
 
+Scenario: Cadastro mal sucedido de um artista no sistema.
+	Given Eu estou logado como usuário adm "costa" com senha "123"
+	Given Eu estou na area de "Create Artist"
+	Given As informações nome, type e description não estão preenchidas
+	When Eu tento cadastrar o artista 
+	Then Eu continuo na area de "Create Artist"
+
 Scenario: Cadastro bem sucedido de um artista no sistema.
 	Given Eu estou logado como usuário adm "costa" com senha "123"
 	Given Eu estou na area de "Create Artist"
