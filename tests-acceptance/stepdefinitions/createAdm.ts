@@ -27,24 +27,23 @@ defineSupportCode(function ({ Given, When, Then }) {
     //given already implemented
     //First scenario
     Given(/^Estou na pagina Create Admin User$/, async () => {
-        browser.waitForAngular();
         await browser.get("http://localhost:4200/home/management/admin/create")
+        await browser.driver.sleep(1000);
     })
     When(/^Eu preencho os campos Username name e password com "([^\"]*)" "([^\"]*)" e "([^\"]*)"$/, async (username,name,password) => {
-        await browser.driver.sleep(1000); 
         await $("input[name='usernameBox']").sendKeys(<string> username);
         await $("input[name='nameBox']").sendKeys(<string> name);
         await $("input[name='passwordBox']").sendKeys(<string> password);
         await browser.driver.sleep(1000); 
     })
-    When(/^Eu aperto o botão create$/, async () => {
-        await browser.driver.sleep(1000);
+    When(/^Eu confirmo a criação do usuario$/, async () => {
         await element(by.buttonText("Create")).click();
     })
 
     Then(/^Estou na pagina Admin Management$/, async () => {
         await browser.driver.sleep(1000);
         const link = 'http://localhost:4200/home/management/admin' 
+        await browser.driver.sleep(1000);
         await browser.get(link) 
         expect(await browser.getCurrentUrl()).to.equal(link) 
     })
@@ -53,8 +52,20 @@ defineSupportCode(function ({ Given, When, Then }) {
         await browser.driver.sleep(1000);
         var alladms : ElementArrayFinder = element.all(by.name('adminList'));
         var sameUsername_ = alladms.filter(elem => sameUsername(elem,username));
-        await browser.driver.sleep(1000);
         await assertTamanhoEqual(sameUsername_,1);  
     })
-
+    //Second scenario
+    When(/^Eu preencho os campos Username name com "([^\"]*)" e "([^\"]*)"$/, async (username,name) => {
+        await browser.driver.sleep(1000); 
+        await $("input[name='usernameBox']").sendKeys(<string> username);
+        await $("input[name='nameBox']").sendKeys(<string> name);
+        await browser.driver.sleep(1000); 
+    })
+    Then(/^Continuo na pagina Create Admin User$/, async () => {
+        await browser.driver.sleep(1000);
+        const link = 'http://localhost:4200/home/management/admin/create' 
+        await browser.driver.sleep(1000); 
+        await browser.get(link) 
+        await expect(await browser.getCurrentUrl()).to.equal(link) 
+    })
 })

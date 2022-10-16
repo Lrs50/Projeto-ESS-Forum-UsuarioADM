@@ -7,6 +7,13 @@ Scenario: Criação bem sucedida de um usuário administrador
 Given Eu estou logado como usuário mod "McPoze" com senha "123"
 Given Estou na pagina Create Admin User
 When Eu preencho os campos Username name e password com "admin-test1" "admin-test1" e "123"
-When Eu aperto o botão create
+When Eu confirmo a criação do usuario
 Then Estou na pagina Admin Management
 When Consigo ver o usuario adm com username "admin-test1"
+
+Scenario: Criação mal sucedida de um usuário administrador por preenchimento incompleto
+Given Eu estou logado como usuário mod "McPoze" com senha "123"
+Given Estou na pagina Create Admin User
+When Eu preencho os campos Username name com "admin-test2" e "admin-test2"
+When Eu confirmo a criação do usuario
+Then Continuo na pagina Create Admin User
