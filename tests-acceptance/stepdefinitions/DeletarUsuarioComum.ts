@@ -33,6 +33,7 @@ defineSupportCode(function ({ Given, When, Then }) {
             await $("input[name='UserSpace']").sendKeys(<string> user);
             await $("input[name='CpfBox']").sendKeys(<string> passw);
             await element(by.id("logButton")).click();
+            await browser.driver.sleep(1000);
             expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
         }else{
             await element(by.id("profileEnter")).click();
@@ -41,6 +42,7 @@ defineSupportCode(function ({ Given, When, Then }) {
             await $("input[name='UserSpace']").sendKeys(<string> user);
             await $("input[name='CpfBox']").sendKeys(<string> passw);
             await element(by.id("logButton")).click();
+            await browser.driver.sleep(1000);
             expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
         }
 

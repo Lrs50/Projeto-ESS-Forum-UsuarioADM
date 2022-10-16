@@ -21,7 +21,7 @@ export class ArtistsManagementComponent implements OnInit {
     tableLoading: boolean = false
 
     pageSizeOptions: number[] = [5, 10, 20, 30, 40]
-    pageSize: number = 5
+    pageSize: number = 10
     pageIndex: number = 1
     totalArtist: number = 1
 
