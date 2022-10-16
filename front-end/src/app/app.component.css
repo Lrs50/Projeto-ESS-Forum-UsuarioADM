@@ -52,7 +52,7 @@ main {
     grid-area: main;
 }
 
-.user-drodown-container {
+.user-dropdown-container {
     cursor: pointer;
     padding: 5px;
     min-width: 130px;
