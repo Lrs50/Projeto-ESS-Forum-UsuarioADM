@@ -62,5 +62,19 @@
             "avatar": "fake-avatar",
             "profileComments": []
         }
+    ],
+    [
+        "p2ma839-rkipddVqaanmR",
+        {
+            "id": "p2ma839-rkipddVqaanmR",
+            "username": "Lucas",
+            "aboutme": "Apenas um Usuário Qualquer :)",
+            "name": "Mascarado",
+            "password": "123",
+            "type": "Admin",
+            "cover": "https://wallpaperaccess.com/full/314478.jpg",
+            "avatar": "http://revistagalileu.globo.com/Revista/Galileu2/foto/0,,53814002,00.jpg",
+            "profileComments": []
+        }
     ]
 ]
