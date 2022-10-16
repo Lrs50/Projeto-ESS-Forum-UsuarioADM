@@ -16,12 +16,16 @@ class UsersDB {
     path: string
 
     constructor() {
+        this.path = './data.test.json'
         if (AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD') {
             this.path = './data.json'
-        } else {
-            //eh necessario apagar tudo dentro do arquivo e colocar pra o conteudo ser apenas []
-            this.path = './data.test.json'
         }
+        if (AppConfig.MODE == 'TESTBACK'){
+            this.path = './data.testBack.json'
+        }
+        if (AppConfig.MODE == 'TESTFRONT'){
+            this.path = './data.testFront.json'
+        }  
 
         let content: string = readFileSync(Path.resolve(__dirname, this.path), { encoding: 'utf8', flag: 'r' })
 
@@ -84,20 +88,21 @@ class UsersDB {
     }
    
     deleteCommonUser(id: string): Promise<Boolean>{
-        var a: User[] = MapValuesToArray(this.db)
-        const commonUser = a.filter(a => a.id == id)
-        if(commonUser.length == 1){
-            if(commonUser[0].type == 'User'){
-                let find: Boolean = this.db.delete(id)
-
-                if (find == false) {
-                    return new Promise<Boolean>((resolve, reject) => {
-                    resolve(false)
-                    })
-                }
-            }
+        let find: User | undefined = this.db.get(id)
+    
+        if (find == undefined || find.type != 'User'){
+            return new Promise<Boolean>((resolve, reject) => {
+                resolve(false)
+            })
         }
-        
+
+        let remove: Boolean = this.db.delete(id)
+
+        if (remove == false) {
+            return new Promise<Boolean>((resolve, reject) => {
+                resolve(false)
+            })
+        }
 
         let result: Promise<Boolean> = this.saveUsers()
 

@@ -14,6 +14,7 @@ async function clearAndSendKeys(keys: any, type: string, typeName: string){
         await $(`input[name='${typeName}']`).sendKeys(Key.chord(Key.CONTROL, "a"));
         await $(`input[name='${typeName}']`).sendKeys(keys);
     }
+    await browser.driver.sleep(1000);
 }
 
 async function checkOldAndNewByID(id: string, oldCheck: string, newCheck: string){
@@ -29,20 +30,27 @@ defineSupportCode(function ({ Given, When, Then }) {
     //Scenario 1
     Given(/^Eu estou logado como usuário administrador com username "([^\"]*)" e senha "([^\"]*)"$/, async (user, passw) => {
         await browser.get("http://localhost:4200/home/news");
+        await browser.driver.sleep(1000);
         await expect(browser.getTitle()).to.eventually.equal('ReviReli');
         if(await element(by.id("login")).isPresent()){
             await element(by.id("login")).click();
+            await browser.driver.sleep(1000);
             await $("input[name='UserSpace']").sendKeys(<string> user);
             await $("input[name='CpfBox']").sendKeys(<string> passw);
             await element(by.id("logButton")).click();
+            await browser.driver.sleep(1000);
             expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
         }else{
             await element(by.id("profileEnter")).click();
+            await browser.driver.sleep(1000);
             await element(by.id("logoutButton")).click();
+            await browser.driver.sleep(1000);
             await element(by.id("login")).click();
+            await browser.driver.sleep(1000);
             await $("input[name='UserSpace']").sendKeys(<string> user);
             await $("input[name='CpfBox']").sendKeys(<string> passw);
             await element(by.id("logButton")).click();
+            await browser.driver.sleep(1000);
             expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
         }
     });
@@ -107,7 +115,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     When(/^Eu modifico o meu campo de cover para "([^\"]*)"$/, async (cover) => {
         await browser.driver.sleep(1000);
         await element(by.id("coverButton")).click()
-        await browser.driver.sleep(500);
+        await browser.driver.sleep(1000);
         await clearAndSendKeys(<string> cover, 'inputName', 'inputCover')
         await element(by.buttonText("OK")).click();
     });

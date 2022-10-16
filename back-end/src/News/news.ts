@@ -16,13 +16,16 @@ class NewsDB {
     path: string
 
     constructor() {
+        this.path = './data.test.json'
         if (AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD') {
             this.path = './data.json'
-        } else if (AppConfig.MODE == 'GUI_TEST') {
-            this.path = './data.test.gui.json'
-        } else {
-            this.path = './data.test.json'
         }
+        if (AppConfig.MODE == 'TESTBACK'){
+            this.path = './data.testBack.json'
+        }
+        if (AppConfig.MODE == 'TESTFRONT'){
+            this.path = './data.testFront.json'
+        }  
 
         let content: string = readFileSync(Path.resolve(__dirname, this.path), { encoding: 'utf8', flag: 'r' })
 

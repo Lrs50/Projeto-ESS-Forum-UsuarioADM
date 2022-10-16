@@ -16,12 +16,19 @@ class ArtistDB {
     path: string
 
     constructor() {
+        this.path = './data.test.json'
         if (AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD') {
             this.path = './data.json'
-        } else {
-            this.path = './data.test.json'
         }
-
+        if (AppConfig.MODE == 'TESTBACK'){
+            this.path = './data.testBack.json'
+        }
+        if (AppConfig.MODE == 'TESTFRONT'){
+            this.path = './data.testFront.json'
+        }  
+          
+        
+        
         let content: string = readFileSync(Path.resolve(__dirname, this.path), { encoding: 'utf8', flag: 'r' })
 
         let tempArr: any[] = JSON.parse(content)
