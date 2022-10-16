@@ -65,18 +65,13 @@ export class ArtistEditComponent implements OnInit {
         this.statusInputDescription = 'danger'
         result = false
     }
-    
-    if (this.artist.description == '') {
-        this.statusInputDescription = 'danger'
-        result = false
-    }
 
     return result
   }
 
   onSaveArtist(): void {
       if (this.validateEditInfo() == false) {
-          this.message.create('error', `Please make sure that the Name and the Description are not empty!`)
+          this.message.create('error', `Please make sure that the Name is not empty!`)
           return
       }
 
