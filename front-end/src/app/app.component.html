@@ -1,5 +1,5 @@
 <div class="grid-container">
-    <section class="header-logo-name" >
+    <section style="margin-left: 20px" class="header-logo-name" >
         <img nz-image height="60px" nzSrc="https://cdn.discordapp.com/attachments/999832468691632218/1024041828229582868/logo2.png" alt="" [nzDisablePreview]="true" [routerLink]="'home'" style="cursor: pointer"/>
     </section>
     <section class="header-menu">
@@ -230,7 +230,7 @@
     </section>
     <section class="header-button">
         <div *ngIf="logged | async; else elseBlock" style="width: 100%">
-            <nz-space class="user-drodown-container" nzAlign="center">
+            <nz-space class="user-dropdown-container" nzAlign="center">
                 <nz-avatar
                     id = "profileEnter"
                     *nzSpaceItem
@@ -264,7 +264,7 @@
                         <img nz-image [nzSrc]="(userInfo | async)!.cover" [nzFallback]="imgFall" />
                     </ng-template>
                     <ng-template #actionEdit >
-                        <span *ngIf="notMod | async" nz-icon nzType="user" nz-tooltip nzTooltipTitle="Profile" (click)="onEditProfile()"></span>
+                        <span id="profileButton" *ngIf="notMod | async" nz-icon nzType="user" nz-tooltip nzTooltipTitle="Profile" (click)="onEditProfile()"></span>
                     </ng-template>
                     <ng-template #actionLogOut>
                         <a id="logoutButton" nz-icon nzType="logout" nz-tooltip nzTooltipTitle="Logout" (click)="onLogout()" nzDanger></a>
