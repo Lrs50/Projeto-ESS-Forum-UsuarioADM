@@ -41,7 +41,14 @@
         </span>
     </nz-space>
     <div style="float: right">
-        <button style="margin-right:20px; margin-bottom:15px" *ngIf="(isAdmin | async) == true && (userInfo | async)!.id == editingUser.id" nz-button nzType="default" nzDanger [nzSize]="'large'" (click)="onDeleteUser()">
+        <button style="margin-right:20px; margin-bottom:15px" 
+                *ngIf="(isAdmin | async) == true && (userInfo | async)!.id == editingUser.id" 
+                nz-button nzType="default" 
+                nzDanger 
+                nz-popconfirm
+                nzPopconfirmTitle="Are you sure you want to delete this user?"
+                (nzOnConfirm)="onDeleteUser()"
+                [nzSize]="'large'">
             <span nz-icon nzType="close"></span>
             Delete Account
         </button>

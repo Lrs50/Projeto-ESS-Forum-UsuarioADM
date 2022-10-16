@@ -80,6 +80,8 @@ export class UserProfileEditComponent implements OnInit {
             this.userService.edit(this.editingUser).subscribe((res: ApiResponse) => {
                 if (res.status == 200) {
                     this.message.create('success', `Saved successfully!`)
+                    this.store.dispatch(changeUserInfo({payload: this.editingUser}))
+                    this.router.navigateByUrl(`home/user/${userId}`)
                 } else {
                     this.router.navigateByUrl('/error')
                 }
