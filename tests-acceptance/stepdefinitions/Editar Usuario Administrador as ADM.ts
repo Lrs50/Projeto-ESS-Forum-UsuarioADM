@@ -39,7 +39,7 @@ defineSupportCode(function ({ Given, When, Then }) {
             await $("input[name='CpfBox']").sendKeys(<string> passw);
             await element(by.id("logButton")).click();
             await browser.driver.sleep(1000);
-            expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
+            expect (await element(by.id("profileEnter")).isPresent()).to.equal(true);
         }else{
             await element(by.id("profileEnter")).click();
             await browser.driver.sleep(1000);
@@ -51,7 +51,7 @@ defineSupportCode(function ({ Given, When, Then }) {
             await $("input[name='CpfBox']").sendKeys(<string> passw);
             await element(by.id("logButton")).click();
             await browser.driver.sleep(1000);
-            expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
+            expect (await element(by.id("profileEnter")).isPresent()).to.equal(true);
         }
     });
     
@@ -61,32 +61,32 @@ defineSupportCode(function ({ Given, When, Then }) {
         await element(by.id("profileButton")).click();
         await browser.driver.sleep(500);
         await element(by.id("editProfileButton")).click();
-        await expect(await browser.getCurrentUrl()).to.equal(`http://localhost:4200/home/user/${id}/edit`)
+        await expect(await browser.getCurrentUrl()).to.equal(`http://localhost:4200/home/user/${id}/edit`);
     });
 
     When(/^Eu modifico o meu campo de nome para "([^\"]*)"$/, async (name) => {
         await browser.driver.sleep(1000);
-        await element(by.className("ant-typography-edit ng-star-inserted")).click()
-        await clearAndSendKeys(<string> name, 'className', "ant-input ng-star-inserted")
+        await element(by.className("ant-typography-edit ng-star-inserted")).click();
+        await clearAndSendKeys(<string> name, 'className', "ant-input ng-star-inserted");
         await element(by.className("ant-input ng-star-inserted")).sendKeys(Key.ENTER);
     });
 
     When(/^Confirmo a modificação$/, async () => {
         await browser.driver.sleep(1000);
-        await element(by.id("saveButton")).click()
+        await element(by.id("saveButton")).click();
     });
 
     Then(/^O usuário administrador com nome "([^\"]*)" é modificado no sistema para ter o seu nome igual a "([^\"]*)"$/, async (oldName, newName) => {
         await browser.driver.sleep(1000);
-        await checkOldAndNewByID("usernameBox", <string> oldName, <string> newName)
+        await checkOldAndNewByID("usernameBox", <string> oldName, <string> newName);
     });
 
     //Scenario 2
     When(/^Eu modifico o meu campo de about para "([^\"]*)"$/, async (about) => {
         await browser.driver.sleep(1000);
-        await element(by.className("ant-typography-edit ng-star-inserted")).click()
-        await element(by.className("ant-typography-edit ng-star-inserted")).click()
-        await clearAndSendKeys(<string> about, 'className', "ant-input ng-star-inserted")
+        await element(by.className("ant-typography-edit ng-star-inserted")).click();
+        await element(by.className("ant-typography-edit ng-star-inserted")).click();
+        await clearAndSendKeys(<string> about, 'className', "ant-input ng-star-inserted");
         await element(by.className("ant-input ng-star-inserted")).sendKeys(Key.ENTER);
     });
 
@@ -98,15 +98,15 @@ defineSupportCode(function ({ Given, When, Then }) {
     //Scenario 3
     When(/^Eu modifico o meu campo de avatar para "([^\"]*)"$/, async (avatar) => {
         await browser.driver.sleep(1000);
-        await element(by.id("avatarButton")).click()
+        await element(by.id("avatarButton")).click();
         await browser.driver.sleep(500);
-        await clearAndSendKeys(<string> avatar, 'inputName', 'inputAvatar')
+        await clearAndSendKeys(<string> avatar, 'inputName', 'inputAvatar');
         await element(by.buttonText("OK")).click();
     });
 
     Then(/^O usuário administrador tem seu perfil modificado no sistema para ter o seu avatar igual a "([^\"]*)"$/, async (newAvatar) => {
         await browser.driver.sleep(1000);
-        var allImages: ElementArrayFinder = element.all(by.tagName("img"))
+        var allImages: ElementArrayFinder = element.all(by.tagName("img"));
         var sameImage = allImages.filter(elem => elem.getAttribute('src').then(url => url == <string> newAvatar));
         await assertTamanhoEqual(sameImage, 2);
     });
@@ -114,15 +114,15 @@ defineSupportCode(function ({ Given, When, Then }) {
     //Scenario 4
     When(/^Eu modifico o meu campo de cover para "([^\"]*)"$/, async (cover) => {
         await browser.driver.sleep(1000);
-        await element(by.id("coverButton")).click()
+        await element(by.id("coverButton")).click();
         await browser.driver.sleep(1000);
-        await clearAndSendKeys(<string> cover, 'inputName', 'inputCover')
+        await clearAndSendKeys(<string> cover, 'inputName', 'inputCover');
         await element(by.buttonText("OK")).click();
     });
 
     Then(/^O usuário administrador tem seu perfil modificado no sistema para ter o seu cover igual a "([^\"]*)"$/, async (newCover) => {
         await browser.driver.sleep(1000);
-        var allImages: ElementArrayFinder = element.all(by.tagName("img"))
+        var allImages: ElementArrayFinder = element.all(by.tagName("img"));
         var sameImage = allImages.filter(elem => elem.getAttribute('src').then(url => url == <string> newCover));
         await assertTamanhoEqual(sameImage, 1);
     });

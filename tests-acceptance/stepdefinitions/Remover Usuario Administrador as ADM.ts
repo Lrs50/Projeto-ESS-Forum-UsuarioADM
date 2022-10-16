@@ -10,28 +10,28 @@ defineSupportCode(function ({ When, Then }) {
     //Scenario 1
     When(/^Eu aperto o botão "([^\"]*)"$/, async (name) => {
         await browser.driver.sleep(1000);
-        await element(by.id("deleteButton")).click()
+        await element(by.id("deleteButton")).click();
     });
 
     When(/^Eu aperto "([^\"]*)"$/, async (cancel) => {
         await browser.driver.sleep(1000);
-        await element(by.buttonText(<string> cancel)).click()
+        await element(by.buttonText(<string> cancel)).click();
     });
 
     Then(/^Permaneço na página de edição de perfil com ID "([^\"]*)"$/, async(id) => {
         await browser.driver.sleep(1000);
-        await expect(await browser.getCurrentUrl()).to.equal(`http://localhost:4200/home/user/${id}/edit`)
+        await expect(await browser.getCurrentUrl()).to.equal(`http://localhost:4200/home/user/${id}/edit`);
     });
 
     //Scenario 2
     When(/^Eu confirmo apertando "([^\"]*)"$/, async (ok) => {
         await browser.driver.sleep(1000);
-        await element(by.buttonText(<string> ok)).click()
+        await element(by.buttonText(<string> ok)).click();
     });
 
     Then(/^Sou retornado à página "([^\"]*)" des-logado$/, async(page) => {
         await browser.driver.sleep(1000);
-        await expect(await browser.getCurrentUrl()).to.equal(`http://localhost:4200/${page}`)
+        await expect(await browser.getCurrentUrl()).to.equal(`http://localhost:4200/${page}`);
     });
 
     Then(/^O usuário administrador com nome "([^\"]*)" e senha "([^\"]*)" é removido do sistema$/, async (user, passw) => {
@@ -44,6 +44,6 @@ defineSupportCode(function ({ When, Then }) {
         await $("input[name='CpfBox']").sendKeys(<string> passw);
         await element(by.id("logButton")).click();
         await browser.driver.sleep(1000);
-        expect (await element(by.id("profileEnter")).isPresent()).to.equal(false)
+        expect (await element(by.id("profileEnter")).isPresent()).to.equal(false);
     });
 })
