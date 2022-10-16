@@ -27,6 +27,7 @@ async function assertTamanhoEqual(set,n) {
 defineSupportCode(function ({ Given, When, Then }) {
     Given(/^Eu estou logado como usuário adm "([^\"]*)" com senha "([^\"]*)"$/, async (user,passw) => {
         await browser.get("http://localhost:4200/home/news");
+        await browser.driver.sleep(1000);
         await expect(browser.getTitle()).to.eventually.equal('ReviReli');
         if(await element(by.id("login")).isPresent()){
             await element(by.id("login")).click();
