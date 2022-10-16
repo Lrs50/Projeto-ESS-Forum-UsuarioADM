@@ -6,8 +6,23 @@ var { setDefaultTimeout } = require("cucumber");
 
 setDefaultTimeout(60 * 1000);
 
-async function assertTamanhoEqual(set,n) {
-    await set.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(n));
+async function clearAndSendKeys(keys: any, type: string, typeName: string){
+    if (type == 'className'){
+        await element(by.className(typeName)).sendKeys(Key.chord(Key.CONTROL, "a"));
+        await element(by.className(typeName)).sendKeys(keys);
+    } else if (type == 'inputName'){
+        await $(`input[name='${typeName}']`).sendKeys(Key.chord(Key.CONTROL, "a"));
+        await $(`input[name='${typeName}']`).sendKeys(keys);
+    }
+}
+
+async function checkOldAndNewByID(id: string, oldCheck: string, newCheck: string){
+    expect(await element(by.id(id)).getText()).not.to.equal(oldCheck);
+    expect(await element(by.id(id)).getText()).to.equal(newCheck);
+}
+
+async function assertTamanhoEqual(set: any, n: number) {
+    await set.then((elems: any[]) => expect(Promise.resolve(elems.length)).to.eventually.equal(n));
 }
 
 defineSupportCode(function ({ Given, When, Then }) {
@@ -44,8 +59,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     When(/^Eu modifico o meu campo de nome para "([^\"]*)"$/, async (name) => {
         await browser.driver.sleep(1000);
         await element(by.className("ant-typography-edit ng-star-inserted")).click()
-        await element(by.className("ant-input ng-star-inserted")).sendKeys(Key.chord(Key.CONTROL, "a"));
-        await element(by.className("ant-input ng-star-inserted")).sendKeys(<string> name);
+        await clearAndSendKeys(<string> name, 'className', "ant-input ng-star-inserted")
         await element(by.className("ant-input ng-star-inserted")).sendKeys(Key.ENTER);
     });
 
@@ -56,8 +70,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
     Then(/^O usuário administrador com nome "([^\"]*)" é modificado no sistema para ter o seu nome igual a "([^\"]*)"$/, async (oldName, newName) => {
         await browser.driver.sleep(1000);
-        expect(await element(by.id("usernameBox")).getText()).not.to.equal(oldName);
-        expect(await element(by.id("usernameBox")).getText()).to.equal(newName);
+        await checkOldAndNewByID("usernameBox", <string> oldName, <string> newName)
     });
 
     //Scenario 2
@@ -65,15 +78,13 @@ defineSupportCode(function ({ Given, When, Then }) {
         await browser.driver.sleep(1000);
         await element(by.className("ant-typography-edit ng-star-inserted")).click()
         await element(by.className("ant-typography-edit ng-star-inserted")).click()
-        await element(by.className("ant-input ng-star-inserted")).sendKeys(Key.chord(Key.CONTROL, "a"));
-        await element(by.className("ant-input ng-star-inserted")).sendKeys(<string> about);
+        await clearAndSendKeys(<string> about, 'className', "ant-input ng-star-inserted")
         await element(by.className("ant-input ng-star-inserted")).sendKeys(Key.ENTER);
     });
 
     Then(/^O usuário administrador com about "([^\"]*)" é modificado no sistema para ter o seu about igual a "([^\"]*)"$/, async (oldAbout, newAbout) => {
         await browser.driver.sleep(1000);
-        expect(await element(by.id("aboutBox")).getText()).not.to.equal(oldAbout);
-        expect(await element(by.id("aboutBox")).getText()).to.equal(newAbout);
+        await checkOldAndNewByID("aboutBox", <string> oldAbout, <string> newAbout)
     });
 
     //Scenario 3
@@ -81,8 +92,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         await browser.driver.sleep(1000);
         await element(by.id("avatarButton")).click()
         await browser.driver.sleep(500);
-        await $("input[name='inputAvatar']").sendKeys(Key.chord(Key.CONTROL, "a"));
-        await $("input[name='inputAvatar']").sendKeys(<string> avatar);
+        await clearAndSendKeys(<string> avatar, 'inputName', 'inputAvatar')
         await element(by.buttonText("OK")).click();
     });
 
@@ -98,8 +108,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         await browser.driver.sleep(1000);
         await element(by.id("coverButton")).click()
         await browser.driver.sleep(500);
-        await $("input[name='inputCover']").sendKeys(Key.chord(Key.CONTROL, "a"));
-        await $("input[name='inputCover']").sendKeys(<string> cover);
+        await clearAndSendKeys(<string> cover, 'inputName', 'inputCover')
         await element(by.buttonText("OK")).click();
     });
 
