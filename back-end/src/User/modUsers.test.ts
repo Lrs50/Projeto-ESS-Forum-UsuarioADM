@@ -15,7 +15,7 @@ describe('Mod User backend', () => {
     })
 
     test('The database path should be correct', () => {
-        expect(database.path).toBe('./data.test.json')
+        expect(database.path).toBe('./data.testBack.json')
     })
 
     test('The database should be loaded', () => {
@@ -31,6 +31,19 @@ describe('Mod User backend', () => {
 
     test('The database should be able to get a Mod', async () => {
         const spy = jest.spyOn(database, 'getUserMod')
+        let tempUser: User = {
+            id: 'mod-user',
+            username: 'fake-mod-username',
+            name: 'fake-mod-name',
+            aboutme:'fake-mod-aboutme',
+            password:'fake-mod-password',
+            type:'Mod',
+            cover:'fake-mod-cover',
+            avatar:'fake-mod-avatar',
+            profileComments:[],
+        }
+
+        await database.createUser(tempUser)
 
         let result: User | undefined = database.getUserMod('mod-user')
 
@@ -48,12 +61,27 @@ describe('Mod User backend', () => {
     })
 
     test('The database should support pagination', async () => {
+        let tempUser: User = {
+            id: 'adm-user',
+            username: 'fake-adm-username',
+            name: 'fake-adm-name',
+            aboutme:'fake-adm-aboutme',
+            password:'fake-adm-password',
+            type:'Admin',
+            cover:'fake-mod-cover',
+            avatar:'fake-mod-avatar',
+            profileComments:[],
+        }
+
+        await database.createUser(tempUser)
+
         const spy = jest.spyOn(database, 'getUserAdminPage')
 
         let result: User[] = database.getUserAdminPage(1, 5, '')
 
         expect(spy).toBeCalled()
         expect(result.length).toBe(1)
+        await database.deleteUser('adm-user')
     })
 
     test('Http Validator should work properly', () => {

@@ -14,7 +14,7 @@ describe('Admin Users backend', () => {
     })
 
     test('The database path should be correct', () => {
-        expect(database.path).toBe('./data.test.json')
+        expect(database.path).toBe('./data.testBack.json')
     })
 
     test('The database should be loaded', () => {

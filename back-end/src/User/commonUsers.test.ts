@@ -6,7 +6,7 @@ import UsersDB from './users'
 // Estude JEST e a sua linguagem
 // Estude JASMINE para o front-end
 
-describe('News backend', () => {
+describe('Common user backend', () => {
     let database: UsersDB
 
     beforeAll(() => {
@@ -14,7 +14,7 @@ describe('News backend', () => {
     })
 
     test('The database path should be correct', () => {
-        expect(database.path).toBe('./data.test.json')
+        expect(database.path).toBe('./data.testBack.json')
     })
 
     test('The database should be loaded', () => {
@@ -138,30 +138,29 @@ describe('News backend', () => {
     })
 
     //when the deleteAdmUser is ready, uncomment this
-    // test('The database shouldnt be able to delete a admin Users', async () => {
-    //     const spy = jest.spyOn(database, 'saveUsers')
-        
-    //     let tempUser: User = {
-    //         id: 'fake-id',
-    //         username: 'fake-username',
-    //         name: 'fake-name',
-    //         aboutme:'fake-aboutme',
-    //         password:'fake-password',
-    //         type:'Admin',
-    //         cover:'fake-cover',
-    //         avatar:'fake-avatar',
-    //         profileComments:[],
-    //     }
+    test('The database shouldnt be able to delete a admin Users', async () => {        
+        const spy = jest.spyOn(database, 'saveUsers')
+        let tempUser: User = {
+            id: 'fake-idAdm',
+            username: 'fake-usernameAdm',
+            name: 'fake-nameAdm',
+            aboutme:'fake-aboutmeAdm',
+            password:'fake-passwordAdm',
+            type:'Admin',
+            cover:'fake-coverAdm',
+            avatar:'fake-avatarAdm',
+            profileComments:[],
+        }
 
-    //     await database.createUser(tempUser)
-
-    //     let result = await database.deleteCommonUser('fake-id')
+        await database.createUser(tempUser)
         
-    //     expect(spy).not.toBeCalled()
-    //     expect(result).not.toBeTruthy()
-    //     expect(database.db.size).toBe(1)
-    //     await database.deleteUser('fake-id')
-    // })
+        let result = await database.deleteCommonUser('fake-idAdm')
+        
+        expect(spy).toBeCalled()
+        expect(result).not.toBeTruthy()
+        expect(database.db.size).toBe(1)
+        await database.deleteUser('fake-idAdm')
+    })
 
 
     test('Http Validator should work properly', () => {

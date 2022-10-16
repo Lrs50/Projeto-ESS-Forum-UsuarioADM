@@ -17,7 +17,7 @@
 }
 ``` 
 
-`MODE` defines which database will be used, if you want to run `tests` with `jest` or `jasmine` please change this field to `TEST`
+`MODE` defines which database will be used, if you want to run `tests` with `jest` or `jasmine` please change this field to `TESTBACK` (backend) or `TESTFRONT` (frontend)
 
 ## Tests
 

@@ -18,6 +18,7 @@
         
         <h3 *nzSpaceItem nz-typography><strong>Types</strong></h3>
         <nz-select
+            id="selectArtist"
             *nzSpaceItem
             [(ngModel)]="artist.type"
             style="width: 70%"
@@ -41,7 +42,7 @@
 
         <div *nzSpaceItem style="float: right">
             <nz-space>
-                <button *nzSpaceItem nz-button nzType="primary" [nzSize]="'large'" (click)="onCreateArtist()">
+                <button id="createArtist" *nzSpaceItem nz-button nzType="primary" [nzSize]="'large'" (click)="onCreateArtist()">
                     <span nz-icon nzType="plus-square"></span>
                     Create
                 </button>
