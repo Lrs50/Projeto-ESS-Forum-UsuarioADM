@@ -14,9 +14,9 @@ Scenario: Remoção bem sucedida de um usuário comum existente no sistema.
 Scenario: Remoção mal sucedida de um usuário comum inexistente no sistema
 	Given Eu estou logado como usuário adm "costa" com senha "123"
 	Given Eu estou na pagina UsersManagement
-	Given O Usuário comum "fake-username" com id "fake-id" não está cadastrado no sistema
-	When Eu tento remover o usuário comum "fake-username" com id "fake-id" inexistente
-	Then Nao consigo ver o usuário "fake-username" com id "fake-id"
+	Given O Usuário comum "fake-username-inexistete" com id "fake-id-inexistente" não está cadastrado no sistema
+	When Eu tento remover o usuário comum "fake-username-inexistente" com id "fake-id-inexistente" inexistente
+	Then Nao consigo ver o usuário "fake-username-inexistente" com id "fake-id-inexistente"
 
 Scenario: Cancelamento de tentativa de remover um usuario comum.
 	Given Eu estou logado como usuário adm "costa" com senha "123"

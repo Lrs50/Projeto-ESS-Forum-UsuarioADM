@@ -31,6 +31,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         await expect(browser.getTitle()).to.eventually.equal('ReviReli');
         if(await element(by.id("login")).isPresent()){
             await element(by.id("login")).click();
+            await browser.driver.sleep(1000);
             await $("input[name='UserSpace']").sendKeys(<string> user);
             await $("input[name='CpfBox']").sendKeys(<string> passw);
             await element(by.id("logButton")).click();
@@ -38,8 +39,11 @@ defineSupportCode(function ({ Given, When, Then }) {
             expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
         }else{
             await element(by.id("profileEnter")).click();
+            await browser.driver.sleep(1000);
             await element(by.id("logoutButton")).click();
+            await browser.driver.sleep(1000);
             await element(by.id("login")).click();
+            await browser.driver.sleep(1000);
             await $("input[name='UserSpace']").sendKeys(<string> user);
             await $("input[name='CpfBox']").sendKeys(<string> passw);
             await element(by.id("logButton")).click();

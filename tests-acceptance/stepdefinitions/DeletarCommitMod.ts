@@ -27,20 +27,27 @@ async function assertTamanhoEqual(set,n) {
 defineSupportCode(function ({ Given, When, Then }) {
     Given(/^Eu estou logado como usuário mod "([^\"]*)" com senha "([^\"]*)"$/, async (user,passw) => {
         await browser.get("http://localhost:4200/home/news");
+        await browser.driver.sleep(1000);
         await expect(browser.getTitle()).to.eventually.equal('ReviReli');
         if(await element(by.id("login")).isPresent()){
             await element(by.id("login")).click();
+            await browser.driver.sleep(1000);
             await $("input[name='UserSpace']").sendKeys(<string> user);
             await $("input[name='CpfBox']").sendKeys(<string> passw);
             await element(by.id("logButton")).click();
+            await browser.driver.sleep(1000);
             expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
         }else{
             await element(by.id("profileEnter")).click();
+            await browser.driver.sleep(1000);
             await element(by.id("logoutButton")).click();
+            await browser.driver.sleep(1000);
             await element(by.id("login")).click();
+            await browser.driver.sleep(1000);
             await $("input[name='UserSpace']").sendKeys(<string> user);
             await $("input[name='CpfBox']").sendKeys(<string> passw);
             await element(by.id("logButton")).click();
+            await browser.driver.sleep(1000);
             expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
         }
 
