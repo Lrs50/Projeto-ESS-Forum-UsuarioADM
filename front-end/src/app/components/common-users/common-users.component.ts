@@ -5,9 +5,9 @@ import { NewsManagementService } from 'src/app/services/news-management.service'
 import { UsersService } from 'src/app/services/users.service'
 import { imageFallBack } from 'src/util'
 import { Store } from '@ngrx/store'
-import { AppState, addToNewsCount } from 'src/app/app.store'
+import { AppState, addToUserCount } from 'src/app/app.store'
 import { Router } from '@angular/router'
-import { ArtistService } from 'src/app/services/artist.service'
+
 
 @Component({
   selector: 'app-common-users',
@@ -39,6 +39,7 @@ export class CommonUsersComponent implements OnInit {
       private newsManagementService: NewsManagementService,
       private UserService: UsersService,
       private router: Router,
+      private store: Store<{ app: AppState }>,
   ) {
       this.getCommonUserPage()
   }
@@ -126,6 +127,7 @@ export class CommonUsersComponent implements OnInit {
     this.UserService.create(fakeUser).subscribe((res: ApiResponse) =>{
         if (res.status == 200) {
             this.getCommonUserPage()
+            this.store.dispatch(addToUserCount({ payload: +1 }))
         }else {
             //this.commonUserList =[]  
             this.router.navigateByUrl('/error')
@@ -151,6 +153,7 @@ export class CommonUsersComponent implements OnInit {
     
     this.UserService.create(fakeUser).subscribe((res: ApiResponse) =>{
         if (res.status == 200) {
+            this.store.dispatch(addToUserCount({ payload: +1 }))
             this.getCommonUserPage()
         }else {
             //this.commonUserList =[]  
@@ -176,9 +179,10 @@ export class CommonUsersComponent implements OnInit {
       this.commonUserList = this.commonUserList.filter(a => a.id != id)
       this.UserService.removeCommonUser(id).subscribe((res: ApiResponse) => {
           if (res.status == 200) {
-              this.message.create('success', `News deleted successfully!`)
+            this.store.dispatch(addToUserCount({ payload: -1 }))
+            this.message.create('success', `Common user deleted successfully!`)
           } else {
-              this.message.create('error', `Failed to delete the news!`)
+            this.message.create('error', `Failed to delete the Common user!`)
           }
       })
   }

@@ -261,16 +261,16 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="isAdmin | async" nz-col nzSpan="24" class="mb-md">
+            <div *ngIf="(isAdmin | async) || (isMod | async)" nz-col nzSpan="24" class="mb-md">
                 <div nz-row nzType="flex" nzAlign="middle" class="statistic-box" style="background: #000">
                     <div nz-col [nzSpan]="24" class="p-md">
                         <span nz-typography class="text-nowrap white-text md-text-size center-button-content">
-                            <strong>Admin Panel</strong>
+                            <strong>Management Panel</strong>
                         </span>
                     </div>
                 </div>
             </div>
-            <div *ngIf="isAdmin | async" nz-col nzSpan="24" class="mb-md">
+            <div *ngIf="(isAdmin | async) || (isMod | async)" nz-col nzSpan="24" class="mb-md">
                 <div
                     nz-row
                     nzType="flex"
@@ -289,7 +289,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="isAdmin | async" nz-col nzSpan="24" class="mb-md">
+            <div *ngIf="(isAdmin | async) || (isMod | async)" nz-col nzSpan="24" class="mb-md">
                 <div
                     id="userTest"
                     nz-row
@@ -309,7 +309,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="isAdmin | async" nz-col nzSpan="24" class="mb-md">
+            <div *ngIf="(isAdmin | async) || (isMod | async)" nz-col nzSpan="24" class="mb-md">
                 <div
                     id="Artist Management"
                     nz-row
@@ -326,6 +326,25 @@
                     </div>
                     <div nz-col nzXs="0" nzSm="0" nzMd="0" nzLg="18" nzXl="18" nzSpan="18" class="p-md">
                         <span nz-typography class="text-nowrap center-button-content"> Artists Management </span>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="(isMod | async)" nz-col nzSpan="24" class="mb-md">
+                <div
+                    nz-row
+                    nzType="flex"
+                    nzAlign="middle"
+                    class="bg-white button-box"
+                    nz-tooltip
+                    nzTooltipTitle="Admin Management"
+                    nzTooltipPlacement="leftTop"
+                    routerLink="management/admin"
+                >
+                    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="6" nzXl="6" nzSpan="6">
+                        <span class="md-text-size center-button-content" nz-icon [nzType]="'tool'"></span>
+                    </div>
+                    <div nz-col nzXs="0" nzSm="0" nzMd="0" nzLg="18" nzXl="18" nzSpan="18" class="p-md">
+                        <span nz-typography class="text-nowrap center-button-content"> Admin Management </span>
                     </div>
                 </div>
             </div>

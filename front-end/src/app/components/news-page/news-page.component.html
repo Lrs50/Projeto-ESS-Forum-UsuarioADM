@@ -64,7 +64,7 @@
 
         <div *nzSpaceItem>
             <nz-alert *ngIf="!(isUserLogged | async)" nzType="warning" [nzMessage]="'Consider login first to comment'" nzShowIcon></nz-alert>
-            <nz-alert *ngIf="isAdmin | async" nzType="warning" nzMessage="You're an admin, you can't comment in posts" nzShowIcon></nz-alert>
+            <nz-alert *ngIf="(isAdmin | async) || (isMod | async)" nzType="warning" nzMessage="You're an admin or moderator, you can't comment in posts" nzShowIcon></nz-alert>
         </div>
 
         <nz-comment *nzSpaceItem class="full-width">
@@ -73,7 +73,7 @@
                 <nz-form-item>
                     <nz-tabset nzType="card" class="full-width">
                         <nz-tab [nzTitle]="'Markdown'">
-                            <textarea [(ngModel)]="commentContent" nz-input rows="4"></textarea>
+                            <textarea name = "commitArea" [(ngModel)]="commentContent" nz-input rows="4"></textarea>
                         </nz-tab>
                         <nz-tab [nzTitle]="'Preview'">
                             <markdown ngPreserveWhitespaces [data]="commentContent"></markdown>
@@ -82,10 +82,13 @@
                 </nz-form-item>
                 <nz-form-item>
                     <button
+                        nz-popconfirm    
+                        nzPopconfirmTitle="Are you sure to create this comment?" 
+                        (nzOnConfirm)="addComment()"
+                        id = "addCommentB"
                         nz-button
                         nzType="primary"
-                        [disabled]="commentContent == '' || (isAdmin | async) || !(isUserLogged | async)"
-                        (click)="addComment()"
+                        [disabled]="commentContent == '' || (isAdmin | async) || (isMod | async) || !(isUserLogged | async)"
                     >
                         Add Comment
                     </button>
@@ -94,12 +97,12 @@
         </nz-comment>
 
         <div *nzSpaceItem>
-            <div *ngFor="let comment of news.comments; index as i">
+            <div *ngFor="let comment of news.comments; index as i" name="allComments">
                 <nz-card class="news-page-container" [nzBodyStyle]="{ padding: '5px' }">
                     <nz-comment [nzAuthor]="comment.authorInfo.name">
                         <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="comment.authorInfo.avatar" [nzSize]="'large'"></nz-avatar>
                         <nz-comment-content>
-                            <markdown ngPreserveWhitespaces>{{ comment.content }}</markdown>
+                            <markdown ngPreserveWhitespaces name="content">{{ comment.content }}</markdown>
                             <nz-space nzAlign="center">
                                 <nz-space *nzSpaceItem nzAlign="center" style="cursor: pointer" (click)="toggleLikeComment(i)">
                                     <span *nzSpaceItem nz-icon nzType="like" [nzTheme]="hasUserLikedIComment[i] ? 'twotone' : 'outline'"></span>
@@ -113,12 +116,12 @@
                                     <span *nzSpaceItem> {{ comment.dislikes.length }} Dislikes </span>
                                 </nz-space>
                                 <div *nzSpaceItem>
-                                    <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer">
-                                        <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
-                                    </nz-space>
-                                    <nz-space *ngIf="isAdmin | async" nzAlign="center" style="cursor: pointer" (click)="removeComment(comment.id)">
+                                    <nz-space *ngIf="(isAdmin | async) || (isMod | async)" nzAlign="center" style="cursor: pointer">
+                                            <nz-divider *nzSpaceItem nzType="vertical"></nz-divider>
+                                        </nz-space>
+                                    <nz-space id = "deleteCommentary" *ngIf="(isAdmin | async) || (isMod | async)" nzAlign="center" style="cursor: pointer"nz-popconfirm nzPopconfirmTitle="Are you sure to delete this comment?" (nzOnConfirm)="removeComment(comment.id)">
                                         <span *nzSpaceItem nz-icon nzType="delete"></span>
-                                        <span *nzSpaceItem> Delete </span>
+                                        <span *nzSpaceItem> Delete comment </span>
                                     </nz-space>
                                 </div>
                             </nz-space>

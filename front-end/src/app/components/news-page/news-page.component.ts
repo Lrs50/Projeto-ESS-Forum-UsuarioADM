@@ -46,6 +46,13 @@ export class NewsPageComponent implements OnInit {
         })
     )
 
+    
+    isMod: Observable<boolean> = this.store.select('app').pipe(
+        map((state: AppState) => {
+            return (state.user.type == 'Mod') as boolean
+        })
+    )
+
     isUserLogged: Observable<boolean> = this.store.select('app').pipe(
         map((state: AppState) => {
             return state.logged
