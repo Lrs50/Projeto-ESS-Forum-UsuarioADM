@@ -44,12 +44,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of adminList; index as i">
+                    <tr *ngFor="let user of adminList; index as i" name="adminList">
                         <td nzEllipsis>
-                            <h5 nz-typography nzEllipsis style="cursor: pointer;"[routerLink]="'/home/user/' + user.id">{{ user.id }}</h5>
+                            <h5 nz-typography nzEllipsis style="cursor: pointer;" [routerLink]="'/home/user/' + user.id">{{ user.id }}</h5>
                         </td>
                         <td nzEllipsis>
-                            <span nz-typography nzType="secondary">{{ user.username }}</span>
+                            <span nz-typography name="usernameList" nzType="secondary">{{ user.username }}</span>
                         </td>
                         <td nzEllipsis>
                             <span nz-typography nzType="secondary">{{ user.name }}</span>
