@@ -19,6 +19,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         browser.waitForAngular();
         await browser.get("http://localhost:4200/home/news/IQm_4PNXUvmikE5fmso2y")
         await browser.driver.sleep(1000);
+        expect((await browser.getCurrentUrl()).includes("http://localhost:4200/home/news/IQm_4PNXUvmikE5fmso2y"));
     })
     Given(/^Consigo ver o comentario "([^\"]*)" na noticia$/, async (comentario) => {
         await browser.driver.sleep(1000);
