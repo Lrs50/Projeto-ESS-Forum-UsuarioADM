@@ -1,0 +1,66 @@
+<nz-card class="base-card" [nzTitle]="titleTemplate" [nzExtra]="extraContentTemplate">
+    <ng-template #titleTemplate>
+        <h2 nz-typography>News Management</h2>
+    </ng-template>
+    <ng-template #extraContentTemplate>
+        <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
+            <i nz-icon nzType="plus-square"></i>
+            Create
+        </button>
+    </ng-template>
+    <nz-space class="wfull" nzDirection="vertical">
+        <div *nzSpaceItem>
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" nz-input placeholder="Search by title, author..." [(ngModel)]="filterText" (input)="debouncedHTTPRequest()" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" nzSearch>Search</button>
+            </ng-template>
+        </div>
+        <div *nzSpaceItem>
+            <nz-table
+                #borderedTable
+                nzBordered
+                nzTableLayout="fixed"
+                [nzFrontPagination]="false"
+                [nzTotal]="totalUsers"
+                [nzData]="usersList"
+                [nzPageSize]="pageSize"
+                [nzPageIndex]="pageIndex"
+                [nzNoResult]="emptyDataTemplate"
+                [nzPageSizeOptions]="pageSizeOptions"
+                [nzShowSizeChanger]="true"
+                [nzLoading]="tableLoading"
+                (nzPageIndexChange)="updatePageIndex($event)"
+                (nzPageSizeChange)="updatePageSize($event)"
+            >
+                <ng-template #emptyDataTemplate>
+                    <nz-empty></nz-empty>
+                </ng-template>
+                <thead>
+                    <tr>
+                        <th nzEllipsis><strong>USER</strong></th>
+                        <th><strong>ROLE</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="row" *ngFor="let user of usersList; index as i">
+                        <td nzEllipsis [routerLink]="'/home/user/' + user.id" style="cursor: pointer">
+                            <nz-space>
+                                <nz-avatar *nzSpaceItem nzSize="large" nzIcon="user" [nzSrc]="user.avatar"></nz-avatar>
+                                <h5 *nzSpaceItem nz-typography nzEllipsis>
+                                    {{ user.name }}
+                                </h5>
+                            </nz-space>
+                        </td>
+                        <td nzEllipsis>
+                            <nz-tag>
+                                <strong>{{ user.type | uppercase }}</strong>
+                            </nz-tag>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </nz-space>
+</nz-card>

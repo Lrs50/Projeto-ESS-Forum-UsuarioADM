@@ -77,16 +77,21 @@ export class UserProfileEditComponent implements OnInit {
         userIdSubscription.unsubscribe()
 
         if (oldUser!.id == this.editingUser.id) {
-            if (this.editingUser.avatar != oldUser!.avatar || this.editingUser.cover != oldUser!.cover || this.editingUser.aboutme != oldUser!.aboutme || this.editingUser.name != oldUser!.name){
+            if (
+                this.editingUser.avatar != oldUser!.avatar ||
+                this.editingUser.cover != oldUser!.cover ||
+                this.editingUser.aboutme != oldUser!.aboutme ||
+                this.editingUser.name != oldUser!.name
+            ) {
                 this.userService.edit(this.editingUser).subscribe((res: ApiResponse) => {
                     if (res.status == 200) {
                         this.message.create('success', `Saved successfully!`)
-                        this.store.dispatch(changeUserInfo({payload: this.editingUser}))
+                        this.store.dispatch(changeUserInfo({ payload: this.editingUser }))
                         this.router.navigateByUrl(`home/user/${oldUser!.id}`)
                     } else {
                         this.message.create('error', `Failed editing user! Maybe user is no longer in database?`)
-                    	this.store.dispatch(changeUserLoggedStatus({ payload: false }))
-                    	this.router.navigateByUrl('/error')
+                        this.store.dispatch(changeUserLoggedStatus({ payload: false }))
+                        this.router.navigateByUrl('/error')
                     }
                 })
             } else {
@@ -98,7 +103,7 @@ export class UserProfileEditComponent implements OnInit {
         }
     }
 
-    onDeleteUser(){
+    onDeleteUser() {
         let userId: string = ''
 
         let userIdSubscription: Subscription = this.userInfo.pipe(take(1)).subscribe((user: User) => (userId = user.id))

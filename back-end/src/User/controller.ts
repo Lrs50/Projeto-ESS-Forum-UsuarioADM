@@ -525,3 +525,29 @@ export function getAdminPage(request: Request, response: Response): void {
 
     return
 }
+
+export function getUsersPage(request: Request, response: Response): void {
+    log.info('GetUsersPage request received')
+
+    const valid = validator(['pageId', 'usersPerPage', 'filterTerm'], request.params)
+
+    if (!valid) {
+        response.send(HTTP_BAD_REQUEST)
+
+        return
+    }
+
+    let pageId: number = parseInt(request.params.pageId)
+    let usersPerPage: number = parseInt(request.params.usersPerPage)
+    let filterTerm: string = request.params.filterTerm
+
+    let db: UsersDB = new UsersDB()
+    let result: User[] = db.getUsersPage(pageId, usersPerPage, filterTerm)
+
+    let httpResponse: ApiResponse = HTTP_SUCCESS
+    httpResponse.result = result
+
+    response.send(httpResponse)
+
+    return
+}

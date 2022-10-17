@@ -40,7 +40,7 @@ import { By } from '@angular/platform-browser'
 
 jasmine.getEnv().configure({ random: false })
 
-fdescribe('NewsManagementComponent', () => {
+describe('NewsManagementComponent', () => {
     let component: NewsManagementComponent
     let fixture: ComponentFixture<NewsManagementComponent>
 
@@ -121,23 +121,22 @@ fdescribe('NewsManagementComponent', () => {
     })
 
     it('should be able to get news', () => {
-        expect(component.newsList.length).toBe(1)
+        expect(component.newsList.length).toBe(2)
 
-        let htmlComponent = fixture.debugElement.query(By.css('#row'))
+        let htmlComponent = fixture.debugElement.query(By.css('#table-body'))
+        expect(htmlComponent.children.length).toBe(2)
 
-        console.log(htmlComponent.name)
-
-        expect(htmlComponent.name).toBeTruthy()
+        expect((htmlComponent.children[1].nativeElement.outerText as string).includes('Change the title!')).toBeTruthy()
     })
 
-    it('shoulb de able to delete a news', async () => {
+    it('should de able to delete a news', async () => {
         await component.onDeleteNews('fake-id')
 
         fixture.detectChanges()
 
-        let htmlComponent = fixture.debugElement.query(By.css('#row'))
+        let htmlComponent = fixture.debugElement.query(By.css('#table-body'))
 
-        expect(component.newsList.length).toBe(0)
-        expect(htmlComponent).not.toBeTruthy()
+        expect(component.newsList.length).toBe(1)
+        expect(htmlComponent.children.length).toBe(1)
     })
 })

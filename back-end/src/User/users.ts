@@ -17,12 +17,15 @@ class UsersDB {
 
     constructor() {
         this.path = './data.test.json'
+        
         if (AppConfig.MODE == 'DEV' || AppConfig.MODE == 'PROD') {
             this.path = './data.json'
         }
+        
         if (AppConfig.MODE == 'TESTBACK'){
             this.path = './data.testBack.json'
         }
+        
         if (AppConfig.MODE == 'TESTFRONT'){
             this.path = './data.testFront.json'
         }  
@@ -42,6 +45,7 @@ class UsersDB {
     getSize(): number {
         return this.db.size
     }
+
     getCommonSize(): number {
         var a: User[] = MapValuesToArray(this.db)
         a = a.filter(a => a.type == 'User')
@@ -68,7 +72,9 @@ class UsersDB {
 
         return find
     }
+
     //USUARIO COMUM
+    
     getUserCommon(id: string): User | undefined {
         var a: User[] = MapValuesToArray(this.db)
         const result = a.filter(a => a.id == id && a.type == 'User')
@@ -161,6 +167,7 @@ class UsersDB {
         return result
              
     }
+
     deleteUser(id: string): Promise<Boolean>{
 
         let remove: Boolean = this.db.delete(id)
@@ -264,21 +271,7 @@ class UsersDB {
         return result
     }
 
-    async saveUsers(): Promise<Boolean> {
-        try {
-            await promises.writeFile(Path.resolve(__dirname, this.path), JSON.stringify(MapToArray(this.db)), {
-                flag: 'w',
-            })
-
-            return true
-        } catch (err: any) {
-            log.error(err)
-
-            return false
-        }
-    }
-
-    getUserAdminPage(pageId: number, AdminPerPage: number, filterTerm: string | undefined): User[] {
+    getUserAdminPage(pageId: number, UsersPerPage: number, filterTerm: string | undefined): User[] {
         let tempArr: User[] = MapValuesToArray(this.db)
 
         tempArr = this.getAllAdminUsers()
@@ -299,9 +292,49 @@ class UsersDB {
             })
         }
 
+        tempArr = tempArr.slice((pageId - 1) * UsersPerPage, Math.min(pageId * UsersPerPage, this.db.size))
+
+        return tempArr
+    }
+
+    getUsersPage(pageId: number, AdminPerPage: number, filterTerm: string | undefined): User[] {
+        let tempArr: User[] = MapValuesToArray(this.db)
+
+        tempArr = this.getAllUsers()
+
+        if (filterTerm != '' && filterTerm != undefined) {
+            let term: string = filterTerm.toLowerCase()
+
+            tempArr = tempArr.filter((user: User) => {
+                if (user.name.toLowerCase().includes(term)) {
+                    return true
+                }
+
+                if (user.username.toLowerCase().includes(term)) {
+                    return true
+                }
+                
+                return false
+            })
+        }
+
         tempArr = tempArr.slice((pageId - 1) * AdminPerPage, Math.min(pageId * AdminPerPage, this.db.size))
 
         return tempArr
+    }
+
+    async saveUsers(): Promise<Boolean> {
+        try {
+            await promises.writeFile(Path.resolve(__dirname, this.path), JSON.stringify(MapToArray(this.db)), {
+                flag: 'w',
+            })
+
+            return true
+        } catch (err: any) {
+            log.error(err)
+
+            return false
+        }
     }
 }
 

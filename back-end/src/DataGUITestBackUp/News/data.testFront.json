@@ -1,24 +1,5 @@
 [
     [
-        "fake-id",
-        {
-            "id": "fake-id",
-            "authorId": "fake-id",
-            "mention": [],
-            "cover": "",
-            "title": "Change the title!",
-            "date": 0,
-            "lastActivity": 0,
-            "description": "Change the description!",
-            "markdownText": "",
-            "edited": false,
-            "views": 0,
-            "likes": [],
-            "comments": [],
-            "tags": []
-        }
-    ],
-    [
         "IQm_4PNXUvmikE5fmso2y",
         {
             "id": "IQm_4PNXUvmikE5fmso2y",
