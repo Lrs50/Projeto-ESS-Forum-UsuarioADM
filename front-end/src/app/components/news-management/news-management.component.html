@@ -47,8 +47,8 @@
                         <th nzWidth="200px">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr id="row" *ngFor="let news of newsList; index as i">
+                <tbody id="table-body">
+                    <tr *ngFor="let news of newsList; index as i">
                         <td nzEllipsis>
                             <h5 nz-typography nzEllipsis>{{ news.title }}</h5>
                         </td>
