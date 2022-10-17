@@ -21,8 +21,6 @@ async function assertTamanhoEqual(set,n) {
     await set.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(n));
 }
 
-
-
 defineSupportCode(function ({ Given, When, Then }) {
     //given already implemented
     //First scenario
@@ -65,5 +63,6 @@ defineSupportCode(function ({ Given, When, Then }) {
         var sameUsername_ = alladms.filter(elem => sameUsername(elem,username));
         await assertTamanhoEqual(sameUsername_,0);  
     })
+    
 
 })
