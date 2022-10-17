@@ -3,7 +3,7 @@
         <h2 nz-typography>News Management</h2>
     </ng-template>
     <ng-template #extraContentTemplate>
-        <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'">
+        <button nz-button nzType="primary" [routerLink]="'create'" [nzSize]="'large'" id="create-button">
             <i nz-icon nzType="plus-square"></i>
             Create
         </button>
@@ -47,10 +47,10 @@
                         <th nzWidth="200px">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="table-body">
-                    <tr *ngFor="let news of newsList; index as i">
+                <tbody>
+                    <tr *ngFor="let news of newsList; index as i" name="newslist">
                         <td nzEllipsis>
-                            <h5 nz-typography nzEllipsis>{{ news.title }}</h5>
+                            <h5 nz-typography nzEllipsis name="newstitle">{{ news.title }}</h5>
                         </td>
                         <td nzEllipsis>
                             <span nz-typography nzType="secondary">{{ parseDate(news.date) }}</span>
@@ -110,11 +110,12 @@
                         </td>
                         <td>
                             <nz-space>
-                                <button *nzSpaceItem nz-button nzType="primary" [routerLink]="'edit/' + news.id" [nzSize]="'small'">
+                                <button id="edit-button" *nzSpaceItem nz-button nzType="primary" [routerLink]="'edit/' + news.id" [nzSize]="'small'">
                                     <span nz-icon nzType="edit"></span>
                                     Edit
                                 </button>
                                 <button
+                                    id="delete-button"
                                     *nzSpaceItem
                                     nz-button
                                     nzType="primary"
