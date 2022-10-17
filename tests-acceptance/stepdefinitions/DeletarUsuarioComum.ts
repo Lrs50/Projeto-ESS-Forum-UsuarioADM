@@ -11,51 +11,48 @@ let sameUsername = ((elem, user) => elem.element(by.name('nomelist')).getText().
 
 let pAND = ((p,q) => p.then(a => q.then(b => a && b)))
 
-async function criarAluno(name, cpf) {
-    await $("input[name='namebox']").sendKeys(<string> name);
-    await $("input[name='cpfbox']").sendKeys(<string> cpf);
-    await element(by.buttonText('Adicionar')).click();
-}
-
-
 async function assertTamanhoEqual(set,n) {
     await set.then(elems => expect(Promise.resolve(elems.length)).to.eventually.equal(n));
 }
 
-
+async function login(user,passw){
+    await element(by.id("login")).click();
+    await browser.driver.sleep(1000);
+    await preencher('UserSpace',user)
+    await preencher('CpfBox', passw)
+    await element(by.id("logButton")).click();
+    await browser.driver.sleep(1000);
+}
+async function preencher(type, content) {
+    if (type == 'UserSpace'){
+        await $("input[name='UserSpace']").sendKeys(<string> content);
+    }else
+        if(type == 'CpfBox'){
+            await $("input[name='CpfBox']").sendKeys(<string> content);
+        }
+}
 
 defineSupportCode(function ({ Given, When, Then }) {
     Given(/^Eu estou logado como usuário adm "([^\"]*)" com senha "([^\"]*)"$/, async (user,passw) => {
         await browser.get("http://localhost:4200/home/news");
         await browser.driver.sleep(1000);
+        expect((await browser.getCurrentUrl()).includes("http://localhost:4200/home/news"));
         await expect(browser.getTitle()).to.eventually.equal('ReviReli');
         if(await element(by.id("login")).isPresent()){
-            await element(by.id("login")).click();
-            await browser.driver.sleep(1000);
-            await $("input[name='UserSpace']").sendKeys(<string> user);
-            await $("input[name='CpfBox']").sendKeys(<string> passw);
-            await element(by.id("logButton")).click();
-            await browser.driver.sleep(1000);
+            await login(user,passw)
             expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
         }else{
             await element(by.id("profileEnter")).click();
             await browser.driver.sleep(1000);
             await element(by.id("logoutButton")).click();
             await browser.driver.sleep(1000);
-            await element(by.id("login")).click();
-            await browser.driver.sleep(1000);
-            await $("input[name='UserSpace']").sendKeys(<string> user);
-            await $("input[name='CpfBox']").sendKeys(<string> passw);
-            await element(by.id("logButton")).click();
-            await browser.driver.sleep(1000);
+            await login(user,passw)
             expect (await element(by.id("profileEnter")).isPresent()).to.equal(true)
         }
 
     })
     
     Given(/^Eu estou na pagina UsersManagement$/, async () => {
-        //await browser.get("http://localhost:4200/home/common");
-        //REFACTORING TO RECIEVE USERMANAGEMENT AS STRING
         await browser.driver.sleep(1000);
         await element(by.id("userTest")).click();
     });
@@ -79,7 +76,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     Then(/^Nao consigo ver o usuário "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
-        //expect(await element.all(by.divText('Common user deleted successfully!')).isDisplayed()).toBe(true);
         var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
         var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
         await assertTamanhoEqual(samecpfsandname,0);  
@@ -105,7 +101,6 @@ defineSupportCode(function ({ Given, When, Then }) {
         await element(by.buttonText("Cancel")).click();
     });
     Then(/^Eu consigo ver o usuário "([^\"]*)" com id "([^\"]*)"$/, async (user, id) => {
-        //expect(await element.all(by.divText('Common user deleted successfully!')).isDisplayed()).toBe(true);
         var allalunos : ElementArrayFinder = element.all(by.name('commonUserList'));
         var samecpfsandname = allalunos.filter(elem => pAND(sameId(elem,id),sameUsername(elem,user)));
         await assertTamanhoEqual(samecpfsandname,1);  
