@@ -8,7 +8,21 @@
             [(nzContent)]="artist.name"
             [nzType]="statusInputTitle"
             nzEditTooltip="Click to edit the Name!"
+            id="nameArtist"
+
             ></h1>
+
+            <span
+            *nzSpaceItem
+            nz-typography
+            nzEditable
+            [(nzContent)]="artist.description"
+            [nzType]="statusInputTitle"
+            nzEditTooltip="Click to edit the description!"
+            class="descrition-text-size"
+            id="descriptionArtist"
+            ></span>
+            
             <nz-input-group *nzSpaceItem [nzSize]="'large'" nzAddOnBeforeIcon="link" nz-tooltip nzTooltipTitle="Artist cover URL">
                 <input type="text" nz-input [(ngModel)]="artist.cover" [nzSize]="'large'" [placeholder]="'Url to use as new cover'" />
             </nz-input-group>
@@ -29,15 +43,6 @@
             </nz-select>
                 <ng-template #renderTemplate></ng-template>
     
-            <span
-                *nzSpaceItem
-                nz-typography
-                nzEditable
-                [(nzContent)]="artist.description"
-                [nzType]="statusInputTitle"
-                nzEditTooltip="Click to edit the description!"
-                class="descrition-text-size"
-            ></span>
 
         <div *nzSpaceItem style="float: right">
             <nz-space>

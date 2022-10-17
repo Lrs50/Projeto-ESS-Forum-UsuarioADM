@@ -7,15 +7,15 @@
                     <span *nzSpaceItem nz-typography nzType="secondary">Please insert the Admin information.</span>
                     <span *nzSpaceItem nz-typography>Username</span>
                     <nz-input-group *nzSpaceItem nzPrefixIcon="user" [nzStatus]="statusInputUsername">
-                        <input type="text" nz-input placeholder="Username" [(ngModel)]="username" />
+                        <input type="text" nz-input name="usernameBox" placeholder="Username" [(ngModel)]="username" />
                     </nz-input-group>
                     <span *nzSpaceItem nz-typography>Name</span>
-                    <input *nzSpaceItem type="text" nz-input placeholder="Presentation name" [(ngModel)]="name" [nzStatus]="statusInputName" />
+                    <input *nzSpaceItem type="text" name="nameBox" nz-input placeholder="Presentation name" [(ngModel)]="name" [nzStatus]="statusInputName" />
                     <span *nzSpaceItem nz-typography>Password</span>
                     <nz-input-group *nzSpaceItem nzPrefixIcon="lock" [nzStatus]="statusInputPassword">
-                        <input type="password" nz-input placeholder="Password" [(ngModel)]="password" />
+                        <input type="password" name="passwordBox" nz-input placeholder="Password" [(ngModel)]="password" />
                     </nz-input-group>
-                    <button *nzSpaceItem nz-button nzType="primary" nzBlock (click)="onCreateAdm()">Create</button>
+                    <button *nzSpaceItem nz-button nzType="primary"  nzBlock (click)="onCreateAdm()">Create</button>
                 </nz-space>
             </div>
         </div>
