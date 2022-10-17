@@ -6,13 +6,12 @@
     "scripts": {
         "build": "tsc -p .",
         "start": "nodemon src/index.ts --resolveJsonModule --ignore src/**/data.json",
-        "test:all": "jest",
-        "test:news": "jest src/News/news.test.ts",
-        "test:artist": "jest src/Artist/artist.test.ts",
-        "test:users": "jest src/User/users.test.ts",
-        "test:commonUsers": "jest src/User/commonUsers.test.ts",
-        "test:adminUsers": "jest src/User/adminUsers.test.ts",
-        "test:modUsers": "jest src/User/modUsers.test.ts"
+        "test:all": "jest --runInBand",
+        "test:news": "jest src/News/news.test.ts --runInBand",
+        "test:artist": "jest src/Artist/artist.test.ts --runInBand",
+        "test:users": "jest src/User/users.test.ts --runInBand",
+        "test:commonUsers": "jest src/User/commonUsers.test.ts --runInBand",
+        "test:adminUsers": "jest src/User/adminUsers.test.ts --runInBand"
     },
     "keywords": [],
     "author": "",
