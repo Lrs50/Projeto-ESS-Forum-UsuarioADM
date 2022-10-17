@@ -5,7 +5,7 @@ Feature: Remoção usuario ADM
 
 Scenario: Remoção mal sucedida de um usuário administrador por cancelamento
 Given Eu estou logado como usuário mod "McPoze" com senha "123"
-Given Eu estou na pagina Admin Management
+And Eu estou na pagina Admin Management
 And O adm com username "Lucas" está cadastrado no sistema
 When Eu tento remover o usuário com username "Lucas"
 And Eu cancelo a operação
@@ -13,8 +13,8 @@ Then Consigo ver o usuário com username "Lucas"
 
 Scenario: Remoção bem sucedida de um usuário administrador
 Given Eu estou logado como usuário mod "McPoze" com senha "123"
-Given Eu estou na pagina Admin Management
-Given O adm com username "Lucas" está cadastrado no sistema
+And Eu estou na pagina Admin Management
+And O adm com username "Lucas" está cadastrado no sistema
 When Eu tento remover o usuário com username "Lucas"
-When Eu confirmo a operação
+And Eu confirmo a operação
 Then Não consigo ver o usuário com username "Lucas" 
