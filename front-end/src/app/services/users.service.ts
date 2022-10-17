@@ -34,7 +34,7 @@ export class UsersService {
     removeCommonUser(userId: string): Observable<ApiResponse>{
         return this.httpClient.delete<ApiResponse>(`http://localhost:3000/commonUser/${userId}`)
     }
-    
+
     getUsersSize(): Observable<ApiResponse> {
         return this.httpClient.get<ApiResponse>(this.baseUrl + 'size')
     }
@@ -68,4 +68,7 @@ export class UsersService {
         return this.httpClient.get<ApiResponse>(`http://localhost:3000/adminpage/${pageId}/${AdminPerPage}/${filterTerm}`)
     }
 
+    getPage(pageId: number, newsPerPage: number, filterTerm: string): Observable<ApiResponse> {
+        return this.httpClient.get<ApiResponse>(this.baseUrl + `page/${pageId}/${newsPerPage}/${filterTerm}`)
+    }
 }

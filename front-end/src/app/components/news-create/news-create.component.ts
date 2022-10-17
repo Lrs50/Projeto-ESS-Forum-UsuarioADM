@@ -39,7 +39,7 @@ export class NewsCreateComponent implements OnInit {
 
     constructor(
         private newsManagementService: NewsManagementService,
-        private message: NzMessageService,
+        public message: NzMessageService,
         private router: Router,
         private store: Store<{ app: AppState }>,
         private artistService: ArtistService

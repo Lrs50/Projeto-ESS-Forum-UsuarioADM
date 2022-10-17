@@ -23,6 +23,7 @@ import { CommonUsersComponent } from './components/common-users/common-users.com
 import { AdminManagementComponent } from './components/admin-management/admin-management.component'
 import { AdminCreateComponent } from './components/admin-create/admin-create.component'
 import { ArtistEditComponent } from './components/artist-edit/artist-edit.component'
+import { UsersComponent } from './components/users/users.component'
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -30,7 +31,7 @@ const routes: Routes = [
         path: 'home',
         component: HomeComponent,
         children: [
-            { path: '', redirectTo: 'news', pathMatch: 'full' },   
+            { path: '', redirectTo: 'news', pathMatch: 'full' },
             { path: 'news', component: NewsComponent},
             { path: 'common', component: CommonUsersComponent},
             { path: 'news/:id', component: NewsPageComponent },
@@ -46,7 +47,7 @@ const routes: Routes = [
             { path: 'management/admin', component: AdminManagementComponent, canActivate: [NotLoggedGuard, AdminUserGuard]},
             { path: 'management/admin/create', component: AdminCreateComponent, canActivate: [NotLoggedGuard, AdminUserGuard] },
             { path: 'management/artist/edit/:id', component: ArtistEditComponent, canActivate: [NotLoggedGuard, AdminUserGuard] },
-        
+            { path: 'users', component: UsersComponent},
         ],
     },
     { path: 'login', component: LoginComponent, canActivate: [LoggedUserGuard] },

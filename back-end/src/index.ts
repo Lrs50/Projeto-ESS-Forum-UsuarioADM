@@ -50,6 +50,7 @@ app.put('/user', UsersController.editUser)
 app.post('/userlogin', UsersController.loginUser)
 app.post('/useradd/comment/:userId', UsersController.addComment)
 app.delete('/userremove/comment', UsersController.removeComment)
+app.get('/userpage/:pageId/:usersPerPage/:filterTerm?', UsersController.getUsersPage)
 
 app.get('/artist/:id', ArtistsController.getArtist)
 app.get('/artistall', ArtistsController.getAllArtists)
