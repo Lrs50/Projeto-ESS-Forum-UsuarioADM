@@ -1,4 +1,3 @@
-
 Feature: Remoção usuario ADM
     As moderador do sistema
     I Want to criar e remover contas de usuario administrador
