@@ -1,7 +1,7 @@
-Feature: Deletar comentario de usuario comum como usuario administrador
+Feature: Deletar comentario de usuario comum como usuario moderador
 As usuário moderador
 I want to Deletar uma comentario
-So that eu possa exercer a administração do site de compartilhamentos de review no qual sou administrador
+So that eu possa exercer a administração do site de compartilhamentos de review no qual sou moderador
 
 Scenario: Cancelamento da remoção de um comentario.
 	Given Eu estou logado como usuário mod "McPoze" com senha "123"
