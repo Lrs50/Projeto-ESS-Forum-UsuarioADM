@@ -96,6 +96,22 @@ describe('Artist backend', () => {
         expect(database.db.size).toBe(0)
     })
 
+    test('The database should be able to edit an Artist', async () => {
+        const spy = jest.spyOn(database, 'editArtist')
+
+        let tempArtist: Artist = emptyArtist('testeEdit')
+        database.createArtist(tempArtist)
+        tempArtist.name="Tudo nosso"
+
+        let result: Boolean = await database.editArtist(tempArtist)
+
+        expect(spy).toBeCalled()
+        expect(result).toBeTruthy()
+        database.deleteArtist('testeEdit')
+        expect(database.db.size).toBe(0)
+    })
+
+
     test('Http Validator should work properly', () => {
         let params: Object = {
             param1: 1,
