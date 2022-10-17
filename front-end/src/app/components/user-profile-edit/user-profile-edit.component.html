@@ -27,12 +27,7 @@
             nzTooltipTitle="Click to edit your avatar"
         ></nz-avatar>
 
-        <h4 id="editNameButton"
-            *nzSpaceItem 
-            nz-typography 
-            nzEditable 
-            nzEditTooltip="Click to edit your name" 
-            [(nzContent)]="editingUser.name">
+        <h4 id="editNameButton" *nzSpaceItem nz-typography nzEditable nzEditTooltip="Click to edit your name" [(nzContent)]="editingUser.name">
             {{ editingUser.name }}
         </h4>
 
@@ -42,19 +37,23 @@
             nzEditable
             nzEditTooltip="Click to edit your 'About me'"
             [(nzContent)]="editingUser.aboutme"
-            style="width: 300px">
+            style="width: 300px"
+        >
             {{ editingUser.aboutme }}
         </span>
     </nz-space>
     <div style="float: right">
-        <button style="margin-right:20px; margin-bottom:15px; margin-top:15px" 
-                *ngIf="(isAdmin | async) == true && (userInfo | async)!.id == editingUser.id" 
-                nz-button nzType="default" 
-                nzDanger 
-                nz-popconfirm
-                nzPopconfirmTitle="Are you sure you want to delete this user?"
-                (nzOnConfirm)="onDeleteUser()"
-                [nzSize]="'large'">
+        <button
+            style="margin-right: 20px; margin-bottom: 15px; margin-top: 15px"
+            *ngIf="(isAdmin | async) == true && (userInfo | async)!.id == editingUser.id"
+            nz-button
+            nzType="default"
+            nzDanger
+            nz-popconfirm
+            nzPopconfirmTitle="Are you sure you want to delete this user?"
+            (nzOnConfirm)="onDeleteUser()"
+            [nzSize]="'large'"
+        >
             <span nz-icon nzType="close"></span>
             Delete Account
         </button>
@@ -68,7 +67,7 @@
 <nz-modal [(nzVisible)]="showModalEditAvatar" nzTitle="Change your avatar" (nzOnCancel)="toggleModalEditAvatar()" (nzOnOk)="toggleModalEditAvatar()">
     <ng-container *nzModalContent>
         <nz-input-group nzAddOnBeforeIcon="link" nz-tooltip nzTooltipTitle="Avatar URL">
-            <input name=inputAvatar type="text" nz-input [(ngModel)]="editingUser.avatar" [placeholder]="'Url to use as avatar'" />
+            <input name="inputAvatar" type="text" nz-input [(ngModel)]="editingUser.avatar" [placeholder]="'Url to use as avatar'" />
         </nz-input-group>
     </ng-container>
 </nz-modal>
